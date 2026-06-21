@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SK1 Landfill Expansion — Action Tracker</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-size:13px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
+:root{
+  --bg:#ffffff;--bg2:#f8f9fa;--bg3:#f1f3f5;
+  --border:#dee2e6;--border2:#ced4da;
+  --text:#212529;--text2:#6c757d;--text3:#adb5bd;
+  --blue:#185FA5;--blue-bg:#e8f0fb;--blue-text:#185FA5;
+  --red:#A32D2D;--red-bg:#FCEBEB;
+  --green:#3B6D11;--green-bg:#EAF3DE;
+  --orange-bg:#FAEEDA;--orange-text:#633806;
+  --purple-bg:#EEEDFE;--purple-text:#3C3489;
+  --radius:6px;--radius-lg:8px;
+}
+body{background:#f0f2f5;min-height:100vh;padding:16px}
+.app{max-width:1100px;margin:0 auto;border:1px solid var(--border);border-radius:var(--radius-lg);background:var(--bg);box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.hdr{padding:.9rem 1.25rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.hdr-title{font-size:16px;font-weight:600;color:var(--text)}
+.hdr-sub{font-size:12px;color:var(--text2);margin-top:2px}
+.sync-dot{width:8px;height:8px;border-radius:50%;background:#adb5bd;display:inline-block;margin-right:5px;transition:background .3s}
+.sync-dot.live{background:#3B6D11}
+.sync-dot.syncing{background:#f59f00}
+.sync-dot.error{background:#A32D2D}
+.identity-bar{padding:8px 1.25rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;flex-wrap:wrap;background:var(--bg2)}
+.id-lbl{font-size:12px;color:var(--text2);flex-shrink:0}
+.id-btn{font-size:12px;padding:4px 11px;border-radius:var(--radius);border:1px solid var(--border2);background:var(--bg);color:var(--text2);cursor:pointer;transition:all .15s}
+.id-btn:hover{background:var(--bg3)}
+.id-btn.active{background:var(--blue);color:#fff;border-color:var(--blue)}
+.save-bar{font-size:11px;color:var(--text2);padding:4px 1.25rem;text-align:right;border-bottom:1px solid var(--border);background:var(--bg2)}
+.notif{display:none;align-items:center;gap:8px;padding:7px 1.25rem;background:var(--green-bg);border-bottom:1px solid #b2d48c;font-size:13px;color:var(--green)}
+.notif.show{display:flex}
+.tab-bar{display:flex;border-bottom:1px solid var(--border)}
+.tab{font-size:13px;padding:.6rem 1.1rem;cursor:pointer;color:var(--text2);border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .15s}
+.tab:hover{color:var(--text)}
+.tab.active{color:var(--text);font-weight:500;border-bottom-color:var(--blue)}
+.summary{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:.9rem 1.25rem;border-bottom:1px solid var(--border)}
+.scard{background:var(--bg2);border-radius:var(--radius);padding:.6rem 1rem;text-align:center;border:1px solid var(--border)}
+.scard-n{font-size:20px;font-weight:600;color:var(--text)}
+.scard-l{font-size:11px;color:var(--text2);margin-top:2px}
+.scard.crit .scard-n{color:var(--red)}
+.scard.open .scard-n{color:var(--blue)}
+.scard.done .scard-n{color:var(--green)}
+.view-bar{padding:8px 1.25rem;display:flex;gap:6px;align-items:center;flex-wrap:wrap;border-bottom:1px solid var(--border)}
+.view-lbl{font-size:12px;color:var(--text2);flex-shrink:0}
+.view-btn{font-size:12px;padding:4px 10px;border-radius:var(--radius);border:1px solid var(--border);background:var(--bg2);color:var(--text2);cursor:pointer;transition:all .15s}
+.view-btn:hover{background:var(--bg3)}
+.view-btn.on{background:var(--blue-bg);color:var(--blue-text);border-color:var(--blue)}
+.filters{padding:8px 1.25rem;display:flex;gap:6px;align-items:center;flex-wrap:wrap;border-bottom:1px solid var(--border)}
+.flt-btn{font-size:12px;padding:4px 9px;border-radius:var(--radius);border:1px solid var(--border);background:var(--bg2);color:var(--text2);cursor:pointer;transition:all .15s}
+.flt-btn:hover{background:var(--bg3)}
+.flt-btn.on{border-color:var(--border2);color:var(--text);background:var(--bg);font-weight:500}
+.tasks{padding:1rem 1.25rem;display:flex;flex-direction:column;gap:6px}
+.sec-lbl{font-size:11px;font-weight:600;color:var(--text2);letter-spacing:.06em;padding:6px 0 2px;text-transform:uppercase}
+.task{border:1px solid var(--border);border-radius:var(--radius-lg);background:var(--bg);overflow:hidden;transition:box-shadow .15s}
+.task:hover{box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.task.critical{border-left:3px solid var(--red)}
+.task.closed{opacity:.5}
+.task-hdr{display:flex;align-items:flex-start;gap:10px;padding:.8rem 1rem .65rem;cursor:pointer}
+.ttag{font-size:11px;font-weight:500;padding:3px 8px;border-radius:var(--radius);white-space:nowrap;flex-shrink:0;margin-top:1px}
+.tag-crit{background:var(--red-bg);color:var(--red)}
+.tag-open{background:var(--blue-bg);color:var(--blue)}
+.tag-closed{background:var(--green-bg);color:var(--green)}
+.task-meta{flex:1;min-width:0}
+.task-title{font-size:13px;font-weight:500;color:var(--text);line-height:1.4}
+.task-info{display:flex;gap:6px;margin-top:4px;flex-wrap:wrap;align-items:center}
+.bdg{font-size:11px;padding:2px 7px;border-radius:var(--radius);background:var(--bg2);color:var(--text2);border:1px solid var(--border)}
+.bdg.own{background:var(--purple-bg);color:var(--purple-text);border-color:transparent}
+.bdg.due{background:var(--orange-bg);color:var(--orange-text);border-color:transparent}
+.chev{font-size:16px;color:var(--text2);flex-shrink:0;transition:transform .2s;margin-top:2px}
+.chev.open{transform:rotate(180deg)}
+.task-body{border-top:1px solid var(--border);padding:.85rem 1rem;display:none}
+.task-body.show{display:block}
+.slbl{font-size:11px;font-weight:600;color:var(--text2);margin-bottom:4px;text-transform:uppercase;letter-spacing:.04em}
+.no-update{font-size:13px;color:var(--text2);background:var(--bg2);border-radius:var(--radius);padding:7px 9px;line-height:1.5;margin-bottom:10px;font-style:italic;border:1px solid var(--border)}
+.log-list{display:flex;flex-direction:column;gap:4px;margin-bottom:10px}
+.log-item{font-size:12px;color:var(--text2);padding:5px 8px;background:var(--bg2);border-radius:var(--radius);line-height:1.5;border:1px solid var(--border)}
+.log-item strong{color:var(--text);font-weight:500}
+.inp{font-size:13px;padding:6px 8px;border-radius:var(--radius);border:1px solid var(--border2);background:var(--bg);color:var(--text);font-family:inherit;width:100%;transition:box-shadow .15s}
+.inp:focus{outline:none;box-shadow:0 0 0 2px rgba(24,95,165,.2);border-color:var(--blue)}
+textarea.inp{resize:vertical;min-height:50px}
+.action-row{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap;align-items:center}
+.btn{font-size:12px;padding:5px 12px;border-radius:var(--radius);border:1px solid var(--border2);background:var(--bg);color:var(--text);cursor:pointer;font-family:inherit;transition:all .15s}
+.btn:hover{background:var(--bg2)}
+.btn.pri{background:var(--blue);color:#fff;border-color:var(--blue)}
+.btn.pri:hover{background:#0C447C}
+.btn.red{background:var(--red);color:#fff;border-color:var(--red)}
+.btn.red:hover{background:#791F1F}
+.btn.del{color:var(--red);border-color:#F7C1C1}
+.btn.del:hover{background:var(--red-bg)}
+.panel{margin:0 1.25rem 1rem;border:1px solid var(--border2);border-radius:var(--radius-lg);padding:1rem;display:none;flex-direction:column;gap:8px;background:var(--bg2)}
+.panel.show{display:flex}
+.frow{display:flex;gap:8px;flex-wrap:wrap}
+.fg{display:flex;flex-direction:column;gap:4px;flex:1;min-width:110px}
+.fg label{font-size:11px;color:var(--text2);font-weight:500}
+.edit-box{background:var(--bg2);border-radius:var(--radius);padding:.85rem;margin-bottom:10px;display:flex;flex-direction:column;gap:8px;border:1px solid var(--border)}
+.divider{height:1px;background:var(--border);margin:8px 0}
+.confirm-bar{display:flex;align-items:center;gap:8px;padding:7px 10px;background:var(--red-bg);border-radius:var(--radius);margin-top:8px;flex-wrap:wrap;border:1px solid #F7C1C1}
+.confirm-bar span{color:var(--red);flex:1}
+.no-tasks{text-align:center;padding:2rem;color:var(--text2)}
+.proc-wrap{padding:1rem 1.25rem;overflow-x:auto}
+.proc-info{font-size:12px;color:var(--blue);background:var(--blue-bg);border-radius:var(--radius);padding:6px 10px;margin-bottom:10px;border:1px solid #b8d4f5}
+.proc-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+.psum{background:var(--bg2);border-radius:var(--radius);padding:.6rem 1rem;text-align:center;border:1px solid var(--border)}
+.psum-n{font-size:20px;font-weight:600;color:var(--text)}
+.psum-l{font-size:11px;color:var(--text2);margin-top:2px}
+.psum.done .psum-n{color:var(--green)}
+.psum.prog .psum-n{color:var(--blue)}
+.ptbl{width:100%;border-collapse:collapse}
+.ptbl th{font-size:11px;font-weight:600;color:var(--text2);padding:6px 8px;text-align:left;border-bottom:1px solid var(--border2);white-space:nowrap;background:var(--bg2);text-transform:uppercase;letter-spacing:.04em}
+.ptbl td{padding:6px 8px;border-bottom:1px solid var(--border);color:var(--text);vertical-align:middle}
+.ptbl tr:last-child td{border-bottom:none}
+.ptbl tr:hover td{background:var(--bg2)}
+.pcat td{font-size:11px;font-weight:600;color:var(--text2);letter-spacing:.05em;background:var(--bg3);padding:8px 8px 4px;text-transform:uppercase}
+.sinp{font-size:12px;padding:4px 6px;border-radius:var(--radius);border:1px solid var(--border2);background:var(--bg);color:var(--text);font-family:inherit;width:100%;min-width:70px;transition:box-shadow .15s}
+.sinp:focus{outline:none;box-shadow:0 0 0 2px rgba(24,95,165,.2);border-color:var(--blue)}
+.sbtn{font-size:11px;padding:3px 9px;border-radius:var(--radius);border:1px solid var(--blue);background:var(--blue);color:#fff;cursor:pointer;transition:background .15s}
+.sbtn:hover{background:#0C447C}
+.issues-wrap{padding:1rem 1.25rem;display:flex;flex-direction:column;gap:8px}
+.issue-card{border:1px solid var(--border);border-radius:var(--radius-lg);padding:.85rem 1rem;background:var(--bg);transition:box-shadow .15s}
+.issue-card:hover{box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.issue-card.crit{border-left:3px solid var(--red)}
+.pw-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;z-index:1000}
+.pw-box{background:var(--bg);border-radius:var(--radius-lg);border:1px solid var(--border2);padding:1.5rem;width:280px;display:flex;flex-direction:column;gap:10px;box-shadow:0 8px 32px rgba(0,0,0,.15)}
+.loading{display:flex;align-items:center;justify-content:center;padding:3rem;color:var(--text2);gap:10px;flex-direction:column}
+.spinner{width:24px;height:24px;border:2px solid var(--border);border-top-color:var(--blue);border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media(max-width:600px){
+  .summary{grid-template-columns:repeat(2,1fr)}
+  .proc-summary{grid-template-columns:repeat(2,1fr)}
+  body{padding:8px}
+  .hdr{flex-direction:column;align-items:flex-start}
+}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <div class="hdr">
+    <div>
+      <div class="hdr-title">SK1 Landfill Expansion — Action Tracker</div>
+      <div class="hdr-sub">Contract 21056718 · KAK-LAMOR</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text2)">
+      <span class="sync-dot" id="sync-dot"></span>
+      <span id="sync-label">Connecting…</span>
+    </div>
+  </div>
+
+  <div class="identity-bar">
+    <span class="id-lbl">Logged in as:</span>
+    <button class="id-btn" onclick="trySetIdentity('PL')" id="id-PL">Tareq (PL)</button>
+    <button class="id-btn" onclick="setIdentity('PM')" id="id-PM">Ayman (PM)</button>
+    <button class="id-btn active" onclick="setIdentity('CM')" id="id-CM">Amin (CM)</button>
+    <button class="id-btn" onclick="setIdentity('QC')" id="id-QC">Jobin (QC)</button>
+    <button class="id-btn" onclick="setIdentity('CS')" id="id-CS">Elsayed (CS)</button>
+    <button class="id-btn" onclick="setIdentity('CE')" id="id-CE">Aisha (CE)</button>
+  </div>
+
+  <div class="save-bar" id="save-bar">Connecting to server…</div>
+  <div class="notif" id="notif"><i class="ti ti-check"></i><span id="notif-txt"></span></div>
+
+  <div class="tab-bar">
+    <div class="tab active" onclick="setTab('tasks')" id="tab-tasks">Action Items</div>
+    <div class="tab" onclick="setTab('proc')" id="tab-proc">Procurement Status</div>
+    <div class="tab" onclick="setTab('issues')" id="tab-issues">Issues of Concern</div>
+  </div>
+
+  <div id="pane-tasks">
+    <div class="summary" id="summary"></div>
+    <div class="view-bar">
+      <span class="view-lbl">Viewing:</span>
+      <button class="view-btn on" onclick="setView('mine')" id="v-mine">My tasks</button>
+      <button class="view-btn" onclick="setView('all')" id="v-all">All tasks</button>
+      <button class="view-btn" onclick="setView('CM')" id="v-CM">Amin (CM)</button>
+      <button class="view-btn" onclick="setView('QC')" id="v-QC">Jobin (QC)</button>
+      <button class="view-btn" onclick="setView('CS')" id="v-CS">Elsayed (CS)</button>
+      <button class="view-btn" onclick="setView('CE')" id="v-CE">Aisha (CE)</button>
+    </div>
+    <div class="filters">
+      <button class="flt-btn on" id="f-all" onclick="setFilter('all')">All</button>
+      <button class="flt-btn" id="f-critical" onclick="setFilter('critical')">🔴 Critical</button>
+      <button class="flt-btn" id="f-open" onclick="setFilter('open')">Open</button>
+      <button class="flt-btn" id="f-closed" onclick="setFilter('closed')">Closed</button>
+      <div style="flex:1"></div>
+      <button class="btn" id="add-task-btn" onclick="togglePanel('add-panel')" style="display:none">
+        <i class="ti ti-plus" style="font-size:13px;vertical-align:-1px;margin-right:3px"></i>Add task
+      </button>
+    </div>
+    <div class="panel" id="add-panel">
+      <div style="font-weight:500;color:var(--text)">New task</div>
+      <div class="fg"><label>Description</label><textarea class="inp" id="new-title" placeholder="Describe the task…"></textarea></div>
+      <div class="frow">
+        <div class="fg"><label>Section</label><select class="inp" id="new-section">
+          <option>Engineering</option><option>Construction</option><option>Procurement</option><option>Tests</option><option>Other</option>
+        </select></div>
+        <div class="fg"><label>Owner</label><select class="inp" id="new-owner">
+          <option value="CM">Amin (CM)</option><option value="QC">Jobin (QC)</option>
+          <option value="YH">Elsayed (CS)</option><option value="CE">Aisha (CE)</option>
+          <option value="PL">Tareq (PL)</option><option value="QC/CM">Jobin + Amin</option>
+        </select></div>
+        <div class="fg"><label>Due date</label><input class="inp" type="text" id="new-due" placeholder="e.g. 25-Jun-26"></div>
+        <div class="fg"><label>Critical?</label><select class="inp" id="new-critical">
+          <option value="0">No</option><option value="1">Yes 🔴</option>
+        </select></div>
+      </div>
+      <div class="action-row" style="margin-top:0">
+        <button class="btn pri" onclick="addTask()">Add task</button>
+        <button class="btn" onclick="togglePanel('add-panel')">Cancel</button>
+      </div>
+    </div>
+    <div class="tasks" id="task-list"><div class="loading"><div class="spinner"></div><span>Loading…</span></div></div>
+  </div>
+
+  <div id="pane-proc" style="display:none"><div class="proc-wrap" id="proc-content"><div class="loading"><div class="spinner"></div></div></div></div>
+  <div id="pane-issues" style="display:none"><div class="issues-wrap" id="issues-wrap"><div class="loading"><div class="spinner"></div></div></div></div>
+
+</div>
+
+<script>
+// ════════════════════════════════════════════════════
+// CONFIGURATION — paste your deployed script URL here
+// ════════════════════════════════════════════════════
+const SCRIPT_URL = 'PASTE_YOUR_SCRIPT_URL_HERE';
+
+// ════════════════════════════════════════════════════
+// CONSTANTS
+// ════════════════════════════════════════════════════
+const OWNER_OPTS=[
+  {v:"CM",l:"Amin (CM)"},{v:"QC",l:"Jobin (QC)"},{v:"YH",l:"Elsayed (CS)"},
+  {v:"CE",l:"Aisha (CE)"},{v:"PL",l:"Tareq (PL)"},{v:"QC/CM",l:"Jobin + Amin"}
+];
+const SECTIONS=["Engineering","Construction","Procurement","Tests","Other"];
+const ownerMap={PL:null,PM:null,CM:["CM","QC/CM"],QC:["QC","QC/CM"],CS:["YH"],CE:["CE"]};
+const roleNames={PL:"Tareq (PL)",PM:"Ayman (PM)",CM:"Amin (CM)",QC:"Jobin (QC)",CS:"Elsayed (CS)",CE:"Aisha (CE)"};
+function olabel(v){return(OWNER_OPTS.find(o=>o.v===v)||{l:v}).l;}
+
+const DEFAULT_TASKS=[
+  {id:1,section:"Engineering",title:"Steel structure subcontract — finalize evaluation of revised quotations from DASMAN & Q80Skills",owner:"CM",due:"18-Jun-26",critical:false},
+  {id:2,section:"Engineering",title:"Issued for construction drawings — 8/31 approved",owner:"QC",due:"—",critical:false},
+  {id:3,section:"Engineering",title:"Electrical drawings — solar panels and earthing drawings submittal",owner:"QC",due:"—",critical:false},
+  {id:4,section:"Engineering",title:"Design basis report submittal",owner:"QC",due:"—",critical:false},
+  {id:5,section:"Construction",title:"External ramp — resolve delay and confirm new start date",owner:"YH",due:"—",critical:true},
+  {id:6,section:"Construction",title:"Culvert under ramp — resolve delay and confirm start",owner:"YH",due:"15-Jul-26",critical:true},
+  {id:7,section:"Construction",title:"Concrete for open channel — drawing not yet approved, confirm start",owner:"CM",due:"15-Jun-26",critical:true},
+  {id:8,section:"Construction",title:"Concrete for light poles — awaiting light pole delivery before casting",owner:"CM",due:"04-Jul-26",critical:false},
+  {id:9,section:"Construction",title:"Crash barriers (steel pipes) — track delivery and installation",owner:"CM",due:"22-Jul-26",critical:false},
+  {id:10,section:"Construction",title:"Access openings and gates — complete remaining fence installation",owner:"YH",due:"—",critical:false},
+  {id:11,section:"Procurement",title:"Fire extinguishers 9/12 kg — resolve KOC approval or find alternate supplier",owner:"CM",due:"—",critical:true},
+  {id:12,section:"Procurement",title:"Bollards — get DIC rates and compare with current supplier",owner:"CM",due:"—",critical:false},
+  {id:13,section:"Procurement",title:"Leachate system valves & fittings — submit RAM",owner:"QC/CM",due:"18-Jun-26",critical:true},
+  {id:14,section:"Procurement",title:"Concrete pipes under ramp — confirm size and delivery date from NIC",owner:"CM",due:"15-Jul-26",critical:true},
+  {id:15,section:"Procurement",title:"Leachate pipes — resolve pending payment to unblock delivery",owner:"QC/CM",due:"18-Jun-26",critical:false},
+  {id:16,section:"Procurement",title:"Light poles — confirm delivery ETA before concrete casting",owner:"CM",due:"03-Aug-26",critical:false},
+  {id:17,section:"Tests",title:"Electrical resistivity / leak survey — coordinate with technicians",owner:"QC",due:"20-Jul-26",critical:false},
+  {id:18,section:"Other",title:"Concrete work scope with Compass — finalize subcontract",owner:"CM",due:"18-Jun-26",critical:false},
+  {id:19,section:"Other",title:"Remaining liner material delivery schedule — get confirmed dates from Compass",owner:"CM",due:"18-Jun-26",critical:false},
+];
+const DEFAULT_PROC=[
+  {cat:"Liner",id:"p1",name:"GCL",unit:"M²",boq:67088,delivered:52500,exp_date:"11-May-26",status:"Delivery in progress"},
+  {cat:"Liner",id:"p2",name:"HDPE Textured",unit:"M²",boq:19600,delivered:17240,exp_date:"11-May-26",status:"Delivery in progress"},
+  {cat:"Liner",id:"p3",name:"GDL",unit:"M²",boq:19600,delivered:10270,exp_date:"27-Jun-26",status:"Delivery in progress"},
+  {cat:"Leachate System",id:"p4",name:"Pipes and fittings",unit:"m",boq:1434,delivered:0,exp_date:"06-Jul-26",status:"Pending payment"},
+  {cat:"Leachate System",id:"p5",name:"Valves and fittings",unit:"LS",boq:1,delivered:0,exp_date:"23-Aug-26",status:"RAM approval pending"},
+  {cat:"Leachate System",id:"p6",name:"Pump",unit:"No.",boq:2,delivered:0,exp_date:"23-Aug-26",status:"FAT done — delivery TBC"},
+  {cat:"Electrical",id:"p7",name:"Cables",unit:"LS",boq:1,delivered:1,exp_date:"07-Sep-26",status:"Delivered"},
+  {cat:"Electrical",id:"p8",name:"Earthing system",unit:"LS",boq:1,delivered:1,exp_date:"01-Sep-26",status:"Delivered"},
+  {cat:"Electrical",id:"p9",name:"Light poles",unit:"No.",boq:42,delivered:0,exp_date:"03-Aug-26",status:"PO released — delivery TBC"},
+  {cat:"Electrical",id:"p10",name:"Diesel generator",unit:"No.",boq:2,delivered:0,exp_date:"17-Aug-26",status:"Cheque released"},
+  {cat:"Structure Steel",id:"p11",name:"Handrails",unit:"LS",boq:1,delivered:0,exp_date:"23-Aug-26",status:"RFQ issued"},
+  {cat:"Structure Steel",id:"p12",name:"DG shelter",unit:"LS",boq:1,delivered:0,exp_date:"17-Aug-26",status:"RFQ issued"},
+  {cat:"Structure Steel",id:"p13",name:"Fire ext. 63kg shelter",unit:"LS",boq:1,delivered:0,exp_date:"17-Aug-26",status:"RFQ issued"},
+  {cat:"Structure Steel",id:"p14",name:"Fire ext. 9/12kg shelter",unit:"LS",boq:1,delivered:0,exp_date:"17-Aug-26",status:"RFQ issued"},
+  {cat:"Fire Extinguishers",id:"p15",name:"63 kg",unit:"No.",boq:6,delivered:0,exp_date:"14-Sep-26",status:"RFQ in progress"},
+  {cat:"Fire Extinguishers",id:"p16",name:"9/12 kg",unit:"No.",boq:7,delivered:0,exp_date:"14-Sep-26",status:"RFQ in progress — KOC approval pending"},
+  {cat:"Others",id:"p17",name:"Fence",unit:"m",boq:1200,delivered:1200,exp_date:"07-Jul-26",status:"Completed"},
+  {cat:"Others",id:"p18",name:"Crash barriers",unit:"No.",boq:873,delivered:0,exp_date:"22-Jul-26",status:"Delivery in progress"},
+  {cat:"Others",id:"p19",name:"Sign boards",unit:"No.",boq:26,delivered:0,exp_date:"06-Aug-26",status:"MR raised"},
+  {cat:"Others",id:"p20",name:"Wind socks",unit:"No.",boq:4,delivered:0,exp_date:"14-Sep-26",status:"PO issued"},
+];
+
+// ════════════════════════════════════════════════════
+// STATE
+// ════════════════════════════════════════════════════
+let TASKS=[],PROC=[],ISSUES=[];
+let logs={},closed={},expanded={},editing={},pendingDelete={},pendingIssueDelete={};
+let issueId=1,nextTaskId=200;
+let identity='CM',viewAs='mine',filterMode='all',currentTab='tasks';
+let showIssueAdd=false,plUnlocked=false;
+let pollInterval=null,lastHash='';
+
+// ════════════════════════════════════════════════════
+// BACKEND
+// ════════════════════════════════════════════════════
+function setSyncStatus(state,msg){
+  const dot=document.getElementById('sync-dot');
+  const lbl=document.getElementById('sync-label');
+  dot.className='sync-dot '+state;
+  lbl.textContent=msg;
+}
+function setSaveBar(msg){const el=document.getElementById('save-bar');if(el)el.textContent=msg;}
+
+async function serverGet(key){
+  const url=SCRIPT_URL+'?key='+encodeURIComponent(key);
+  const r=await fetch(url);
+  const j=await r.json();
+  return j.value||null;
+}
+
+async function serverSet(key,value){
+  await fetch(SCRIPT_URL,{
+    method:'POST',
+    headers:{'Content-Type':'text/plain'},
+    body:JSON.stringify({key,value})
+  });
+}
+
+async function saveAll(){
+  if(SCRIPT_URL==='PASTE_YOUR_SCRIPT_URL_HERE'){setSaveBar('⚠ Script URL not configured.');return;}
+  setSyncStatus('syncing','Saving…');setSaveBar('Saving…');
+  try{
+    await Promise.all([
+      serverSet('lfxp_tasks',JSON.stringify(TASKS)),
+      serverSet('lfxp_proc',JSON.stringify(PROC)),
+      serverSet('lfxp_issues',JSON.stringify(ISSUES)),
+      serverSet('lfxp_meta',JSON.stringify({issueId,nextTaskId,logs,closed})),
+    ]);
+    setSyncStatus('live','Live');setSaveBar('Saved · '+nowLabel());
+    lastHash=dataHash();
+  }catch(e){setSyncStatus('error','Save failed');setSaveBar('Save failed — check connection.');}
+}
+
+async function loadAll(){
+  if(SCRIPT_URL==='PASTE_YOUR_SCRIPT_URL_HERE'){
+    loadDefaults();setSyncStatus('error','Script URL not set');setSaveBar('⚠ Open the file and paste your Script URL.');
+    render();return;
+  }
+  setSyncStatus('syncing','Loading…');setSaveBar('Loading…');
+  try{
+    const[rt,rp,ri,rm]=await Promise.all([
+      serverGet('lfxp_tasks'),serverGet('lfxp_proc'),
+      serverGet('lfxp_issues'),serverGet('lfxp_meta'),
+    ]);
+    TASKS=rt?JSON.parse(rt):JSON.parse(JSON.stringify(DEFAULT_TASKS));
+    PROC=rp?JSON.parse(rp):JSON.parse(JSON.stringify(DEFAULT_PROC));
+    ISSUES=ri?JSON.parse(ri):[];
+    if(rm){const m=JSON.parse(rm);issueId=m.issueId||1;nextTaskId=m.nextTaskId||200;logs=m.logs||{};closed=m.closed||{};}
+    else{logs={};closed={};}
+    initState();
+    setSyncStatus('live','Live');setSaveBar('Loaded · '+nowLabel());
+    lastHash=dataHash();
+  }catch(e){
+    loadDefaults();setSyncStatus('error','Offline — showing local data');setSaveBar('Connection failed.');
+  }
+  render();
+  if(currentTab==='proc')renderProc();
+  if(currentTab==='issues')renderIssues();
+  startPolling();
+}
+
+function loadDefaults(){
+  TASKS=JSON.parse(JSON.stringify(DEFAULT_TASKS));
+  PROC=JSON.parse(JSON.stringify(DEFAULT_PROC));
+  ISSUES=[];logs={};closed={};
+  initState();
+}
+
+function initState(){
+  TASKS.forEach(t=>{
+    if(!logs[t.id])logs[t.id]=[];
+    if(closed[t.id]===undefined)closed[t.id]=false;
+    expanded[t.id]=expanded[t.id]||false;
+    editing[t.id]=false;pendingDelete[t.id]=false;
+  });
+}
+
+function dataHash(){
+  return JSON.stringify({t:TASKS,p:PROC,i:ISSUES,l:logs,c:closed});
+}
+
+async function poll(){
+  if(SCRIPT_URL==='PASTE_YOUR_SCRIPT_URL_HERE')return;
+  try{
+    const[rt,rp,ri,rm]=await Promise.all([
+      serverGet('lfxp_tasks'),serverGet('lfxp_proc'),
+      serverGet('lfxp_issues'),serverGet('lfxp_meta'),
+    ]);
+    const newTasks=rt?JSON.parse(rt):TASKS;
+    const newProc=rp?JSON.parse(rp):PROC;
+    const newIssues=ri?JSON.parse(ri):ISSUES;
+    const newMeta=rm?JSON.parse(rm):{issueId,nextTaskId,logs,closed};
+    const newHash=JSON.stringify({t:newTasks,p:newProc,i:newIssues,l:newMeta.logs,c:newMeta.closed});
+    if(newHash!==lastHash){
+      TASKS=newTasks;PROC=newProc;ISSUES=newIssues;
+      issueId=newMeta.issueId||issueId;nextTaskId=newMeta.nextTaskId||nextTaskId;
+      logs=newMeta.logs||logs;closed=newMeta.closed||closed;
+      initState();lastHash=newHash;
+      render();
+      if(currentTab==='proc')renderProc();
+      if(currentTab==='issues')renderIssues();
+      setSaveBar('Updated · '+nowLabel());
+      notify('Data refreshed — new updates from your team.');
+    }
+    setSyncStatus('live','Live');
+  }catch(e){setSyncStatus('error','Connection issue');}
+}
+
+function startPolling(){
+  if(pollInterval)clearInterval(pollInterval);
+  pollInterval=setInterval(poll,30000); // every 30 seconds
+}
+
+function nowLabel(){
+  const d=new Date();
+  return d.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
+}
+
+// ════════════════════════════════════════════════════
+// PERMISSIONS
+// ════════════════════════════════════════════════════
+function isPL(){return identity==='PL';}
+function isPM(){return identity==='PM';}
+function canEditProc(){return identity==='PL'||identity==='CE';}
+function isCompleted(p){return p.delivered>=p.boq;}
+function remaining(p){return Math.max(0,p.boq-p.delivered);}
+
+function updateUIForRole(){
+  const addBtn=document.getElementById('add-task-btn');
+  if(addBtn) addBtn.style.display=(isPL()||(!isPM()&&identity!=='CE'))?'inline-block':'none';
+  // CE and CM and QC and CS can add tasks too — only PM cannot
+  if(addBtn) addBtn.style.display=isPM()?'none':'inline-block';
+}
+
+// ════════════════════════════════════════════════════
+// IDENTITY & VIEW
+// ════════════════════════════════════════════════════
+function trySetIdentity(r){
+  if(r==='PL'&&!plUnlocked){showPwOverlay();return;}
+  setIdentity(r);
+}
+function setIdentity(r){
+  identity=r;
+  document.querySelectorAll('.id-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('id-'+r).classList.add('active');
+  if(r==='PM'||r==='PL')setView('all');else setView('mine');
+  updateUIForRole();
+}
+function setView(v){
+  viewAs=v;
+  document.querySelectorAll('.view-btn').forEach(b=>b.classList.remove('on'));
+  const el=document.getElementById('v-'+v);if(el)el.classList.add('on');
+  render();
+}
+function setTab(t){
+  currentTab=t;
+  ['tasks','proc','issues'].forEach(x=>{
+    document.getElementById('pane-'+x).style.display=x===t?'block':'none';
+    document.getElementById('tab-'+x).classList.toggle('active',x===t);
+  });
+  if(t==='tasks')render();
+  else if(t==='proc')renderProc();
+  else if(t==='issues')renderIssues();
+}
+function setFilter(f){
+  filterMode=f;
+  document.querySelectorAll('.flt-btn').forEach(b=>b.classList.remove('on'));
+  document.getElementById('f-'+f).classList.add('on');
+  render();
+}
+function togglePanel(id){document.getElementById(id).classList.toggle('show');}
+function notify(msg){
+  const b=document.getElementById('notif');
+  document.getElementById('notif-txt').textContent=msg;
+  b.classList.add('show');setTimeout(()=>b.classList.remove('show'),5000);
+}
+function now(){
+  const d=new Date();
+  return d.toLocaleDateString('en-GB',{day:'2-digit',month:'short'})+' '+d.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
+}
+
+// ════════════════════════════════════════════════════
+// PASSWORD OVERLAY
+// ════════════════════════════════════════════════════
+function showPwOverlay(){
+  const ov=document.createElement('div');
+  ov.className='pw-overlay';ov.id='pw-overlay';
+  ov.innerHTML=`<div class="pw-box">
+    <div style="font-weight:600;color:var(--text);font-size:14px">Tareq (PL) — Verify identity</div>
+    <div style="color:var(--text2);font-size:12px">Enter your password to access full edit mode.</div>
+    <input class="inp" type="password" id="pw-inp" placeholder="Password" onkeydown="if(event.key==='Enter')checkPw()">
+    <div style="color:var(--red);font-size:12px;display:none" id="pw-err">Incorrect password.</div>
+    <div class="action-row" style="margin-top:0">
+      <button class="btn pri" onclick="checkPw()">Confirm</button>
+      <button class="btn" onclick="closePwOverlay()">Cancel</button>
+    </div>
+  </div>`;
+  document.body.appendChild(ov);
+  setTimeout(()=>document.getElementById('pw-inp').focus(),50);
+}
+function checkPw(){
+  if(document.getElementById('pw-inp').value==='tareq123'){
+    plUnlocked=true;closePwOverlay();setIdentity('PL');
+  }else{
+    document.getElementById('pw-err').style.display='block';
+    document.getElementById('pw-inp').value='';
+    document.getElementById('pw-inp').focus();
+  }
+}
+function closePwOverlay(){const o=document.getElementById('pw-overlay');if(o)o.remove();}
+
+// ════════════════════════════════════════════════════
+// TASKS
+// ════════════════════════════════════════════════════
+function tasksBelongTo(role){
+  const owned=ownerMap[role];
+  if(owned===null)return[...TASKS];
+  return TASKS.filter(t=>owned.some(o=>t.owner===o||t.owner.includes(o)));
+}
+function visibleTasks(){
+  let list;
+  if(viewAs==='all')list=[...TASKS];
+  else if(viewAs==='mine')list=tasksBelongTo(identity);
+  else list=tasksBelongTo(viewAs);
+  if(filterMode==='critical')list=list.filter(t=>t.critical&&!closed[t.id]);
+  else if(filterMode==='open')list=list.filter(t=>!closed[t.id]);
+  else if(filterMode==='closed')list=list.filter(t=>closed[t.id]);
+  return list;
+}
+function addTask(){
+  const title=document.getElementById('new-title').value.trim();if(!title)return;
+  const ov=document.getElementById('new-owner').value;
+  const t={id:nextTaskId++,section:document.getElementById('new-section').value,title,owner:ov,
+    due:document.getElementById('new-due').value.trim()||'—',critical:document.getElementById('new-critical').value==='1'};
+  TASKS.push(t);logs[t.id]=[];closed[t.id]=false;expanded[t.id]=false;editing[t.id]=false;pendingDelete[t.id]=false;
+  document.getElementById('new-title').value='';document.getElementById('new-due').value='';
+  document.getElementById('add-panel').classList.remove('show');
+  notify('Task added — assigned to '+olabel(ov));saveAll();render();
+}
+function askDelete(id){Object.keys(pendingDelete).forEach(k=>pendingDelete[k]=false);pendingDelete[id]=true;render();}
+function cancelDelete(id){pendingDelete[id]=false;render();}
+function confirmDelete(id){
+  TASKS=TASKS.filter(t=>t.id!==id);
+  delete logs[id];delete closed[id];delete expanded[id];delete editing[id];delete pendingDelete[id];
+  notify('Task removed.');saveAll();render();
+}
+function toggleEdit(id){editing[id]=!editing[id];pendingDelete[id]=false;render();}
+function saveEdit(id){
+  const t=TASKS.find(t=>t.id===id);if(!t)return;
+  const nt=document.getElementById('et-'+id).value.trim();
+  const no=document.getElementById('eo-'+id).value;
+  const ns=document.getElementById('es-'+id).value;
+  const nd=document.getElementById('ed-'+id).value.trim()||'—';
+  const nc=document.getElementById('ec-'+id).value==='1';
+  if(!nt)return;
+  const ch=[];
+  if(no!==t.owner)ch.push('Owner → '+olabel(no));
+  if(ns!==t.section)ch.push('Section → '+ns);
+  if(nd!==t.due)ch.push('Due → '+nd);
+  if(nc!==t.critical)ch.push('Critical → '+(nc?'Yes':'No'));
+  if(nt!==t.title)ch.push('Description updated');
+  t.title=nt;t.owner=no;t.section=ns;t.due=nd;t.critical=nc;
+  if(ch.length){logs[id].unshift({who:'Tareq (PL)',ts:now(),txt:'✏ '+ch.join(', ')});}
+  editing[id]=false;notify('Task updated.');saveAll();render();
+}
+function submitUpdate(id){
+  const el=document.getElementById('upd-'+id);
+  const txt=el.value.trim();if(!txt)return;
+  logs[id].unshift({who:roleNames[identity],ts:now(),txt});
+  el.value='';notify('Update posted.');saveAll();render();
+  setTimeout(()=>{expanded[id]=true;render();},30);
+}
+function closeTask(id){
+  closed[id]=true;logs[id].unshift({who:'Tareq (PL)',ts:now(),txt:'✓ Task closed.'});
+  notify('Task closed.');saveAll();render();
+}
+function reopenTask(id){
+  closed[id]=false;logs[id].unshift({who:'Tareq (PL)',ts:now(),txt:'↩ Task reopened.'});
+  notify('Task reopened.');saveAll();render();
+}
+function toggleTask(id){expanded[id]=!expanded[id];render();}
+function osel(elId,cur){return`<select class="inp" id="${elId}">${OWNER_OPTS.map(o=>`<option value="${o.v}"${o.v===cur?' selected':''}>${o.l}</option>`).join('')}</select>`;}
+function ssel(elId,cur){return`<select class="inp" id="${elId}">${SECTIONS.map(s=>`<option${s===cur?' selected':''}>${s}</option>`).join('')}</select>`;}
+
+function renderSummary(){
+  const mine=(isPL()||isPM())?TASKS:tasksBelongTo(identity);
+  document.getElementById('summary').innerHTML=`
+    <div class="scard"><div class="scard-n">${mine.length}</div><div class="scard-l">${(isPL()||isPM())?'Total tasks':'My tasks'}</div></div>
+    <div class="scard crit"><div class="scard-n">${mine.filter(t=>t.critical&&!closed[t.id]).length}</div><div class="scard-l">Critical open</div></div>
+    <div class="scard open"><div class="scard-n">${mine.filter(t=>!closed[t.id]).length}</div><div class="scard-l">Open</div></div>
+    <div class="scard done"><div class="scard-n">${mine.filter(t=>closed[t.id]).length}</div><div class="scard-l">Closed</div></div>
+  `;
+}
+function render(){
+  renderSummary();
+  const pl=isPL(),pm=isPM();
+  const list=visibleTasks();
+  const c=document.getElementById('task-list');
+  if(!list.length){c.innerHTML='<div class="no-tasks">No tasks match this filter.</div>';return;}
+  let lastSec='',html='';
+  list.forEach(t=>{
+    if(t.section!==lastSec){html+=`<div class="sec-lbl">${t.section}</div>`;lastSec=t.section;}
+    const isClosed=closed[t.id]||false,isExp=expanded[t.id]||false,isEd=editing[t.id]||false,isDel=pendingDelete[t.id]||false;
+    const tc=isClosed?'tag-closed':t.critical?'tag-crit':'tag-open';
+    const tl=isClosed?'✓ Closed':t.critical?'🔴 Critical':'Open';
+    const tLogs=logs[t.id]||[];
+    const hasLogs=tLogs.length>0,latest=hasLogs?tLogs[0]:null;
+    const logHtml=hasLogs?`<div class="slbl" style="margin-top:2px">History</div><div class="log-list">${tLogs.map(l=>`<div class="log-item"><strong>${l.who}</strong> · ${l.ts} — ${l.txt}</div>`).join('')}</div>`:'';
+    const statusBlock=latest
+      ?`<div class="slbl">Latest update</div><div class="log-list"><div class="log-item"><strong>${latest.who}</strong> · ${latest.ts} — ${latest.txt}</div></div>`
+      :`<div class="no-update">No updates yet — waiting for ${olabel(t.owner)} to post the first update.</div>`;
+    const editBlock=isEd?`
+    <div class="edit-box">
+      <div style="font-weight:500;color:var(--text);margin-bottom:2px">Edit task</div>
+      <div class="fg" style="min-width:100%"><label>Description</label><textarea class="inp" id="et-${t.id}" style="min-height:40px">${t.title}</textarea></div>
+      <div class="frow">
+        <div class="fg"><label>Owner</label>${osel('eo-'+t.id,t.owner)}</div>
+        <div class="fg"><label>Section</label>${ssel('es-'+t.id,t.section)}</div>
+        <div class="fg"><label>Due date</label><input class="inp" type="text" id="ed-${t.id}" value="${t.due==='—'?'':t.due}" placeholder="e.g. 25-Jun-26"></div>
+        <div class="fg"><label>Critical?</label><select class="inp" id="ec-${t.id}"><option value="0"${!t.critical?' selected':''}>No</option><option value="1"${t.critical?' selected':''}>Yes 🔴</option></select></div>
+      </div>
+      <div class="action-row" style="margin-top:0"><button class="btn pri" onclick="saveEdit(${t.id})">Save</button><button class="btn" onclick="toggleEdit(${t.id})">Cancel</button></div>
+    </div><div class="divider"></div>`:'';
+    const deleteBlock=isDel?`<div class="confirm-bar"><span>Remove this task permanently?</span><button class="btn red" onclick="confirmDelete(${t.id})">Yes, remove</button><button class="btn" onclick="cancelDelete(${t.id})">Cancel</button></div>`:'';
+    const bodyContent=pm?`
+      ${statusBlock}${hasLogs&&latest?logHtml:''}
+      <div style="font-size:12px;color:var(--text2);padding:6px 0;font-style:italic">View only — updates are posted by the task owner.</div>
+    `:!isClosed?`
+      ${statusBlock}${hasLogs&&latest?logHtml:''}
+      <div class="slbl">Post update</div>
+      <textarea class="inp" id="upd-${t.id}" placeholder="What's the latest status?"></textarea>
+      <div class="action-row">
+        <button class="btn pri" onclick="submitUpdate(${t.id})">Submit update</button>
+        ${pl?`<button class="btn" onclick="toggleEdit(${t.id})"><i class="ti ti-edit" style="font-size:12px;vertical-align:-1px;margin-right:3px"></i>Edit task</button>`:''}
+        ${pl?`<button class="btn red" onclick="closeTask(${t.id})" style="margin-left:auto">Close task</button><button class="btn del" onclick="askDelete(${t.id})"><i class="ti ti-trash" style="font-size:12px;vertical-align:-1px"></i></button>`:''}
+      </div>${deleteBlock}
+    `:`
+      ${statusBlock}${hasLogs&&latest?logHtml:''}
+      <div class="action-row">${pl?`<button class="btn" onclick="reopenTask(${t.id})">Reopen task</button>`:''}<span style="color:var(--text2)">Task closed.</span></div>${deleteBlock}
+    `;
+    html+=`
+    <div class="task${t.critical&&!isClosed?' critical':''}${isClosed?' closed':''}" id="task-${t.id}">
+      <div class="task-hdr" onclick="toggleTask(${t.id})">
+        <span class="ttag ${tc}">${tl}</span>
+        <div class="task-meta">
+          <div class="task-title">${t.title}</div>
+          <div class="task-info">
+            <span class="bdg own"><i class="ti ti-user" style="font-size:11px;vertical-align:-1px;margin-right:3px"></i>${olabel(t.owner)}</span>
+            ${t.due!=='—'?`<span class="bdg due"><i class="ti ti-calendar" style="font-size:11px;vertical-align:-1px;margin-right:3px"></i>${t.due}</span>`:''}
+            <span class="bdg">${t.section}</span>
+          </div>
+        </div>
+        <i class="ti ti-chevron-down chev ${isExp?'open':''}"></i>
+      </div>
+      ${isExp?`<div class="task-body show">${editBlock}${bodyContent}</div>`:''}
+    </div>`;
+  });
+  c.innerHTML=html;
+}
+
+// ════════════════════════════════════════════════════
+// PROCUREMENT
+// ════════════════════════════════════════════════════
+function saveProc(id){
+  const p=PROC.find(x=>x.id===id);if(!p)return;
+  const di=document.getElementById('pd-'+id),si=document.getElementById('ps-'+id),qi=document.getElementById('pq-'+id);
+  if(di)p.exp_date=di.value.trim()||p.exp_date;
+  if(si)p.status=si.value;
+  if(qi){const v=parseFloat(qi.value);if(!isNaN(v)&&v>=0)p.delivered=Math.min(v,p.boq);}
+  notify('Row updated.');saveAll();renderProc();
+}
+function renderProc(){
+  const pl=isPL(),editable=canEditProc();
+  const total=PROC.length,done=PROC.filter(p=>isCompleted(p)).length,inprog=total-done;
+  let html=`<div class="proc-summary">
+    <div class="psum"><div class="psum-n">${total}</div><div class="psum-l">Total items</div></div>
+    <div class="psum done"><div class="psum-n">${done}</div><div class="psum-l">Completed</div></div>
+    <div class="psum prog"><div class="psum-n">${inprog}</div><div class="psum-l">In progress</div></div>
+  </div>`;
+  if(editable)html+=`<div class="proc-info"><i class="ti ti-pencil" style="font-size:12px;vertical-align:-1px;margin-right:4px"></i>${pl?'Full edit — update delivered qty, delivery date, and status then Save.':'Update delivery date and status then Save.'}</div>`;
+  const cats=[...new Set(PROC.map(p=>p.cat))],colspan=editable?8:7;
+  html+=`<table class="ptbl"><tr>
+    <th style="width:18%">Material</th><th style="width:6%">Unit</th><th style="width:9%">BOQ qty</th>
+    <th style="width:11%">Delivered</th><th style="width:9%">Remaining</th>
+    <th style="width:13%">Exp. delivery</th><th style="width:${editable?'18%':'24%'}">Status</th>
+    ${editable?'<th style="width:9%"></th>':''}
+  </tr>`;
+  cats.forEach(cat=>{
+    html+=`<tr class="pcat"><td colspan="${colspan}">${cat}</td></tr>`;
+    PROC.filter(p=>p.cat===cat).forEach(p=>{
+      const comp=isCompleted(p),rem=remaining(p);
+      const remCell=comp?`<span style="color:var(--green);font-weight:600">0</span>`:`<span style="color:var(--red);font-weight:600">${rem.toLocaleString()}</span>`;
+      const deliveredCell=pl?`<input class="sinp" id="pq-${p.id}" type="number" value="${p.delivered}" min="0" max="${p.boq}" style="width:68px">`:p.delivered.toLocaleString();
+      const dateCell=editable&&!comp?`<input class="sinp" id="pd-${p.id}" value="${p.exp_date}">`:p.exp_date;
+      const statusCell=comp?`<span style="color:var(--green);font-weight:600">✓ Completed</span>`:(editable?`<input class="sinp" id="ps-${p.id}" value="${p.status}">`:`<span style="color:var(--text2)">${p.status}</span>`);
+      html+=`<tr${comp?' style="opacity:.6"':''}>
+        <td style="font-weight:500">${p.name}</td><td style="color:var(--text2)">${p.unit}</td>
+        <td>${p.boq.toLocaleString()}</td><td>${deliveredCell}</td><td>${remCell}</td>
+        <td>${dateCell}</td><td>${statusCell}</td>
+        ${editable?`<td>${comp?'':'<button class="sbtn" onclick="saveProc(\''+p.id+'\')">Save</button>'}</td>`:''}
+      </tr>`;
+    });
+  });
+  html+='</table>';
+  document.getElementById('proc-content').innerHTML=html;
+}
+
+// ════════════════════════════════════════════════════
+// ISSUES
+// ════════════════════════════════════════════════════
+function toggleIssueAdd(){showIssueAdd=!showIssueAdd;renderIssues();}
+function addIssue(){
+  const txt=document.getElementById('itxt').value.trim();if(!txt)return;
+  ISSUES.unshift({id:issueId++,text:txt,critical:document.getElementById('icit').value==='1',by:roleNames[identity],ts:now()});
+  showIssueAdd=false;notify('Issue added.');saveAll();renderIssues();
+}
+function askDeleteIssue(id){Object.keys(pendingIssueDelete).forEach(k=>pendingIssueDelete[k]=false);pendingIssueDelete[id]=true;renderIssues();}
+function cancelDeleteIssue(id){pendingIssueDelete[id]=false;renderIssues();}
+function confirmDeleteIssue(id){ISSUES=ISSUES.filter(i=>i.id!==id);notify('Issue deleted.');saveAll();renderIssues();}
+function editIssue(id){
+  if(!isPL()){notify('Only Tareq (PL) can edit issues.');return;}
+  const issue=ISSUES.find(i=>i.id===id);if(!issue)return;
+  const el=document.getElementById('issue-text-'+id);if(!el)return;
+  el.innerHTML=`<textarea class="inp" id="iet-${id}" style="min-height:40px;margin-bottom:6px">${issue.text}</textarea>
+  <div class="action-row" style="margin-top:0"><button class="btn pri" onclick="saveIssueEdit(${id})">Save</button><button class="btn" onclick="renderIssues()">Cancel</button></div>`;
+}
+function saveIssueEdit(id){
+  const el=document.getElementById('iet-'+id);if(!el)return;
+  const issue=ISSUES.find(i=>i.id===id);if(!issue)return;
+  issue.text=el.value.trim()||issue.text;notify('Issue updated.');saveAll();renderIssues();
+}
+function renderIssues(){
+  const pl=isPL(),pm=isPM();
+  let html=`<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+    <span style="font-weight:600;color:var(--text);font-size:14px">Issues of concern</span>
+    ${!pm?`<button class="btn" onclick="toggleIssueAdd()"><i class="ti ti-plus" style="font-size:13px;vertical-align:-1px;margin-right:3px"></i>Add issue</button>`:''}
+  </div>
+  ${!pm?`<div class="panel ${showIssueAdd?'show':''}" style="margin:0 0 10px">
+    <div class="fg"><label>Describe the issue</label><textarea class="inp" id="itxt" placeholder="What's the concern?" style="min-height:60px"></textarea></div>
+    <div class="frow"><div class="fg"><label>Priority</label><select class="inp" id="icit"><option value="0">Normal</option><option value="1">Critical 🔴</option></select></div></div>
+    <div class="action-row" style="margin-top:0"><button class="btn pri" onclick="addIssue()">Submit</button><button class="btn" onclick="toggleIssueAdd()">Cancel</button></div>
+  </div>`:''}`;
+  if(!ISSUES.length){
+    html+=`<div class="no-tasks">No issues raised yet.</div>`;
+  }else{
+    ISSUES.forEach(issue=>{
+      const isDel=pendingIssueDelete[issue.id];
+      html+=`<div class="issue-card ${issue.critical?'crit':''}">
+        <div style="display:flex;align-items:flex-start;gap:8px">
+          <div style="flex:1">
+            ${issue.critical?'<span class="ttag tag-crit" style="display:inline-block;margin-bottom:5px">🔴 Critical</span><br>':''}
+            <div id="issue-text-${issue.id}" style="color:var(--text);line-height:1.5">${issue.text}</div>
+            <div style="display:flex;gap:6px;margin-top:5px;flex-wrap:wrap">
+              <span class="bdg own"><i class="ti ti-user" style="font-size:11px;vertical-align:-1px;margin-right:3px"></i>${issue.by}</span>
+              <span class="bdg"><i class="ti ti-clock" style="font-size:11px;vertical-align:-1px;margin-right:3px"></i>${issue.ts}</span>
+            </div>
+            ${isDel?`<div class="confirm-bar" style="margin-top:8px"><span>Delete this issue?</span><button class="btn red" onclick="confirmDeleteIssue(${issue.id})">Yes, delete</button><button class="btn" onclick="cancelDeleteIssue(${issue.id})">Cancel</button></div>`:''}
+          </div>
+          ${pl?`<div style="display:flex;gap:6px;flex-shrink:0">
+            <button class="btn" style="padding:3px 8px" onclick="editIssue(${issue.id})"><i class="ti ti-edit" style="font-size:12px;vertical-align:-1px"></i></button>
+            <button class="btn del" style="padding:3px 8px" onclick="askDeleteIssue(${issue.id})"><i class="ti ti-trash" style="font-size:12px;vertical-align:-1px"></i></button>
+          </div>`:''}
+        </div>
+      </div>`;
+    });
+  }
+  document.getElementById('issues-wrap').innerHTML=html;
+}
+
+// ════════════════════════════════════════════════════
+// BOOT
+// ════════════════════════════════════════════════════
+loadAll();
+</script>
+</body>
+</html>
