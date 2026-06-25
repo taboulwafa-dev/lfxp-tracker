@@ -294,7 +294,7 @@ textarea.inp{resize:vertical;min-height:50px}
 // ════════════════════════════════════════════════════
 // CONFIGURATION — paste your deployed script URL here
 // ════════════════════════════════════════════════════
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw962vtd5SUZ-WoA7ls0rcTI-mcQ5Dzf28w2W992W4IF5d0n-5InRqZfqLRBaLOLx9UiQ/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbycDIpZGzB-x0yhmeTJ8iekMA_BIA55S4zPoiKv6qAuZX-374sr9etFoid8ci47Rqwtmw/exec';
 
 // ════════════════════════════════════════════════════
 // CONSTANTS
@@ -330,26 +330,31 @@ const DEFAULT_TASKS=[
   {id:19,section:"Other",title:"Remaining liner material delivery schedule — get confirmed dates from Compass",owner:"CM",due:"18-Jun-26",critical:false},
 ];
 const DEFAULT_PROC=[
-  {cat:"Liner",id:"p1",name:"GCL",unit:"M²",boq:67088,delivered:52500,exp_date:"11-May-26",status:"Delivery in progress"},
-  {cat:"Liner",id:"p2",name:"HDPE Textured",unit:"M²",boq:19600,delivered:17240,exp_date:"11-May-26",status:"Delivery in progress"},
-  {cat:"Liner",id:"p3",name:"GDL",unit:"M²",boq:19600,delivered:10270,exp_date:"27-Jun-26",status:"Delivery in progress"},
-  {cat:"Leachate System",id:"p4",name:"Pipes and fittings",unit:"m",boq:1434,delivered:0,exp_date:"06-Jul-26",status:"Pending payment"},
-  {cat:"Leachate System",id:"p5",name:"Valves and fittings",unit:"LS",boq:1,delivered:0,exp_date:"23-Aug-26",status:"RAM approval pending"},
-  {cat:"Leachate System",id:"p6",name:"Pump",unit:"No.",boq:2,delivered:0,exp_date:"23-Aug-26",status:"FAT done — delivery TBC"},
-  {cat:"Electrical",id:"p7",name:"Cables",unit:"LS",boq:1,delivered:1,exp_date:"07-Sep-26",status:"Delivered"},
-  {cat:"Electrical",id:"p8",name:"Earthing system",unit:"LS",boq:1,delivered:1,exp_date:"01-Sep-26",status:"Delivered"},
-  {cat:"Electrical",id:"p9",name:"Light poles",unit:"No.",boq:42,delivered:0,exp_date:"03-Aug-26",status:"PO released — delivery TBC"},
-  {cat:"Electrical",id:"p10",name:"Diesel generator",unit:"No.",boq:2,delivered:0,exp_date:"17-Aug-26",status:"Cheque released"},
-  {cat:"Structure Steel",id:"p11",name:"Handrails",unit:"LS",boq:1,delivered:0,exp_date:"23-Aug-26",status:"RFQ issued"},
-  {cat:"Structure Steel",id:"p12",name:"DG shelter",unit:"LS",boq:1,delivered:0,exp_date:"17-Aug-26",status:"RFQ issued"},
-  {cat:"Structure Steel",id:"p13",name:"Fire ext. 63kg shelter",unit:"LS",boq:1,delivered:0,exp_date:"17-Aug-26",status:"RFQ issued"},
-  {cat:"Structure Steel",id:"p14",name:"Fire ext. 9/12kg shelter",unit:"LS",boq:1,delivered:0,exp_date:"17-Aug-26",status:"RFQ issued"},
-  {cat:"Fire Extinguishers",id:"p15",name:"63 kg",unit:"No.",boq:6,delivered:0,exp_date:"14-Sep-26",status:"RFQ in progress"},
-  {cat:"Fire Extinguishers",id:"p16",name:"9/12 kg",unit:"No.",boq:7,delivered:0,exp_date:"14-Sep-26",status:"RFQ in progress — KOC approval pending"},
-  {cat:"Others",id:"p17",name:"Fence",unit:"m",boq:1200,delivered:1200,exp_date:"07-Jul-26",status:"Completed"},
-  {cat:"Others",id:"p18",name:"Crash barriers",unit:"No.",boq:873,delivered:0,exp_date:"22-Jul-26",status:"Delivery in progress"},
-  {cat:"Others",id:"p19",name:"Sign boards",unit:"No.",boq:26,delivered:0,exp_date:"06-Aug-26",status:"MR raised"},
-  {cat:"Others",id:"p20",name:"Wind socks",unit:"No.",boq:4,delivered:0,exp_date:"14-Sep-26",status:"PO issued"},
+  {cat:"Liner",id:"p1",name:"GCL",unit:"M²",boq:67088,delivered:52500,req_date:"11-May-26",exp_date:"",status:"Delivery InProgress"},
+  {cat:"Liner",id:"p2",name:"HDPE Smooth",unit:"M²",boq:47600,delivered:46200,req_date:"11-May-26",exp_date:"",status:"Delivery InProgress"},
+  {cat:"Liner",id:"p3",name:"HDPE Textured",unit:"M²",boq:19600,delivered:17240,req_date:"11-May-26",exp_date:"",status:"Delivery InProgress"},
+  {cat:"Liner",id:"p4",name:"GDL",unit:"M²",boq:19600,delivered:10270,req_date:"27-Jun-26",exp_date:"",status:"Delivery InProgress"},
+  {cat:"Liner",id:"p5",name:"Filter Geotextile",unit:"M²",boq:47600,delivered:43200,req_date:"22-Jul-26",exp_date:"",status:"Delivery InProgress"},
+  {cat:"Liner",id:"p6",name:"Separator Geotextile",unit:"M²",boq:47600,delivered:43200,req_date:"27-Jun-26",exp_date:"",status:"Delivery InProgress"},
+  {cat:"Liner",id:"p7",name:"Sand",unit:"M³",boq:23575,delivered:10000,req_date:"10-Jun-26",exp_date:"",status:"Delivery InProgress"},
+  {cat:"Liner",id:"p8",name:"Gravel",unit:"M³",boq:17397,delivered:8950,req_date:"06-Jul-26",exp_date:"",status:"Delivery InProgress"},
+  {cat:"Leachate System",id:"p9",name:"Pipes and fittings",unit:"m",boq:1434,delivered:0,req_date:"06-Jul-26",exp_date:"",status:"Pending Payment"},
+  {cat:"Leachate System",id:"p10",name:"Valves and fittings",unit:"LS",boq:1,delivered:0,req_date:"23-Aug-26",exp_date:"",status:"RAM Approval"},
+  {cat:"Leachate System",id:"p11",name:"Pump",unit:"No.",boq:2,delivered:0,req_date:"23-Aug-26",exp_date:"",status:"FAT Done"},
+  {cat:"Electrical",id:"p12",name:"Cables",unit:"LS",boq:1,delivered:1,req_date:"07-Sep-26",exp_date:"",status:"Delivered"},
+  {cat:"Electrical",id:"p13",name:"Earthing System",unit:"LS",boq:1,delivered:1,req_date:"01-Sep-26",exp_date:"",status:"Delivered"},
+  {cat:"Electrical",id:"p14",name:"Light Poles",unit:"No.",boq:42,delivered:0,req_date:"03-Aug-26",exp_date:"",status:"PO Released"},
+  {cat:"Electrical",id:"p15",name:"Diesel Generator",unit:"No.",boq:2,delivered:0,req_date:"17-Aug-26",exp_date:"",status:"Cheque Released"},
+  {cat:"Structure Steel",id:"p16",name:"Handrails",unit:"LS",boq:1,delivered:0,req_date:"23-Aug-26",exp_date:"",status:"RFQ Issued"},
+  {cat:"Structure Steel",id:"p17",name:"DG Shelter",unit:"LS",boq:1,delivered:0,req_date:"17-Aug-26",exp_date:"",status:"RFQ Issued"},
+  {cat:"Structure Steel",id:"p18",name:"Fire Ext. 63kg Shelter",unit:"LS",boq:1,delivered:0,req_date:"17-Aug-26",exp_date:"",status:"RFQ Issued"},
+  {cat:"Structure Steel",id:"p19",name:"Fire Ext. 9/12kg Shelter",unit:"LS",boq:1,delivered:0,req_date:"17-Aug-26",exp_date:"",status:"RFQ Issued"},
+  {cat:"Fire Extinguishers",id:"p20",name:"63 kg",unit:"No.",boq:6,delivered:0,req_date:"14-Sep-26",exp_date:"",status:"RFQ InProgress"},
+  {cat:"Fire Extinguishers",id:"p21",name:"9/12 kg",unit:"No.",boq:7,delivered:0,req_date:"14-Sep-26",exp_date:"",status:"RFQ InProgress"},
+  {cat:"Others",id:"p22",name:"Fence",unit:"m",boq:1200,delivered:1200,req_date:"07-Jul-26",exp_date:"",status:"Delivery InProgress"},
+  {cat:"Others",id:"p23",name:"Crash Barriers",unit:"No.",boq:873,delivered:0,req_date:"22-Jul-26",exp_date:"",status:"Delivery InProgress"},
+  {cat:"Others",id:"p24",name:"Sign Boards",unit:"No.",boq:26,delivered:0,req_date:"06-Aug-26",exp_date:"",status:"MR Raised"},
+  {cat:"Others",id:"p25",name:"Wind Socks",unit:"No.",boq:4,delivered:0,req_date:"14-Sep-26",exp_date:"",status:"PO Issued"},
 ];
 
 // ════════════════════════════════════════════════════
@@ -639,11 +644,26 @@ function saveEdit(id){
   if(ch.length){logs[id].unshift({who:'Tareq (PL)',ts:now(),txt:'✏ '+ch.join(', ')});}
   editing[id]=false;notify('Task updated.');saveAll();render();
 }
+
+function canPostUpdate(t){
+  if(isPL()) return true;
+  // Check if current identity owns this task
+  const owned = ownerMap[identity] || [];
+  return owned.some(o => t.owner === o || t.owner.includes(o));
+}
 function submitUpdate(id){
   const el=document.getElementById('upd-'+id);
   const txt=el.value.trim();if(!txt)return;
   logs[id].unshift({who:roleNames[identity],ts:now(),txt});
   el.value='';notify('Update posted.');saveAll();render();
+  setTimeout(()=>{expanded[id]=true;render();},30);
+}
+
+function submitPMComment(id){
+  const el = document.getElementById('upd-'+id);
+  const txt = el.value.trim(); if(!txt) return;
+  logs[id].unshift({who:'Ayman (PM) 💬', ts:now(), txt, isPM:true});
+  el.value=''; notify('PM comment added.'); saveAll(); render();
   setTimeout(()=>{expanded[id]=true;render();},30);
 }
 function closeTask(id){
@@ -681,7 +701,7 @@ function render(){
     const tl=isClosed?'✓ Closed':t.critical?'🔴 Critical':'Open';
     const tLogs=logs[t.id]||[];
     const hasLogs=tLogs.length>0,latest=hasLogs?tLogs[0]:null;
-    const logHtml=hasLogs?`<div class="slbl" style="margin-top:2px">History</div><div class="log-list">${tLogs.map(l=>`<div class="log-item"><strong>${l.who}</strong> · ${l.ts} — ${l.txt}</div>`).join('')}</div>`:'';
+    const logHtml=hasLogs?`<div class="slbl" style="margin-top:2px">History</div><div class="log-list">${tLogs.map(l=>l.isPM?`<div class="log-item" style="background:#faf5ff;border-color:#c4b5fd;border-left:3px solid #7c3aed"><strong sty</strong> · <span style="color:#94a3b8">${l.ts}</span> — ${l.txt}</div>`:`<div class="log-item"><strong>${l.who}</strong> · ${l.ts} — ${l.txt}</div>`).join('')}</div>`:'';
     const statusBlock=latest
       ?`<div class="slbl">Latest update</div><div class="log-list"><div class="log-item"><strong>${latest.who}</strong> · ${latest.ts} — ${latest.txt}</div></div>`
       :`<div class="no-update">No updates yet — waiting for ${olabel(t.owner)} to post the first update.</div>`;
@@ -700,7 +720,13 @@ function render(){
     const deleteBlock=isDel?`<div class="confirm-bar"><span>Remove this task permanently?</span><button class="btn red" onclick="confirmDelete(${t.id})">Yes, remove</button><button class="btn" onclick="cancelDelete(${t.id})">Cancel</button></div>`:'';
     const bodyContent=pm?`
       ${statusBlock}${hasLogs&&latest?logHtml:''}
-      <div style="font-size:12px;color:var(--text2);padding:6px 0;font-style:italic">View only — updates are posted by the task owner.</div>
+      <div style="margin-top:8px">
+        <div style="font-size:11px;font-weight:600;color:#5b21b6;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px">PM Comment</div>
+        <textarea class="inp" id="upd-${t.id}" placeholder="Add a comment as PM…" style="border-color:#c4b5fd;background:#faf5ff;min-height:44px"></textarea>
+        <div class="action-row">
+          <button class="btn" onclick="submitPMComment(${t.id})" style="background:#7c3aed;color:#fff;border-color:#7c3aed;border-radius:20px;font-size:12px;padding:5px 14px">Add comment</button>
+        </div>
+      </div>
     `:!isClosed?`
       ${statusBlock}${hasLogs&&latest?logHtml:''}
       <div class="slbl">Post update</div>
@@ -737,14 +763,31 @@ function render(){
 // ════════════════════════════════════════════════════
 // PROCUREMENT
 // ════════════════════════════════════════════════════
+
+function liveUpdateRem(id, boq){
+  const qi = document.getElementById('pq-'+id);
+  if(!qi) return;
+  const val = Math.min(Math.max(0, parseFloat(qi.value)||0), boq);
+  const rem = Math.max(0, boq - val);
+  const remEl = document.getElementById('rem-'+id);
+  if(remEl){
+    remEl.textContent = rem === 0 ? '0' : rem.toLocaleString();
+    remEl.style.color = rem === 0 ? '#15803d' : '#b91c1c';
+  }
+}
+
+
 function saveProc(id){
   const p=PROC.find(x=>x.id===id);if(!p)return;
-  const di=document.getElementById('pd-'+id),si=document.getElementById('ps-'+id),qi=document.getElementById('pq-'+id);
-  if(di)p.exp_date=di.value.trim()||p.exp_date;
-  if(si)p.status=si.value;
+  const di=document.getElementById('pd-'+id);
+  const si=document.getElementById('ps-'+id);
+  const qi=document.getElementById('pq-'+id);
+  if(di) p.exp_date=fromInputDate(di.value);
+  if(si) p.status=si.value;
   if(qi){const v=parseFloat(qi.value);if(!isNaN(v)&&v>=0)p.delivered=Math.min(v,p.boq);}
   notify('Row updated.');saveAll();renderProc();
 }
+
 function renderProc(){
   const pl=isPL(),editable=canEditProc();
   const total=PROC.length,done=PROC.filter(p=>isCompleted(p)).length,inprog=total-done;
@@ -753,32 +796,68 @@ function renderProc(){
     <div class="psum done"><div class="psum-n">${done}</div><div class="psum-l">Completed</div></div>
     <div class="psum prog"><div class="psum-n">${inprog}</div><div class="psum-l">In progress</div></div>
   </div>`;
-  if(editable)html+=`<div class="proc-info"><i class="ti ti-pencil" style="font-size:12px;vertical-align:-1px;margin-right:4px"></i>${pl?'Full edit — update delivered qty, delivery date, and status then Save.':'Update delivery date and status then Save.'}</div>`;
-  const cats=[...new Set(PROC.map(p=>p.cat))],colspan=editable?8:7;
+  if(editable)html+=`<div class="proc-info"><i class="ti ti-pencil" style="font-size:12px;vertical-align:-1px;margin-right:4px"></i>${pl?'Edit delivered qty, expected delivery and status — Save per row.':'Edit expected delivery and status — Save per row.'}</div>`;
+  const STATUS_OPTS=['Delivery InProgress','Delivered','Pending Payment','PO Issued','PO Released','Cheque Released','RAM Approval','RFQ Issued','RFQ InProgress','FAT Done','Under Inspection','Completed'];
+  const cats=[...new Set(PROC.map(p=>p.cat))];
+  const cols=editable?9:8;
   html+=`<table class="ptbl"><tr>
-    <th style="width:18%">Material</th><th style="width:6%">Unit</th><th style="width:9%">BOQ qty</th>
-    <th style="width:11%">Delivered</th><th style="width:9%">Remaining</th>
-    <th style="width:13%">Exp. delivery</th><th style="width:${editable?'18%':'24%'}">Status</th>
-    ${editable?'<th style="width:9%"></th>':''}
+    <th style="width:15%">Material</th>
+    <th style="width:5%">Unit</th>
+    <th style="width:8%">BOQ qty</th>
+    <th style="width:9%">Delivered</th>
+    <th style="width:8%">Remaining</th>
+    <th style="width:10%">Req. on site</th>
+    <th style="width:11%">Exp. delivery</th>
+    <th style="width:${editable?'15%':'22%'}">Status</th>
+    ${editable?'<th style="width:7%"></th>':''}
   </tr>`;
   cats.forEach(cat=>{
-    html+=`<tr class="pcat"><td colspan="${colspan}">${cat}</td></tr>`;
+    html+=`<tr class="pcat"><td colspan="${cols}">${cat}</td></tr>`;
     PROC.filter(p=>p.cat===cat).forEach(p=>{
       const comp=isCompleted(p),rem=remaining(p);
-      const remCell=comp?`<span style="color:var(--green);font-weight:600">0</span>`:`<span style="color:var(--red);font-weight:600">${rem.toLocaleString()}</span>`;
-      const deliveredCell=pl?`<input class="sinp" id="pq-${p.id}" type="number" value="${p.delivered}" min="0" max="${p.boq}" style="width:68px">`:p.delivered.toLocaleString();
-      const dateCell=editable&&!comp?`<input class="sinp" id="pd-${p.id}" value="${p.exp_date}">`:p.exp_date;
-      const statusCell=comp?`<span style="color:var(--green);font-weight:600">✓ Completed</span>`:(editable?`<input class="sinp" id="ps-${p.id}" value="${p.status}">`:`<span style="color:var(--text2)">${p.status}</span>`);
-      html+=`<tr${comp?' style="opacity:.6"':''}>
-        <td style="font-weight:500">${p.name}</td><td style="color:var(--text2)">${p.unit}</td>
-        <td>${p.boq.toLocaleString()}</td><td>${deliveredCell}</td><td>${remCell}</td>
-        <td>${dateCell}</td><td>${statusCell}</td>
-        ${editable?`<td>${comp?'':'<button class="sbtn" onclick="saveProc(\''+p.id+'\')">Save</button>'}</td>`:''}
+      const remCell=`<span id="rem-${p.id}" style="font-weight:600;color:${rem===0?'#15803d':'#b91c1c'}">${rem===0?'0':rem.toLocaleString()}</span>`;
+      const deliveredCell=pl&&!comp?`<input class="sinp" id="pq-${p.id}" type="number" value="${p.delivered}" min="0" max="${p.boq}" style="width:64px" oninput="liveUpdateRem('${p.id}',${p.boq})">`:p.delivered.toLocaleString();
+      const reqCell=`<span style="font-size:12px;color:var(--text2)">${p.req_date||'—'}</span>`;
+      const expCell=editable&&!comp?`<input class="sinp" id="pd-${p.id}" type="date" value="${p.exp_date?toInputDate(p.exp_date):''}" style="min-width:110px">`:`<span style="font-size:12px;color:var(--text2)">${p.exp_date||'—'}</span>`;
+      let statusCell;
+      if(comp){statusCell=`<span style="color:#15803d;font-weight:600">✓ Completed</span>`;}
+      else if(pl){statusCell=`<select class="sinp" id="ps-${p.id}">${STATUS_OPTS.map(s=>`<option value="${s}"${s===p.status?' selected':''}>${s}</option>`).join('')}</select>`;}
+      else if(editable){const ce=STATUS_OPTS.filter(s=>s!=='Completed');statusCell=`<select class="sinp" id="ps-${p.id}">${ce.map(s=>`<option value="${s}"${s===p.status?' selected':''}>${s}</option>`).join('')}</select>`;}
+      else{statusCell=`<span style="font-size:12px;color:var(--text2)">${p.status}</span>`;}
+      html+=`<tr${comp?' style="opacity:.55"':''}>
+        <td style="font-weight:500">${p.name}</td>
+        <td style="color:var(--text2)">${p.unit}</td>
+        <td>${p.boq.toLocaleString()}</td>
+        <td>${deliveredCell}</td>
+        <td>${remCell}</td>
+        <td>${reqCell}</td>
+        <td>${expCell}</td>
+        <td>${statusCell}</td>
+        ${editable?`<td>${comp?'':`<button class="sbtn" onclick="saveProc('${p.id}')">Save</button>`}</td>`:''}
       </tr>`;
     });
   });
   html+='</table>';
   document.getElementById('proc-content').innerHTML=html;
+}
+
+function toInputDate(d){
+  try{
+    const months={Jan:'01',Feb:'02',Mar:'03',Apr:'04',May:'05',Jun:'06',Jul:'07',Aug:'08',Sep:'09',Oct:'10',Nov:'11',Dec:'12'};
+    const p=d.split('-');
+    if(p.length!==3)return '';
+    return `20${p[2]}-${months[p[1]]||'01'}-${p[0].padStart(2,'0')}`;
+  }catch(e){return '';}
+}
+
+function fromInputDate(d){
+  try{
+    if(!d)return '';
+    const months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    const p=d.split('-');
+    if(p.length!==3)return d;
+    return `${p[2]}-${months[parseInt(p[1])-1]}-${p[0].slice(2)}`;
+  }catch(e){return d;}
 }
 
 // ════════════════════════════════════════════════════
@@ -787,7 +866,8 @@ function renderProc(){
 function toggleIssueAdd(){showIssueAdd=!showIssueAdd;renderIssues();}
 function addIssue(){
   const txt=document.getElementById('itxt').value.trim();if(!txt)return;
-  ISSUES.unshift({id:issueId++,text:txt,critical:document.getElementById('icit').value==='1',by:roleNames[identity],ts:now()});
+  const corr=document.getElementById('icorr').value.trim();
+  ISSUES.unshift({id:issueId++,text:txt,corrective:corr,critical:document.getElementById('icit').value==='1',by:roleNames[identity],ts:now()});
   showIssueAdd=false;notify('Issue added.');saveAll();renderIssues();
 }
 function askDeleteIssue(id){Object.keys(pendingIssueDelete).forEach(k=>pendingIssueDelete[k]=false);pendingIssueDelete[id]=true;renderIssues();}
@@ -826,6 +906,7 @@ function renderIssues(){
           <div style="flex:1">
             ${issue.critical?'<span class="ttag tag-crit" style="display:inline-block;margin-bottom:5px">🔴 Critical</span><br>':''}
             <div id="issue-text-${issue.id}" style="color:var(--text);line-height:1.5">${issue.text}</div>
+            ${issue.corrective?`<div style="margin-top:6px;padding:6px 10px;background:#f0fdf4;border-radius:8px;border-left:3px solid #16a34a"><div style="font-size:10px;font-weight:600;color:#15803d;text-transform:uppercase;letter-spacing:.05em;margin-bottom:2px">Corrective Action</div><div style="font-size:12px;color:#166534;line-height:1.5">${issue.corrective}</div></div>`:''}
             <div style="display:flex;gap:6px;margin-top:5px;flex-wrap:wrap">
               <span class="bdg own"><i class="ti ti-user" style="font-size:11px;vertical-align:-1px;margin-right:3px"></i>${issue.by}</span>
               <span class="bdg"><i class="ti ti-clock" style="font-size:11px;vertical-align:-1px;margin-right:3px"></i>${issue.ts}</span>
@@ -1335,10 +1416,13 @@ function renderSCurve(mode){
 }
 
 
+
+
 // ════════════════════════════════════════════════════
 // BOOT
 // ════════════════════════════════════════════════════
 loadAll();
+
 </script>
 </body>
 </html>
