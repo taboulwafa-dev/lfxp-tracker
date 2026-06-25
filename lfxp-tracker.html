@@ -35,9 +35,9 @@ body{background:linear-gradient(135deg,#e8f0fe 0%,#f1f5f9 50%,#e8f0fe 100%);min-
 .sync-status{font-size:11px;color:rgba(255,255,255,.75);display:flex;align-items:center}
 
 /* IDENTITY BAR */
-.identity-bar{padding:10px 1.5rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;flex-wrap:wrap;background:var(--bg2)}
+.identity-bar{padding:8px 1rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:6px;flex-wrap:wrap;background:var(--bg2)}
 .id-lbl{font-size:11px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.06em;flex-shrink:0}
-.id-btn{font-size:12px;padding:5px 13px;border-radius:20px;border:1.5px solid var(--border2);background:var(--bg);color:var(--text2);cursor:pointer;transition:all .15s;font-weight:500}
+.id-btn{font-size:11px;padding:4px 10px;border-radius:20px;border:1.5px solid var(--border2);background:var(--bg);color:var(--text2);cursor:pointer;transition:all .15s;font-weight:500}
 .id-btn:hover{background:var(--blue-bg);border-color:var(--blue);color:var(--blue)}
 .id-btn.active{background:var(--blue);color:#fff;border-color:var(--blue);box-shadow:0 2px 4px rgba(29,78,216,.3)}
 
@@ -49,8 +49,8 @@ body{background:linear-gradient(135deg,#e8f0fe 0%,#f1f5f9 50%,#e8f0fe 100%);min-
 .notif.show{display:flex}
 
 /* TABS */
-.tab-bar{display:flex;border-bottom:2px solid var(--border);background:var(--bg2);padding:0 1rem}
-.tab{font-size:13px;padding:.75rem 1.1rem;cursor:pointer;color:var(--text2);border-bottom:3px solid transparent;margin-bottom:-2px;transition:all .15s;font-weight:500;white-space:nowrap}
+.tab-bar{display:flex;border-bottom:2px solid var(--border);background:var(--bg2);padding:0 .5rem;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}.tab-bar::-webkit-scrollbar{display:none}
+.tab{font-size:12px;padding:.65rem .85rem;cursor:pointer;color:var(--text2);border-bottom:3px solid transparent;margin-bottom:-2px;transition:all .15s;font-weight:500;white-space:nowrap;flex-shrink:0}
 .tab:hover{color:var(--text);background:var(--bg3);border-radius:6px 6px 0 0}
 .tab.active{color:var(--blue);font-weight:700;border-bottom:3px solid var(--blue);background:var(--bg)}
 .summary{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding:1rem 1.5rem;border-bottom:1px solid var(--border);background:var(--bg2)}
@@ -125,7 +125,7 @@ textarea.inp{resize:vertical;min-height:50px}
 .psum-l{font-size:11px;color:var(--text2);margin-top:2px}
 .psum.done .psum-n{color:var(--green)}
 .psum.prog .psum-n{color:var(--blue)}
-.ptbl{width:100%;border-collapse:collapse}
+.ptbl{width:100%;border-collapse:collapse;min-width:580px}
 .ptbl th{font-size:11px;font-weight:600;color:var(--text2);padding:6px 8px;text-align:left;border-bottom:1px solid var(--border2);white-space:nowrap;background:var(--bg2);text-transform:uppercase;letter-spacing:.04em}
 .ptbl td{padding:6px 8px;border-bottom:1px solid var(--border);color:var(--text);vertical-align:middle}
 .ptbl tr:last-child td{border-bottom:none}
@@ -144,11 +144,64 @@ textarea.inp{resize:vertical;min-height:50px}
 .loading{display:flex;align-items:center;justify-content:center;padding:3rem;color:var(--text2);gap:10px;flex-direction:column}
 .spinner{width:28px;height:28px;border:3px solid var(--blue-mid);border-top-color:var(--blue);border-radius:50%;animation:spin .7s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
-@media(max-width:600px){
-  .summary{grid-template-columns:repeat(2,1fr)}
-  .proc-summary{grid-template-columns:repeat(2,1fr)}
-  body{padding:8px}
-  .hdr{flex-direction:column;align-items:flex-start}
+@media(max-width:700px){
+  /* Layout */
+  body{padding:6px}
+  .app{border-radius:10px}
+  .hdr{padding:.8rem 1rem;flex-direction:column;align-items:flex-start;gap:6px}
+  .hdr-title{font-size:15px}
+  .hdr-sub{font-size:10px}
+  .identity-bar{padding:7px .75rem;gap:5px}
+  .id-lbl{display:none}
+
+  /* Summary cards - 2 columns */
+  .summary{grid-template-columns:repeat(2,1fr);gap:8px;padding:.75rem 1rem}
+  .scard{padding:.7rem .75rem}
+  .scard-n{font-size:18px}
+  .scard-l{font-size:10px}
+
+  /* Proc summary */
+  .proc-summary{grid-template-columns:repeat(3,1fr);gap:6px}
+  .psum-n{font-size:17px}
+
+  /* View bar */
+  .view-bar{padding:6px .75rem;overflow-x:auto;-webkit-overflow-scrolling:touch;flex-wrap:nowrap;scrollbar-width:none}
+  .view-bar::-webkit-scrollbar{display:none}
+  .view-btn{flex-shrink:0;font-size:11px;padding:4px 9px}
+  .view-lbl{display:none}
+
+  /* Filters */
+  .filters{padding:6px .75rem;overflow-x:auto;-webkit-overflow-scrolling:touch;flex-wrap:nowrap;scrollbar-width:none}
+  .filters::-webkit-scrollbar{display:none}
+  .flt-btn{flex-shrink:0;font-size:11px;padding:4px 9px}
+
+  /* Tasks */
+  .tasks{padding:.75rem 1rem;gap:8px}
+  .task-hdr{padding:.7rem .85rem .6rem}
+  .task-body{padding:.75rem .85rem}
+
+  /* Proc table - horizontal scroll */
+  .proc-wrap{padding:.75rem 1rem}
+  .ptbl{min-width:580px}
+
+  /* Issues */
+  .issues-wrap{padding:.75rem 1rem}
+
+  /* Progress content */
+  #progress-content{padding:.75rem 1rem !important}
+
+  /* Progress cards - stack on mobile */
+  .prog-portion-grid{grid-template-columns:1fr !important}
+
+  /* Buttons smaller */
+  .btn{font-size:11px;padding:5px 10px}
+  .btn.pri{font-size:11px}
+
+  /* Header sync status */
+  .sync-status{font-size:10px}
+
+  /* Save bar */
+  .save-bar{font-size:10px;padding:3px 1rem}
 }
 </style>
 </head>
@@ -241,7 +294,7 @@ textarea.inp{resize:vertical;min-height:50px}
 // ════════════════════════════════════════════════════
 // CONFIGURATION — paste your deployed script URL here
 // ════════════════════════════════════════════════════
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyEsNGzWznqWq25GjBBUUvivLgD_HXLFbV53zJp6LpKfadSTaex3Kqo2f9KzkNYA1jRuA/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw962vtd5SUZ-WoA7ls0rcTI-mcQ5Dzf28w2W992W4IF5d0n-5InRqZfqLRBaLOLx9UiQ/exec';
 
 // ════════════════════════════════════════════════════
 // CONSTANTS
@@ -1079,7 +1132,7 @@ function buildProgressHTML(){
   </div>
 
   <!-- Top cards -->
-  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px">
+  <div class="prog-portion-grid" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px">
     ${overallCard}
     ${portionCard('5a',d.portion5a)}
     ${portionCard('5b',d.portion5b)}
