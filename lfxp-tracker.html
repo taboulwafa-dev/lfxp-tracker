@@ -6,60 +6,74 @@
 <title>SK1 Landfill Expansion — Action Tracker</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
 <style>
-*{box-sizing:border-box;margin:0;padding:0;font-size:13px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
+*{box-sizing:border-box;margin:0;padding:0;font-size:13px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}
 :root{
-  --bg:#ffffff;--bg2:#f8f9fa;--bg3:#f1f3f5;
-  --border:#dee2e6;--border2:#ced4da;
-  --text:#212529;--text2:#6c757d;--text3:#adb5bd;
-  --blue:#185FA5;--blue-bg:#e8f0fb;--blue-text:#185FA5;
-  --red:#A32D2D;--red-bg:#FCEBEB;
-  --green:#3B6D11;--green-bg:#EAF3DE;
-  --orange-bg:#FAEEDA;--orange-text:#633806;
-  --purple-bg:#EEEDFE;--purple-text:#3C3489;
-  --radius:6px;--radius-lg:8px;
+  --bg:#ffffff;--bg2:#f8fafc;--bg3:#f1f5f9;
+  --border:#e2e8f0;--border2:#cbd5e1;
+  --text:#0f172a;--text2:#64748b;--text3:#94a3b8;
+  --blue:#1d4ed8;--blue-dark:#1e3a8a;--blue-bg:#eff6ff;--blue-mid:#dbeafe;
+  --red:#b91c1c;--red-bg:#fef2f2;--red-mid:#fee2e2;
+  --green:#15803d;--green-bg:#f0fdf4;--green-mid:#dcfce7;
+  --orange-bg:#fffbeb;--orange-text:#92400e;
+  --purple-bg:#f5f3ff;--purple-text:#5b21b6;
+  --amber:#d97706;--amber-bg:#fffbeb;
+  --radius:8px;--radius-lg:12px;--radius-xl:16px;
+  --shadow:0 1px 3px rgba(0,0,0,.08),0 1px 2px rgba(0,0,0,.04);
+  --shadow-md:0 4px 6px rgba(0,0,0,.07),0 2px 4px rgba(0,0,0,.05);
 }
-body{background:#f0f2f5;min-height:100vh;padding:16px}
-.app{max-width:1100px;margin:0 auto;border:1px solid var(--border);border-radius:var(--radius-lg);background:var(--bg);box-shadow:0 1px 4px rgba(0,0,0,.06)}
-.hdr{padding:.9rem 1.25rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
-.hdr-title{font-size:16px;font-weight:600;color:var(--text)}
-.hdr-sub{font-size:12px;color:var(--text2);margin-top:2px}
-.sync-dot{width:8px;height:8px;border-radius:50%;background:#adb5bd;display:inline-block;margin-right:5px;transition:background .3s}
-.sync-dot.live{background:#3B6D11}
-.sync-dot.syncing{background:#f59f00}
-.sync-dot.error{background:#A32D2D}
-.identity-bar{padding:8px 1.25rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;flex-wrap:wrap;background:var(--bg2)}
-.id-lbl{font-size:12px;color:var(--text2);flex-shrink:0}
-.id-btn{font-size:12px;padding:4px 11px;border-radius:var(--radius);border:1px solid var(--border2);background:var(--bg);color:var(--text2);cursor:pointer;transition:all .15s}
-.id-btn:hover{background:var(--bg3)}
-.id-btn.active{background:var(--blue);color:#fff;border-color:var(--blue)}
-.save-bar{font-size:11px;color:var(--text2);padding:4px 1.25rem;text-align:right;border-bottom:1px solid var(--border);background:var(--bg2)}
-.notif{display:none;align-items:center;gap:8px;padding:7px 1.25rem;background:var(--green-bg);border-bottom:1px solid #b2d48c;font-size:13px;color:var(--green)}
+body{background:linear-gradient(135deg,#e8f0fe 0%,#f1f5f9 50%,#e8f0fe 100%);min-height:100vh;padding:20px}
+.app{max-width:1180px;margin:0 auto;border:1px solid var(--border);border-radius:var(--radius-xl);background:var(--bg);box-shadow:var(--shadow-md);overflow:hidden}
+
+/* HEADER */
+.hdr{background:linear-gradient(135deg,#1e3a8a 0%,#1d4ed8 60%,#2563eb 100%);padding:1.1rem 1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.hdr-title{font-size:17px;font-weight:700;color:#fff;letter-spacing:-.01em}
+.hdr-sub{font-size:11px;color:rgba(255,255,255,.65);margin-top:3px;font-weight:400;letter-spacing:.01em}
+.sync-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.4);display:inline-block;margin-right:5px;transition:background .3s}
+.sync-dot.live{background:#4ade80}
+.sync-dot.syncing{background:#fbbf24}
+.sync-dot.error{background:#f87171}
+.sync-status{font-size:11px;color:rgba(255,255,255,.75);display:flex;align-items:center}
+
+/* IDENTITY BAR */
+.identity-bar{padding:10px 1.5rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;flex-wrap:wrap;background:var(--bg2)}
+.id-lbl{font-size:11px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.06em;flex-shrink:0}
+.id-btn{font-size:12px;padding:5px 13px;border-radius:20px;border:1.5px solid var(--border2);background:var(--bg);color:var(--text2);cursor:pointer;transition:all .15s;font-weight:500}
+.id-btn:hover{background:var(--blue-bg);border-color:var(--blue);color:var(--blue)}
+.id-btn.active{background:var(--blue);color:#fff;border-color:var(--blue);box-shadow:0 2px 4px rgba(29,78,216,.3)}
+
+/* SAVE BAR */
+.save-bar{font-size:11px;color:var(--text3);padding:4px 1.5rem;text-align:right;border-bottom:1px solid var(--border);background:var(--bg2)}
+
+/* NOTIFICATION */
+.notif{display:none;align-items:center;gap:8px;padding:8px 1.5rem;background:var(--green-bg);border-bottom:1px solid var(--green-mid);font-size:13px;color:var(--green)}
 .notif.show{display:flex}
-.tab-bar{display:flex;border-bottom:1px solid var(--border)}
-.tab{font-size:13px;padding:.6rem 1.1rem;cursor:pointer;color:var(--text2);border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .15s}
-.tab:hover{color:var(--text)}
-.tab.active{color:var(--text);font-weight:500;border-bottom-color:var(--blue)}
-.summary{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:.9rem 1.25rem;border-bottom:1px solid var(--border)}
-.scard{background:var(--bg2);border-radius:var(--radius);padding:.6rem 1rem;text-align:center;border:1px solid var(--border)}
-.scard-n{font-size:20px;font-weight:600;color:var(--text)}
-.scard-l{font-size:11px;color:var(--text2);margin-top:2px}
+
+/* TABS */
+.tab-bar{display:flex;border-bottom:2px solid var(--border);background:var(--bg2);padding:0 1rem}
+.tab{font-size:13px;padding:.75rem 1.1rem;cursor:pointer;color:var(--text2);border-bottom:3px solid transparent;margin-bottom:-2px;transition:all .15s;font-weight:500;white-space:nowrap}
+.tab:hover{color:var(--text);background:var(--bg3);border-radius:6px 6px 0 0}
+.tab.active{color:var(--blue);font-weight:700;border-bottom:3px solid var(--blue);background:var(--bg)}
+.summary{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding:1rem 1.5rem;border-bottom:1px solid var(--border);background:var(--bg2)}
+.scard{background:#fff;border-radius:12px;padding:.85rem 1rem;text-align:center;border:1.5px solid #e2e8f0;box-shadow:0 2px 8px rgba(0,0,0,.07);transition:all .15s}.scard:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(0,0,0,.1)}
+.scard-n{font-size:22px;font-weight:700;color:var(--text);letter-spacing:-.02em}
+.scard-l{font-size:11px;color:var(--text2);margin-top:3px;font-weight:500;text-transform:uppercase;letter-spacing:.04em}
 .scard.crit .scard-n{color:var(--red)}
 .scard.open .scard-n{color:var(--blue)}
 .scard.done .scard-n{color:var(--green)}
-.view-bar{padding:8px 1.25rem;display:flex;gap:6px;align-items:center;flex-wrap:wrap;border-bottom:1px solid var(--border)}
+.view-bar{padding:8px 1.5rem;display:flex;gap:6px;align-items:center;flex-wrap:wrap;border-bottom:1px solid var(--border)}
 .view-lbl{font-size:12px;color:var(--text2);flex-shrink:0}
-.view-btn{font-size:12px;padding:4px 10px;border-radius:var(--radius);border:1px solid var(--border);background:var(--bg2);color:var(--text2);cursor:pointer;transition:all .15s}
+.view-btn{font-size:12px;padding:5px 12px;border-radius:20px;border:1.5px solid var(--border);background:var(--bg);color:var(--text2);cursor:pointer;transition:all .15s;font-weight:500}
 .view-btn:hover{background:var(--bg3)}
-.view-btn.on{background:var(--blue-bg);color:var(--blue-text);border-color:var(--blue)}
-.filters{padding:8px 1.25rem;display:flex;gap:6px;align-items:center;flex-wrap:wrap;border-bottom:1px solid var(--border)}
-.flt-btn{font-size:12px;padding:4px 9px;border-radius:var(--radius);border:1px solid var(--border);background:var(--bg2);color:var(--text2);cursor:pointer;transition:all .15s}
+.view-btn.on{background:var(--blue);color:#fff;border-color:var(--blue);box-shadow:0 2px 4px rgba(29,78,216,.2)}
+.filters{padding:8px 1.5rem;display:flex;gap:6px;align-items:center;flex-wrap:wrap;border-bottom:1px solid var(--border)}
+.flt-btn{font-size:12px;padding:5px 12px;border-radius:20px;border:1.5px solid var(--border);background:var(--bg);color:var(--text2);cursor:pointer;transition:all .15s;font-weight:500}
 .flt-btn:hover{background:var(--bg3)}
-.flt-btn.on{border-color:var(--border2);color:var(--text);background:var(--bg);font-weight:500}
-.tasks{padding:1rem 1.25rem;display:flex;flex-direction:column;gap:6px}
+.flt-btn.on{border-color:var(--blue-dark);color:var(--blue-dark);background:var(--blue-bg);font-weight:600}
+.tasks{padding:1rem 1.5rem;display:flex;flex-direction:column;gap:8px}
 .sec-lbl{font-size:11px;font-weight:600;color:var(--text2);letter-spacing:.06em;padding:6px 0 2px;text-transform:uppercase}
-.task{border:1px solid var(--border);border-radius:var(--radius-lg);background:var(--bg);overflow:hidden;transition:box-shadow .15s}
-.task:hover{box-shadow:0 1px 4px rgba(0,0,0,.06)}
-.task.critical{border-left:3px solid var(--red)}
+.task{border:1.5px solid #e2e8f0;border-radius:12px;background:#fff;overflow:hidden;transition:all .15s;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.task:hover{box-shadow:0 4px 12px rgba(0,0,0,.1);border-color:#94a3b8}
+.task.critical{border-left:4px solid #b91c1c;border-color:#fca5a5}
 .task.closed{opacity:.5}
 .task-hdr{display:flex;align-items:flex-start;gap:10px;padding:.8rem 1rem .65rem;cursor:pointer}
 .ttag{font-size:11px;font-weight:500;padding:3px 8px;border-radius:var(--radius);white-space:nowrap;flex-shrink:0;margin-top:1px}
@@ -77,36 +91,36 @@ body{background:#f0f2f5;min-height:100vh;padding:16px}
 .task-body{border-top:1px solid var(--border);padding:.85rem 1rem;display:none}
 .task-body.show{display:block}
 .slbl{font-size:11px;font-weight:600;color:var(--text2);margin-bottom:4px;text-transform:uppercase;letter-spacing:.04em}
-.no-update{font-size:13px;color:var(--text2);background:var(--bg2);border-radius:var(--radius);padding:7px 9px;line-height:1.5;margin-bottom:10px;font-style:italic;border:1px solid var(--border)}
+.no-update{font-size:13px;color:var(--text2);background:#f8fafc;border-radius:8px;padding:8px 10px;line-height:1.5;margin-bottom:10px;font-style:italic;border:1px solid #e2e8f0}
 .log-list{display:flex;flex-direction:column;gap:4px;margin-bottom:10px}
-.log-item{font-size:12px;color:var(--text2);padding:5px 8px;background:var(--bg2);border-radius:var(--radius);line-height:1.5;border:1px solid var(--border)}
+.log-item{font-size:12px;color:var(--text2);padding:6px 10px;background:#f8fafc;border-radius:8px;line-height:1.5;border:1px solid #e2e8f0}
 .log-item strong{color:var(--text);font-weight:500}
 .inp{font-size:13px;padding:6px 8px;border-radius:var(--radius);border:1px solid var(--border2);background:var(--bg);color:var(--text);font-family:inherit;width:100%;transition:box-shadow .15s}
 .inp:focus{outline:none;box-shadow:0 0 0 2px rgba(24,95,165,.2);border-color:var(--blue)}
 textarea.inp{resize:vertical;min-height:50px}
 .action-row{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap;align-items:center}
-.btn{font-size:12px;padding:5px 12px;border-radius:var(--radius);border:1px solid var(--border2);background:var(--bg);color:var(--text);cursor:pointer;font-family:inherit;transition:all .15s}
+.btn{font-size:12px;padding:6px 14px;border-radius:20px;border:1.5px solid var(--border2);background:var(--bg);color:var(--text);cursor:pointer;font-family:inherit;transition:all .15s;font-weight:500}
 .btn:hover{background:var(--bg2)}
-.btn.pri{background:var(--blue);color:#fff;border-color:var(--blue)}
-.btn.pri:hover{background:#0C447C}
+.btn.pri{background:var(--blue);color:#fff;border-color:var(--blue);box-shadow:0 2px 4px rgba(29,78,216,.25)}
+.btn.pri:hover{background:var(--blue-dark);box-shadow:0 3px 6px rgba(29,78,216,.35)}
 .btn.red{background:var(--red);color:#fff;border-color:var(--red)}
 .btn.red:hover{background:#791F1F}
 .btn.del{color:var(--red);border-color:#F7C1C1}
 .btn.del:hover{background:var(--red-bg)}
-.panel{margin:0 1.25rem 1rem;border:1px solid var(--border2);border-radius:var(--radius-lg);padding:1rem;display:none;flex-direction:column;gap:8px;background:var(--bg2)}
+.panel{margin:0 1.5rem 1rem;border:1px solid var(--border2);border-radius:var(--radius-lg);padding:1.1rem;display:none;flex-direction:column;gap:8px;background:var(--bg2);box-shadow:inset 0 1px 3px rgba(0,0,0,.04)}
 .panel.show{display:flex}
 .frow{display:flex;gap:8px;flex-wrap:wrap}
 .fg{display:flex;flex-direction:column;gap:4px;flex:1;min-width:110px}
 .fg label{font-size:11px;color:var(--text2);font-weight:500}
-.edit-box{background:var(--bg2);border-radius:var(--radius);padding:.85rem;margin-bottom:10px;display:flex;flex-direction:column;gap:8px;border:1px solid var(--border)}
+.edit-box{background:#f8fafc;border-radius:10px;padding:.9rem;margin-bottom:10px;display:flex;flex-direction:column;gap:8px;border:1.5px solid #dbeafe}
 .divider{height:1px;background:var(--border);margin:8px 0}
-.confirm-bar{display:flex;align-items:center;gap:8px;padding:7px 10px;background:var(--red-bg);border-radius:var(--radius);margin-top:8px;flex-wrap:wrap;border:1px solid #F7C1C1}
+.confirm-bar{display:flex;align-items:center;gap:8px;padding:8px 12px;background:#fef2f2;border-radius:10px;margin-top:8px;flex-wrap:wrap;border:1.5px solid #fca5a5}
 .confirm-bar span{color:var(--red);flex:1}
 .no-tasks{text-align:center;padding:2rem;color:var(--text2)}
-.proc-wrap{padding:1rem 1.25rem;overflow-x:auto}
-.proc-info{font-size:12px;color:var(--blue);background:var(--blue-bg);border-radius:var(--radius);padding:6px 10px;margin-bottom:10px;border:1px solid #b8d4f5}
+.proc-wrap{padding:1rem 1.5rem;overflow-x:auto}
+.proc-info{font-size:12px;color:#1d4ed8;background:#eff6ff;border-radius:8px;padding:8px 12px;margin-bottom:10px;border:1px solid #bfdbfe}
 .proc-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
-.psum{background:var(--bg2);border-radius:var(--radius);padding:.6rem 1rem;text-align:center;border:1px solid var(--border)}
+.psum{background:#fff;border-radius:12px;padding:.85rem 1rem;text-align:center;border:1.5px solid #e2e8f0;box-shadow:0 2px 8px rgba(0,0,0,.06);transition:transform .15s}.psum:hover{transform:translateY(-1px)}
 .psum-n{font-size:20px;font-weight:600;color:var(--text)}
 .psum-l{font-size:11px;color:var(--text2);margin-top:2px}
 .psum.done .psum-n{color:var(--green)}
@@ -121,14 +135,14 @@ textarea.inp{resize:vertical;min-height:50px}
 .sinp:focus{outline:none;box-shadow:0 0 0 2px rgba(24,95,165,.2);border-color:var(--blue)}
 .sbtn{font-size:11px;padding:3px 9px;border-radius:var(--radius);border:1px solid var(--blue);background:var(--blue);color:#fff;cursor:pointer;transition:background .15s}
 .sbtn:hover{background:#0C447C}
-.issues-wrap{padding:1rem 1.25rem;display:flex;flex-direction:column;gap:8px}
-.issue-card{border:1px solid var(--border);border-radius:var(--radius-lg);padding:.85rem 1rem;background:var(--bg);transition:box-shadow .15s}
+.issues-wrap{padding:1rem 1.5rem;display:flex;flex-direction:column;gap:10px}
+.issue-card{border:1.5px solid #e2e8f0;border-radius:12px;padding:.9rem 1rem;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.07);transition:all .15s}.issue-card:hover{box-shadow:0 4px 12px rgba(0,0,0,.1);border-color:#cbd5e1}
 .issue-card:hover{box-shadow:0 1px 4px rgba(0,0,0,.06)}
-.issue-card.crit{border-left:3px solid var(--red)}
+.issue-card.crit{border-left:4px solid #b91c1c;border-color:#fca5a5}
 .pw-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;z-index:1000}
-.pw-box{background:var(--bg);border-radius:var(--radius-lg);border:1px solid var(--border2);padding:1.5rem;width:280px;display:flex;flex-direction:column;gap:10px;box-shadow:0 8px 32px rgba(0,0,0,.15)}
+.pw-box{background:#fff;border-radius:16px;border:1.5px solid #e2e8f0;padding:1.75rem;width:300px;display:flex;flex-direction:column;gap:12px;box-shadow:0 20px 60px rgba(0,0,0,.2)}
 .loading{display:flex;align-items:center;justify-content:center;padding:3rem;color:var(--text2);gap:10px;flex-direction:column}
-.spinner{width:24px;height:24px;border:2px solid var(--border);border-top-color:var(--blue);border-radius:50%;animation:spin .7s linear infinite}
+.spinner{width:28px;height:28px;border:3px solid var(--blue-mid);border-top-color:var(--blue);border-radius:50%;animation:spin .7s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 @media(max-width:600px){
   .summary{grid-template-columns:repeat(2,1fr)}
@@ -143,12 +157,11 @@ textarea.inp{resize:vertical;min-height:50px}
 
   <div class="hdr">
     <div>
-      <div class="hdr-title">SK1 Landfill Expansion — Action Tracker</div>
-      <div class="hdr-sub">Contract 21056718 · KAK-LAMOR</div>
+      <div style="display:flex;align-items:center;gap:10px"><div style="width:36px;height:36px;border-radius:8px;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">🏗</div><div><div class="hdr-title">SK1 Landfill Expansion — Action Tracker</div><div class="hdr-sub">Contract 21056718 · KAK-LAMOR · South Kuwait Zone 1</div></div></div>
     </div>
-    <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text2)">
+    <div class="sync-status">
       <span class="sync-dot" id="sync-dot"></span>
-      <span id="sync-label">Connecting…</span>
+      <span id="sync-label">Connecting…</span></div><div style="display:none">
     </div>
   </div>
 
@@ -166,12 +179,13 @@ textarea.inp{resize:vertical;min-height:50px}
   <div class="notif" id="notif"><i class="ti ti-check"></i><span id="notif-txt"></span></div>
 
   <div class="tab-bar">
-    <div class="tab active" onclick="setTab('tasks')" id="tab-tasks">Action Items</div>
+    <div class="tab active" onclick="setTab('progress')" id="tab-progress">Progress Summary</div>
+    <div class="tab" onclick="setTab('tasks')" id="tab-tasks">Action Items</div>
     <div class="tab" onclick="setTab('proc')" id="tab-proc">Procurement Status</div>
     <div class="tab" onclick="setTab('issues')" id="tab-issues">Issues of Concern</div>
   </div>
 
-  <div id="pane-tasks">
+  <div id="pane-tasks" style="display:none">
     <div class="summary" id="summary"></div>
     <div class="view-bar">
       <span class="view-lbl">Viewing:</span>
@@ -219,6 +233,7 @@ textarea.inp{resize:vertical;min-height:50px}
 
   <div id="pane-proc" style="display:none"><div class="proc-wrap" id="proc-content"><div class="loading"><div class="spinner"></div></div></div></div>
   <div id="pane-issues" style="display:none"><div class="issues-wrap" id="issues-wrap"><div class="loading"><div class="spinner"></div></div></div></div>
+  <div id="pane-progress"><div id="progress-content" style="padding:1rem 1.5rem"></div></div>
 
 </div>
 
@@ -226,7 +241,7 @@ textarea.inp{resize:vertical;min-height:50px}
 // ════════════════════════════════════════════════════
 // CONFIGURATION — paste your deployed script URL here
 // ════════════════════════════════════════════════════
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyShvOETnWCogC816UHN_8F5cMeOlGaqAxo4fMEfCWvbGxgPOC475bdd8l9_CrfvjeKnw/exec';
+const SCRIPT_URL = 'PASTE_YOUR_SCRIPT_URL_HERE';
 
 // ════════════════════════════════════════════════════
 // CONSTANTS
@@ -360,6 +375,7 @@ async function loadAll(){
   render();
   if(currentTab==='proc')renderProc();
   if(currentTab==='issues')renderIssues();
+  renderProgress();
   startPolling();
 }
 
@@ -458,13 +474,16 @@ function setView(v){
 }
 function setTab(t){
   currentTab=t;
-  ['tasks','proc','issues'].forEach(x=>{
-    document.getElementById('pane-'+x).style.display=x===t?'block':'none';
-    document.getElementById('tab-'+x).classList.toggle('active',x===t);
+  ['progress','tasks','proc','issues'].forEach(x=>{
+    const p=document.getElementById('pane-'+x);
+    const tb=document.getElementById('tab-'+x);
+    if(p)p.style.display=x===t?'block':'none';
+    if(tb)tb.classList.toggle('active',x===t);
   });
   if(t==='tasks')render();
   else if(t==='proc')renderProc();
   else if(t==='issues')renderIssues();
+  else if(t==='progress')renderProgress();
 }
 function setFilter(f){
   filterMode=f;
@@ -770,6 +789,498 @@ function renderIssues(){
   }
   document.getElementById('issues-wrap').innerHTML=html;
 }
+
+
+
+
+// ════════════════════════════════════════════════════
+// PROGRESS SUMMARY
+// ════════════════════════════════════════════════════
+const PMS_WEEK = '19-Jun-26';
+const PMS_DATA = {
+  overall: {plan:54.7, actual:50.0, var:-4.7, start:'25-Jan-26', finish:'20-May-27'},
+  portion5a: {
+    label:'Portion 5A', subtitle:'Design, Supply & Construct',
+    plan:67.3, actual:61.5, var:-5.8, start:'25-Jan-26', finish:'20-May-27',
+    phases:{
+      engineering:   {label:'Engineering',   plan:88.2, actual:66.4, var:-21.8},
+      procurement:   {label:'Procurement',   plan:88.3, actual:81.6, var:-6.7},
+      construction:  {label:'Construction',  plan:57.7, actual:56.4, var:-1.3},
+      commissioning: {label:'Commissioning', plan:0.0,  actual:0.0,  var:0.0},
+    }
+  },
+  portion5b: {
+    label:'Portion 5B', subtitle:'Operation, Maintenance & Compaction',
+    plan:0.0, actual:0.0, var:0.0, start:'24-Aug-26', finish:'20-May-27',
+    phases:{
+      engineering:      {label:'Engineering',       plan:0.0, actual:0.0, var:0.0},
+      procurement:      {label:'Procurement',       plan:0.0, actual:0.0, var:0.0},
+      construction:     {label:'Construction',      plan:0.0, actual:0.0, var:0.0},
+      precommissioning: {label:'Pre-Commissioning', plan:0.0, actual:0.0, var:0.0},
+      commissioning:    {label:'Commissioning',     plan:0.0, actual:0.0, var:0.0},
+    }
+  }
+};
+
+const SCURVE_5A = [
+  {date:'29-May-26',plan:59.07,actual:54.66,wp:1.67,wa:1.68},
+  {date:'05-Jun-26',plan:62.88,actual:57.66,wp:3.81,wa:2.93},
+  {date:'12-Jun-26',plan:65.74,actual:60.59,wp:2.87,wa:2.81},
+  {date:'19-Jun-26',plan:67.2,actual:61.47,wp:1.46,wa:0.88},
+  {date:'26-Jun-26',plan:68.73,actual:null,wp:1.53,wa:null},
+  {date:'03-Jul-26',plan:70.07,actual:null,wp:1.34,wa:null},
+  {date:'10-Jul-26',plan:72.29,actual:null,wp:2.22,wa:null}
+];
+
+const PMS_ACTS_5A = [
+  {id:'S75A-D-EX-CIV-GN-220',name:"Approval of Overall Site Layout",phase:'engineering',plan:100.0,actual:100.0,var:0.0,weight:0.39,var_w:0.0,start:'17-Feb-26',finish:'04-Mar-26',behind:false},
+  {id:'S75A-D-EX-CIV-GN-260',name:"Issued for Construction ( Code A ) for Overall Site Layout",phase:'engineering',plan:100.0,actual:0.0,var:-100.0,weight:0.17,var_w:-0.17,start:'17-Feb-26',finish:'23-Feb-26',behind:true},
+  {id:'S75A-D-EX-CIV-GN-230',name:"Approval of General Site Arrangement - Start of Operations",phase:'engineering',plan:100.0,actual:100.0,var:0.0,weight:0.39,var_w:0.0,start:'24-Feb-26',finish:'11-Mar-26',behind:false},
+  {id:'S75A-D-EX-CIV-GN-240',name:"Approval of General Site Arrangement - End of Operations",phase:'engineering',plan:100.0,actual:100.0,var:0.0,weight:0.39,var_w:0.0,start:'24-Feb-26',finish:'11-Mar-26',behind:false},
+  {id:'S75A-D-EX-CIV-GN-270',name:"Issued for Construction ( Code A ) for General Site Arrangement - Start of Operations",phase:'engineering',plan:100.0,actual:100.0,var:0.0,weight:0.17,var_w:0.0,start:'12-Mar-26',finish:'18-Mar-26',behind:false},
+  {id:'S75A-D-EX-CIV-GN-280',name:"Issued for Construction ( Code A ) for General Site Arrangement - End of Operations",phase:'engineering',plan:100.0,actual:0.0,var:-100.0,weight:0.17,var_w:-0.17,start:'12-Mar-26',finish:'18-Mar-26',behind:true},
+  {id:'S75A-D-EX-CIV-EW-220',name:"Approval of Earthworks General Layout",phase:'engineering',plan:100.0,actual:100.0,var:0.0,weight:0.39,var_w:0.0,start:'08-Feb-26',finish:'',behind:false},
+  {id:'S75A-D-EX-CIV-EW-230',name:"Approval of Earthworks Cut & Fill Diagram",phase:'engineering',plan:100.0,actual:100.0,var:0.0,weight:0.39,var_w:0.0,start:'08-Feb-26',finish:'',behind:false},
+  {id:'S75A-D-EX-CIV-EW-240',name:"Approval of Earthworks Setting Out Levels",phase:'engineering',plan:100.0,actual:100.0,var:0.0,weight:0.39,var_w:0.0,start:'08-Feb-26',finish:'',behind:false},
+  {id:'S75A-D-EX-CIV-EW-270',name:"Issued for Construction ( Code A ) for Earthworks General Layout",phase:'engineering',plan:100.0,actual:0.0,var:-100.0,weight:0.17,var_w:-0.17,start:'14-Feb-26',finish:'19-Feb-26',behind:true},
+  {id:'S75A-D-EX-CIV-EW-280',name:"Issued for Construction ( Code A ) for Earthworks Cut & Fill Diagram",phase:'engineering',plan:100.0,actual:100.0,var:0.0,weight:0.17,var_w:0.0,start:'14-Feb-26',finish:'19-Feb-26',behind:false},
+  {id:'S75A-D-EX-CIV-EW-290',name:"Issued for Construction ( Code A ) for Earthworks Setting Out Levels",phase:'engineering',plan:100.0,actual:100.0,var:0.0,weight:0.17,var_w:0.0,start:'14-Feb-26',finish:'19-Feb-26',behind:false},
+  {id:'S75A-D-EX-CIV-EW-250',name:"Approval of Landfill Sections",phase:'engineering',plan:100.0,actual:50.0,var:-50.0,weight:0.39,var_w:-0.2,start:'22-Feb-26',finish:'09-Mar-26',behind:true},
+  {id:'S75A-D-EX-CIV-EW-300',name:"Issued for Construction ( Code A ) for Landfill Sections",phase:'engineering',plan:100.0,actual:0.0,var:-100.0,weight:0.17,var_w:-0.17,start:'10-Mar-26',finish:'16-Mar-26',behind:true},
+  {id:'S75A-D-EX-CIV-BL-160',name:"Approval of Basal Lining System General Layout",phase:'engineering',plan:100.0,actual:100.0,var:0.0,weight:0.39,var_w:0.0,start:'22-Feb-26',finish:'02-Mar-26',behind:false},
+  {id:'S75A-D-EX-CIV-BL-170',name:"Approval of Basal Lining System Details",phase:'engineering',plan:100.0,actual:100.0,var:0.0,weight:0.39,var_w:0.0,start:'22-Feb-26',finish:'02-Mar-26',behind:false},
+  {id:'S75A-D-EX-CIV-BL-180',name:"Issued for Construction ( Code A ) for Basal Lining System General Layout",phase:'engineering',plan:100.0,actual:0.0,var:-100.0,weight:0.17,var_w:-0.17,start:'03-Mar-26',finish:'09-Mar-26',behind:true},
+  {id:'S75A-D-EX-CIV-BL-190',name:"Issued for Construction ( Code A ) for Basal Lining System Details",phase:'engineering',plan:100.0,actual:0.0,var:-100.0,weight:0.17,var_w:-0.17,start:'03-Mar-26',finish:'09-Mar-26',behind:true},
+  {id:'S75A-D-EX-CIV-AR-160',name:"Approval of Access Ramps and Road General Layout",phase:'engineering',plan:100.0,actual:100.0,var:0.0,weight:0.39,var_w:0.0,start:'22-Feb-26',finish:'02-Mar-26',behind:false},
+  {id:'S75A-D-EX-CIV-AR-170',name:"Approval of Access Ramps and Road Details",phase:'engineering',plan:100.0,actual:100.0,var:0.0,weight:0.39,var_w:0.0,start:'22-Feb-26',finish:'02-Mar-26',behind:false},
+  {id:'S75A-D-EX-CIV-AR-180',name:"Issued for Construction ( Code A ) for Access Ramps and Road General Layout",phase:'engineering',plan:100.0,actual:0.0,var:-100.0,weight:0.17,var_w:-0.17,start:'03-Mar-26',finish:'09-Mar-26',behind:true},
+  {id:'S75A-D-EX-CIV-AR-190',name:"Issued for Construction ( Code A ) for Access Ramps and Road Details",phase:'engineering',plan:100.0,actual:100.0,var:0.0,weight:0.17,var_w:0.0,start:'03-Mar-26',finish:'09-Mar-26',behind:false},
+  {id:'S75A-D-EX-CIV-CP-160',name:"Approval of Capping Lining System General Layout",phase:'engineering',plan:100.0,actual:100.0,var:0.0,weight:0.39,var_w:0.0,start:'22-Feb-26',finish:'02-Mar-26',behind:false},
+  {id:'S75A-D-EX-CIV-CP-170',name:"Approval of Capping Lining System Details",phase:'engineering',plan:100.0,actual:100.0,var:0.0,weight:0.39,var_w:0.0,start:'22-Feb-26',finish:'02-Mar-26',behind:false},
+  {id:'S75A-D-EX-CIV-CP-180',name:"Issued for Construction ( Code A ) for Capping Lining System General Layout",phase:'engineering',plan:100.0,actual:0.0,var:-100.0,weight:0.17,var_w:-0.17,start:'03-Mar-26',finish:'09-Mar-26',behind:true},
+  {id:'S75A-D-EX-CIV-CP-190',name:"Issued for Construction ( Code A ) for Capping Lining System Details",phase:'engineering',plan:100.0,actual:100.0,var:0.0,weight:0.17,var_w:0.0,start:'03-Mar-26',finish:'09-Mar-26',behind:false},
+  {id:'S75A-D-EX-CIV-SE-190',name:"Approval of Capping Lining Landfill Sections - Final Capping Liner System (1)",phase:'engineering',plan:100.0,actual:100.0,var:0.0,weight:0.39,var_w:0.0,start:'22-Feb-26',finish:'02-Mar-26',behind:false},
+  {id:'S75A-D-EX-CIV-SE-200',name:"Approval of Capping Lining Landfill Sections - Final Capping Liner System (2)",phase:'engineering',plan:100.0,actual:100.0,var:0.0,weight:0.39,var_w:0.0,start:'22-Feb-26',finish:'02-Mar-26',behind:false},
+  {id:'S75A-D-EX-CIV-SE-210',name:"Approval of Landfill Section - Cell Perimeter Embankment (Bund Wall)",phase:'engineering',plan:100.0,actual:100.0,var:0.0,weight:0.39,var_w:0.0,start:'22-Feb-26',finish:'02-Mar-26',behind:false},
+  {id:'S75A-D-EX-CIV-SE-220',name:"Issued for Construction ( Code A ) for Landfill Sections - Final Capping Liner System (1)",phase:'engineering',plan:100.0,actual:0.0,var:-100.0,weight:0.17,var_w:-0.17,start:'03-Mar-26',finish:'09-Mar-26',behind:true},
+  {id:'S75A-D-EX-CIV-SE-230',name:"Issued for Construction ( Code A ) for Landfill Sections - Final Capping Liner System (2)",phase:'engineering',plan:100.0,actual:0.0,var:-100.0,weight:0.17,var_w:-0.17,start:'03-Mar-26',finish:'09-Mar-26',behind:true},
+  {id:'S75A-D-EX-CIV-SE-240',name:"Issued for Construction ( Code A ) for Landfill Section - Cell Perimeter Embankment (Bund Wall)",phase:'engineering',plan:100.0,actual:0.0,var:-100.0,weight:0.17,var_w:-0.17,start:'03-Mar-26',finish:'09-Mar-26',behind:true},
+  {id:'S75A-D-EX-MCH-CH-210',name:"Approval of Leachate Management General Layout",phase:'engineering',plan:100.0,actual:100.0,var:0.0,weight:0.39,var_w:0.0,start:'22-Feb-26',finish:'02-Mar-26',behind:false},
+  {id:'S75A-D-EX-MCH-CH-220',name:"Approval of Leachate Management System Details (1)",phase:'engineering',plan:100.0,actual:100.0,var:0.0,weight:0.39,var_w:0.0,start:'22-Feb-26',finish:'02-Mar-26',behind:false},
+  {id:'S75A-D-EX-MCH-CH-130',name:"Approval of Leachate Management System Details (2)",phase:'engineering',plan:100.0,actual:100.0,var:0.0,weight:0.39,var_w:0.0,start:'22-Feb-26',finish:'02-Mar-26',behind:false},
+  {id:'S75A-D-EX-MCH-CH-230',name:"Issued for Construction ( Code A ) for Leachate Management General Layout",phase:'engineering',plan:100.0,actual:0.0,var:-100.0,weight:0.17,var_w:-0.17,start:'03-Mar-26',finish:'09-Mar-26',behind:true},
+  {id:'S75A-D-EX-MCH-CH-240',name:"Issued for Construction ( Code A ) for Leachate Management System Details (1)",phase:'engineering',plan:100.0,actual:0.0,var:-100.0,weight:0.17,var_w:-0.17,start:'03-Mar-26',finish:'09-Mar-26',behind:true},
+  {id:'S75A-D-EX-MCH-CH-140',name:"Issued for Construction ( Code A ) for Leachate Management System Details (2)",phase:'engineering',plan:100.0,actual:100.0,var:0.0,weight:0.17,var_w:0.0,start:'03-Mar-26',finish:'09-Mar-26',behind:false},
+  {id:'S75A-D-EX-MCH-GV-160',name:"Approval of Gas Management System General Layout",phase:'engineering',plan:100.0,actual:100.0,var:0.0,weight:0.39,var_w:0.0,start:'22-Feb-26',finish:'02-Mar-26',behind:false},
+  {id:'S75A-D-EX-MCH-GV-170',name:"Approval of Gas Management System Details",phase:'engineering',plan:100.0,actual:100.0,var:0.0,weight:0.39,var_w:0.0,start:'22-Feb-26',finish:'02-Mar-26',behind:false},
+  {id:'S75A-D-EX-MCH-GV-180',name:"Issued for Construction ( Code A ) for Gas Management System General Layout",phase:'engineering',plan:100.0,actual:0.0,var:-100.0,weight:0.17,var_w:-0.17,start:'03-Mar-26',finish:'09-Mar-26',behind:true},
+  {id:'S75A-D-EX-MCH-GV-190',name:"Issued for Construction ( Code A ) for Gas Management System Details",phase:'engineering',plan:100.0,actual:100.0,var:0.0,weight:0.17,var_w:0.0,start:'03-Mar-26',finish:'09-Mar-26',behind:false},
+  {id:'S75A-D-EX-MCH-SW-160',name:"Approval of Storm Water Management General Layout",phase:'engineering',plan:100.0,actual:100.0,var:0.0,weight:0.39,var_w:0.0,start:'22-Feb-26',finish:'02-Mar-26',behind:false},
+  {id:'S75A-D-EX-MCH-SW-170',name:"Approval of Storm Water Management System Details",phase:'engineering',plan:100.0,actual:100.0,var:0.0,weight:0.39,var_w:0.0,start:'22-Feb-26',finish:'02-Mar-26',behind:false},
+  {id:'S75A-D-EX-MCH-SW-180',name:"Issued for Construction ( Code A ) for Storm Water Management General Layout",phase:'engineering',plan:100.0,actual:0.0,var:-100.0,weight:0.17,var_w:-0.17,start:'03-Mar-26',finish:'09-Mar-26',behind:true},
+  {id:'S75A-D-EX-MCH-SW-190',name:"Issued for Construction ( Code A ) for Storm Water Management System Details",phase:'engineering',plan:100.0,actual:0.0,var:-100.0,weight:0.17,var_w:-0.17,start:'03-Mar-26',finish:'09-Mar-26',behind:true},
+  {id:'S75A-D-EX-ENV-GN-160',name:"Approval of Environmental Monitoring System General Layout",phase:'engineering',plan:100.0,actual:100.0,var:0.0,weight:0.39,var_w:0.0,start:'22-Feb-26',finish:'02-Mar-26',behind:false},
+  {id:'S75A-D-EX-ENV-GN-170',name:"Approval of Environmental Monitoring System Details",phase:'engineering',plan:100.0,actual:100.0,var:0.0,weight:0.39,var_w:0.0,start:'22-Feb-26',finish:'02-Mar-26',behind:false},
+  {id:'S75A-D-EX-ENV-GN-180',name:"Issued for Construction ( Code A ) for Environmental Monitoring System General Layout",phase:'engineering',plan:100.0,actual:0.0,var:-100.0,weight:0.17,var_w:-0.17,start:'03-Mar-26',finish:'09-Mar-26',behind:true},
+  {id:'S75A-D-EX-ENV-GN-190',name:"Issued for Construction ( Code A ) for Environmental Monitoring System Details",phase:'engineering',plan:100.0,actual:0.0,var:-100.0,weight:0.17,var_w:-0.17,start:'03-Mar-26',finish:'09-Mar-26',behind:true},
+  {id:'S75A-D-EX-REP-DB-130',name:"Approval of Design Basis Report",phase:'engineering',plan:100.0,actual:0.0,var:-100.0,weight:0.5,var_w:-0.5,start:'29-Mar-26',finish:'02-Apr-26',behind:true},
+  {id:'S75A-D-EX-REP-SP-130',name:"Approval of CQA Plan",phase:'engineering',plan:100.0,actual:100.0,var:0.0,weight:0.5,var_w:0.0,start:'17-Mar-26',finish:'24-Mar-26',behind:false},
+  {id:'S75A-D-EX-REP-VA-130',name:"Approval of CQA Verification Report",phase:'engineering',plan:0.0,actual:0.0,var:0.0,weight:1.0,var_w:0.0,start:'17-Aug-26',finish:'23-Aug-26',behind:false},
+  {id:'S75A-D-EX-ASB-GN-130',name:"Approval of As Built Drawings For Landfill Base - First Stage",phase:'engineering',plan:0.0,actual:0.0,var:0.0,weight:1.0,var_w:0.0,start:'09-Aug-26',finish:'13-Aug-26',behind:false},
+  {id:'S75A-P-EX-CIV-GC-130',name:"Submission of RAM for Geosynthetic Clay Liner (GCL)",phase:'procurement',plan:100.0,actual:100.0,var:0.0,weight:0.51,var_w:0.0,start:'03-Mar-26',finish:'05-Mar-26',behind:false},
+  {id:'S75A-P-EX-CIV-GC-140',name:"Approval of RAM for Geosynthetic Clay Liner (GCL)",phase:'procurement',plan:100.0,actual:100.0,var:0.0,weight:0.51,var_w:0.0,start:'08-Mar-26',finish:'12-Mar-26',behind:false},
+  {id:'S75A-P-EX-CIV-GC-200',name:"Delivery at Site of Geosynthetic Clay Liner (GCL)",phase:'procurement',plan:100.0,actual:78.3,var:-21.7,weight:0.51,var_w:-0.11,start:'14-Mar-26',finish:'19-Mar-26',behind:true},
+  {id:'S75A-P-EX-CIV-GC-180',name:"Conformance Testing for Geosynthetic Clay Liner (GCL)",phase:'procurement',plan:100.0,actual:60.3,var:-39.7,weight:0.51,var_w:-0.2,start:'20-Mar-26',finish:'28-Apr-26',behind:true},
+  {id:'S75A-P-EX-CIV-GM-130',name:"Submission of RAM for Geomembrane liner",phase:'procurement',plan:100.0,actual:100.0,var:0.0,weight:0.51,var_w:0.0,start:'03-Mar-26',finish:'05-Mar-26',behind:false},
+  {id:'S75A-P-EX-CIV-GM-140',name:"Approval of RAM for Geomembrane liner",phase:'procurement',plan:100.0,actual:100.0,var:0.0,weight:0.51,var_w:0.0,start:'08-Mar-26',finish:'12-Mar-26',behind:false},
+  {id:'S75A-P-EX-CIV-GM-200',name:"Delivery at Site of Geomembrane liner",phase:'procurement',plan:100.0,actual:100.0,var:0.0,weight:0.51,var_w:0.0,start:'14-Mar-26',finish:'19-Mar-26',behind:false},
+  {id:'S75A-P-EX-CIV-GM-180',name:"Conformance Testing for Geomembrane liner",phase:'procurement',plan:100.0,actual:87.0,var:-13.0,weight:0.51,var_w:-0.07,start:'20-Mar-26',finish:'28-Apr-26',behind:true},
+  {id:'S75A-P-EX-CIV-DL-130',name:"Submission of RAM for Geocomposite Drainage Layer",phase:'procurement',plan:100.0,actual:100.0,var:0.0,weight:0.51,var_w:0.0,start:'14-Mar-26',finish:'19-Mar-26',behind:false},
+  {id:'S75A-P-EX-CIV-DL-140',name:"Approval of RAM for Geocomposite Drainage Layer",phase:'procurement',plan:100.0,actual:100.0,var:0.0,weight:0.51,var_w:0.0,start:'23-Mar-26',finish:'29-Mar-26',behind:false},
+  {id:'S75A-P-EX-CIV-DL-200',name:"Delivery at Site of Geocomposite Drainage Layer",phase:'procurement',plan:100.0,actual:52.4,var:-47.6,weight:0.51,var_w:-0.24,start:'30-Mar-26',finish:'12-Apr-26',behind:true},
+  {id:'S75A-P-EX-CIV-DL-180',name:"Conformance Testing for Geocomposite Drainage Layer",phase:'procurement',plan:100.0,actual:52.4,var:-47.6,weight:0.51,var_w:-0.24,start:'13-Apr-26',finish:'03-May-26',behind:true},
+  {id:'S75A-P-EX-CIV-GT-130',name:"Submission of RAM for Geotextile Separation Layer",phase:'procurement',plan:100.0,actual:100.0,var:0.0,weight:0.51,var_w:0.0,start:'30-Mar-26',finish:'05-Apr-26',behind:false},
+  {id:'S75A-P-EX-CIV-GT-140',name:"Approval of RAM for Geotextile Separation Layer",phase:'procurement',plan:100.0,actual:100.0,var:0.0,weight:0.51,var_w:0.0,start:'06-Apr-26',finish:'12-Apr-26',behind:false},
+  {id:'S75A-P-EX-CIV-GT-200',name:"Delivery at Site of Geotextile Separation Layer",phase:'procurement',plan:100.0,actual:100.0,var:0.0,weight:0.51,var_w:0.0,start:'13-Apr-26',finish:'26-Apr-26',behind:false},
+  {id:'S75A-P-EX-CIV-GT-180',name:"Conformance Testing for Geotextile Separation Layer",phase:'procurement',plan:100.0,actual:100.0,var:0.0,weight:0.51,var_w:0.0,start:'27-Apr-26',finish:'17-May-26',behind:false},
+  {id:'S75A-P-EX-CIV-FT-130',name:"Submission of RAM for Filter Geotextile",phase:'procurement',plan:100.0,actual:100.0,var:0.0,weight:0.51,var_w:0.0,start:'13-Apr-26',finish:'19-Apr-26',behind:false},
+  {id:'S75A-P-EX-CIV-FT-140',name:"Approval of RAM for Filter Geotextile",phase:'procurement',plan:100.0,actual:100.0,var:0.0,weight:0.51,var_w:0.0,start:'20-Apr-26',finish:'26-Apr-26',behind:false},
+  {id:'S75A-P-EX-CIV-FT-200',name:"Delivery at Site of Filter Geotextile",phase:'procurement',plan:100.0,actual:100.0,var:0.0,weight:0.51,var_w:0.0,start:'27-Apr-26',finish:'10-May-26',behind:false},
+  {id:'S75A-P-EX-CIV-FT-180',name:"Conformance Testing for Filter Geotextile",phase:'procurement',plan:100.0,actual:100.0,var:0.0,weight:0.51,var_w:0.0,start:'11-May-26',finish:'31-May-26',behind:false},
+  {id:'S75A-P-EX-CIV-GA-100',name:"Supply of Gatch for Bund Wall + SubGrade Layer",phase:'procurement',plan:82.9,actual:100.0,var:17.1,weight:1.77,var_w:0.3,start:'31-Jan-26',finish:'12-May-26',behind:false},
+  {id:'S75A-P-EX-CIV-SA-100',name:"Supply of Sand",phase:'procurement',plan:100.0,actual:72.1,var:-27.9,weight:0.25,var_w:-0.07,start:'12-May-26',finish:'26-May-26',behind:true},
+  {id:'S75A-P-EX-CIV-LD-100',name:"Supply of Drainage Aggregate",phase:'procurement',plan:100.0,actual:51.6,var:-48.4,weight:0.51,var_w:-0.25,start:'26-May-26',finish:'03-Jun-26',behind:true},
+  {id:'S75A-P-EX-STR-FG-130',name:"Submission of RAM for Galvanized Chain Link Fence Fabric, Posts, Fittings and Barbed Wires",phase:'procurement',plan:100.0,actual:100.0,var:0.0,weight:0.2,var_w:0.0,start:'18-May-26',finish:'30-May-26',behind:false},
+  {id:'S75A-P-EX-STR-FG-140',name:"Approval of RAM for Galvanized Chain Link Fence Fabric, Posts, Fittings and Barbed Wires",phase:'procurement',plan:100.0,actual:100.0,var:0.0,weight:0.2,var_w:0.0,start:'31-May-26',finish:'04-Jun-26',behind:false},
+  {id:'S75A-P-EX-STR-FG-190',name:"Delivery at Site of Galvanized Chain Link Fence Fabric, Posts and Barbed Wires",phase:'procurement',plan:42.3,actual:95.0,var:52.7,weight:0.41,var_w:0.22,start:'06-Jun-26',finish:'06-Jul-26',behind:false},
+  {id:'S75A-P-EX-STR-CB-130',name:"Submission of RAM for Pipe Crash Barriers",phase:'procurement',plan:100.0,actual:100.0,var:0.0,weight:0.08,var_w:0.0,start:'06-Jun-26',finish:'11-Jun-26',behind:false},
+  {id:'S75A-P-EX-STR-CB-140',name:"Approval of RAM for Pipe Crash Barriers",phase:'procurement',plan:80.0,actual:100.0,var:20.0,weight:0.08,var_w:0.02,start:'14-Jun-26',finish:'21-Jun-26',behind:false},
+  {id:'S75A-P-EX-STR-CB-190',name:"Delivery at Site of Pipe Crash Barriers",phase:'procurement',plan:0.0,actual:32.9,var:32.9,weight:0.16,var_w:0.05,start:'22-Jun-26',finish:'21-Jul-26',behind:false},
+  {id:'S75A-P-EX-STR-SH-130',name:"Submission of RAM for Structural Steel Shelters for Equipment",phase:'procurement',plan:100.0,actual:100.0,var:0.0,weight:0.04,var_w:0.0,start:'18-May-26',finish:'30-May-26',behind:false},
+  {id:'S75A-P-EX-STR-SH-140',name:"Approval of RAM for Structural Steel Shelters for Equipment",phase:'procurement',plan:100.0,actual:100.0,var:0.0,weight:0.04,var_w:0.0,start:'31-May-26',finish:'04-Jun-26',behind:false},
+  {id:'S75A-P-EX-STR-SH-190',name:"Delivery at Site of Structural Steel Shelters for Equipment",phase:'procurement',plan:42.3,actual:0.0,var:-42.3,weight:0.08,var_w:-0.03,start:'06-Jun-26',finish:'06-Jul-26',behind:true},
+  {id:'S75A-P-EX-STR-SB-130',name:"Submission of RAM for Caution Sign Boards",phase:'procurement',plan:100.0,actual:100.0,var:0.0,weight:0.04,var_w:0.0,start:'18-May-26',finish:'30-May-26',behind:false},
+  {id:'S75A-P-EX-STR-SB-140',name:"Approval of RAM for Caution Sign Boards",phase:'procurement',plan:100.0,actual:100.0,var:0.0,weight:0.04,var_w:0.0,start:'31-May-26',finish:'04-Jun-26',behind:false},
+  {id:'S75A-P-EX-STR-SB-190',name:"Delivery at Site of Caution Sign Boards",phase:'procurement',plan:42.3,actual:0.0,var:-42.3,weight:0.08,var_w:-0.03,start:'06-Jun-26',finish:'06-Jul-26',behind:true},
+  {id:'S75A-P-EX-STR-PT-130',name:"Submission of RAM for Platforms, Access Ladders and Miscellaneous",phase:'procurement',plan:100.0,actual:100.0,var:0.0,weight:0.04,var_w:0.0,start:'18-May-26',finish:'30-May-26',behind:false},
+  {id:'S75A-P-EX-STR-PT-140',name:"Approval of RAM for Platforms, Access Ladders and Miscellaneous",phase:'procurement',plan:100.0,actual:100.0,var:0.0,weight:0.04,var_w:0.0,start:'31-May-26',finish:'04-Jun-26',behind:false},
+  {id:'S75A-P-EX-STR-PT-190',name:"Delivery at Site of Platforms, Access Ladders and Miscellaneous",phase:'procurement',plan:42.3,actual:0.0,var:-42.3,weight:0.08,var_w:-0.03,start:'06-Jun-26',finish:'06-Jul-26',behind:true},
+  {id:'S75A-P-EX-MCH-CH-280',name:"Submission of RAM for Leachate Valves, Piping and Fittings",phase:'procurement',plan:100.0,actual:0.0,var:-100.0,weight:0.11,var_w:-0.11,start:'18-May-26',finish:'30-May-26',behind:true},
+  {id:'S75A-P-EX-MCH-CH-290',name:"Approval of RAM for Leachate Valves, Piping and Fittings",phase:'procurement',plan:100.0,actual:0.0,var:-100.0,weight:0.11,var_w:-0.11,start:'31-May-26',finish:'04-Jun-26',behind:true},
+  {id:'S75A-P-EX-MCH-CH-340',name:"Delivery at Site of Leachate Valves, Piping and Fittings",phase:'procurement',plan:75.0,actual:0.0,var:-75.0,weight:0.23,var_w:-0.17,start:'08-Jun-26',finish:'22-Jun-26',behind:true},
+  {id:'S75A-P-EX-MCH-PM-130',name:"Submission of RAM for Submersible Pump Package for Leachate",phase:'procurement',plan:100.0,actual:100.0,var:0.0,weight:0.34,var_w:0.0,start:'18-May-26',finish:'30-May-26',behind:false},
+  {id:'S75A-P-EX-MCH-PM-140',name:"Approval of RAM for Submersible Pump Package for Leachate",phase:'procurement',plan:100.0,actual:100.0,var:0.0,weight:0.34,var_w:0.0,start:'31-May-26',finish:'04-Jun-26',behind:false},
+  {id:'S75A-P-EX-MCH-PM-170',name:"Third Party Inspection for Submersible Pump Package for Leachate",phase:'procurement',plan:83.3,actual:100.0,var:16.7,weight:0.34,var_w:0.06,start:'13-Jun-26',finish:'20-Jun-26',behind:false},
+  {id:'S75A-P-EX-MCH-PM-190',name:"Delivery at Site of Submersible Pump Package for Leachate",phase:'procurement',plan:0.0,actual:0.0,var:0.0,weight:0.34,var_w:0.0,start:'21-Jun-26',finish:'04-Jul-26',behind:false},
+  {id:'S75A-P-EX-ELC-SV-130',name:"Submission of RAM for Solar photo-voltaic lighting",phase:'procurement',plan:100.0,actual:100.0,var:0.0,weight:0.2,var_w:0.0,start:'30-May-26',finish:'06-Jun-26',behind:false},
+  {id:'S75A-P-EX-ELC-SV-140',name:"Approval of RAM for Solar photo-voltaic lighting",phase:'procurement',plan:100.0,actual:100.0,var:0.0,weight:0.2,var_w:0.0,start:'07-Jun-26',finish:'11-Jun-26',behind:false},
+  {id:'S75A-P-EX-ELC-SV-160',name:"Third Party Inspection for Solar photo-voltaic lighting",phase:'procurement',plan:83.3,actual:0.0,var:-83.3,weight:0.2,var_w:-0.17,start:'13-Jun-26',finish:'20-Jun-26',behind:true},
+  {id:'S75A-P-EX-ELC-SV-190',name:"Delivery at Site of Solar photo-voltaic lighting",phase:'procurement',plan:0.0,actual:0.0,var:0.0,weight:0.2,var_w:0.0,start:'21-Jun-26',finish:'20-Jul-26',behind:false},
+  {id:'S75A-P-EX-ELC-ES-130',name:"Submission of RAM for Earthing System",phase:'procurement',plan:100.0,actual:100.0,var:0.0,weight:0.02,var_w:0.0,start:'30-May-26',finish:'06-Jun-26',behind:false},
+  {id:'S75A-P-EX-ELC-ES-140',name:"Approval of RAM for Earthing System",phase:'procurement',plan:100.0,actual:100.0,var:0.0,weight:0.02,var_w:0.0,start:'07-Jun-26',finish:'11-Jun-26',behind:false},
+  {id:'S75A-P-EX-ELC-ES-190',name:"Delivery at Site of Earthing System",phase:'procurement',plan:19.2,actual:100.0,var:80.8,weight:0.05,var_w:0.04,start:'13-Jun-26',finish:'13-Jul-26',behind:false},
+  {id:'S75A-P-EX-ELC-DG-130',name:"Submission of RAM for Diesel Generator Sets",phase:'procurement',plan:100.0,actual:100.0,var:0.0,weight:0.2,var_w:0.0,start:'06-Jun-26',finish:'13-Jun-26',behind:false},
+  {id:'S75A-P-EX-ELC-DG-140',name:"Approval of RAM for Diesel Generator Sets",phase:'procurement',plan:80.0,actual:100.0,var:20.0,weight:0.2,var_w:0.04,start:'14-Jun-26',finish:'21-Jun-26',behind:false},
+  {id:'S75A-P-EX-ELC-DG-160',name:"Third Party Inspection for Diesel Generator Sets",phase:'procurement',plan:0.0,actual:0.0,var:0.0,weight:0.2,var_w:0.0,start:'22-Jun-26',finish:'28-Jun-26',behind:false},
+  {id:'S75A-P-EX-ELC-DG-190',name:"Delivery at Site of Diesel Generator Sets",phase:'procurement',plan:0.0,actual:0.0,var:0.0,weight:0.2,var_w:0.0,start:'29-Jun-26',finish:'28-Jul-26',behind:false},
+  {id:'S75A-P-EX-ELC-CA-130',name:"Submission of RAM for Cables",phase:'procurement',plan:100.0,actual:100.0,var:0.0,weight:0.02,var_w:0.0,start:'18-May-26',finish:'30-May-26',behind:false},
+  {id:'S75A-P-EX-ELC-CA-140',name:"Approval of RAM for Cables",phase:'procurement',plan:100.0,actual:100.0,var:0.0,weight:0.02,var_w:0.0,start:'31-May-26',finish:'04-Jun-26',behind:false},
+  {id:'S75A-P-EX-ELC-CA-190',name:"Delivery at Site of Cables",phase:'procurement',plan:42.3,actual:100.0,var:57.7,weight:0.05,var_w:0.03,start:'06-Jun-26',finish:'06-Jul-26',behind:false},
+  {id:'S75A-P-EX-FST-FE-130',name:"Submission of RAM for Fire Extinguishers",phase:'procurement',plan:100.0,actual:0.0,var:-100.0,weight:0.05,var_w:-0.05,start:'18-May-26',finish:'30-May-26',behind:true},
+  {id:'S75A-P-EX-FST-FE-140',name:"Approval of RAM for Fire Extinguishers",phase:'procurement',plan:100.0,actual:0.0,var:-100.0,weight:0.05,var_w:-0.05,start:'31-May-26',finish:'04-Jun-26',behind:true},
+  {id:'S75A-P-EX-FST-FE-190',name:"Delivery at Site of Fire Extinguishers",phase:'procurement',plan:42.3,actual:0.0,var:-42.3,weight:0.09,var_w:-0.04,start:'06-Jun-26',finish:'06-Jul-26',behind:true},
+  {id:'S75A-C-EX-DRW-EL-100',name:"Submit & Approve of Earthing System Layout",phase:'construction',plan:38.1,actual:0.0,var:-38.1,weight:0.16,var_w:-0.06,start:'12-Jun-26',finish:'02-Jul-26',behind:true},
+  {id:'S75A-C-EX-DRW-EL-110',name:"Submit & Approve of Solar Panels Details Drawings",phase:'construction',plan:38.1,actual:0.0,var:-38.1,weight:0.16,var_w:-0.06,start:'12-Jun-26',finish:'02-Jul-26',behind:true},
+  {id:'S75A-C-EX-DRW-EL-120',name:"Issued for Construction (Code A) for Earthing System Layout",phase:'construction',plan:0.0,actual:0.0,var:0.0,weight:0.08,var_w:0.0,start:'03-Jul-26',finish:'16-Jul-26',behind:false},
+  {id:'S75A-C-EX-DRW-EL-130',name:"Issued for Construction (Code A) for Solar Panels Details Drawings",phase:'construction',plan:0.0,actual:0.0,var:0.0,weight:0.08,var_w:0.0,start:'03-Jul-26',finish:'16-Jul-26',behind:false},
+  {id:'S75A-C-EX-DRW-EL-140',name:"Submit & Approve AsBuilt for Earthing System Layout",phase:'construction',plan:0.0,actual:0.0,var:0.0,weight:0.08,var_w:0.0,start:'15-Sep-26',finish:'05-Oct-26',behind:false},
+  {id:'S75A-C-EX-DRW-EL-150',name:"Submit & Approve AsBuilt for Solar Panels Details Drawings",phase:'construction',plan:0.0,actual:0.0,var:0.0,weight:0.08,var_w:0.0,start:'24-Aug-26',finish:'13-Sep-26',behind:false},
+  {id:'S75A-C-EX-CIV-EW-260',name:"Site Clearing and grading",phase:'construction',plan:100.0,actual:100.0,var:0.0,weight:3.02,var_w:0.0,start:'25-Jan-26',finish:'',behind:false},
+  {id:'S75A-C-EX-CIV-EW-310',name:"Excavation to Formation Level for Landfill Cells",phase:'construction',plan:100.0,actual:100.0,var:0.0,weight:9.05,var_w:0.0,start:'25-Jan-26',finish:'',behind:false},
+  {id:'S75A-C-EX-CIV-EW-320',name:"Construction of Bund Walls",phase:'construction',plan:100.0,actual:100.0,var:0.0,weight:12.07,var_w:0.0,start:'14-Feb-26',finish:'18-May-26',behind:false},
+  {id:'S75A-C-EX-CIV-EW-330',name:"Grading and Leveling for Landfill Base and Forming of Slopes",phase:'construction',plan:100.0,actual:100.0,var:0.0,weight:2.31,var_w:0.0,start:'28-Mar-26',finish:'18-May-26',behind:false},
+  {id:'S75A-C-EX-CIV-EW-370',name:"Excavation of Anchor Trench for Base and Walls Liner System",phase:'construction',plan:100.0,actual:100.0,var:0.0,weight:0.45,var_w:0.0,start:'17-Mar-26',finish:'18-May-26',behind:false},
+  {id:'S75A-C-EX-CIV-EW-360',name:"Formation of Leachate Collection Sumps",phase:'construction',plan:100.0,actual:100.0,var:0.0,weight:0.41,var_w:0.0,start:'02-Apr-26',finish:'18-May-26',behind:false},
+  {id:'S75A-C-EX-CIV-EW-380',name:"Filling of Anchor Trench for Base and Walls Liner System",phase:'construction',plan:0.0,actual:0.0,var:0.0,weight:0.45,var_w:0.0,start:'26-Jul-26',finish:'08-Aug-26',behind:false},
+  {id:'S75A-C-EX-CIV-LN-100',name:"Laying of Subgrade Layer 500mm Compacted Gatch for Base and Side Slopes",phase:'construction',plan:100.0,actual:100.0,var:0.0,weight:4.99,var_w:0.0,start:'18-Mar-26',finish:'18-May-26',behind:false},
+  {id:'S75A-C-EX-CIV-LN-110',name:"Laying of Geosynthetic Clay Liner (G.C.L) Base and Side Slopes",phase:'construction',plan:100.0,actual:76.9,var:-23.1,weight:1.33,var_w:-0.31,start:'29-Apr-26',finish:'20-Jun-26',behind:true},
+  {id:'S75A-C-EX-CIV-LN-130',name:"Laying of Smooth HDPE Geomembrane Layer Thickness 2mm  for Base",phase:'construction',plan:100.0,actual:57.8,var:-42.2,weight:0.55,var_w:-0.23,start:'29-Apr-26',finish:'20-Jun-26',behind:true},
+  {id:'S75A-C-EX-CIV-LN-120',name:"Laying of Textured HDPE Geomembrane Layer Thickness 2mm for Side Slopes",phase:'construction',plan:100.0,actual:94.4,var:-5.6,weight:0.33,var_w:-0.02,start:'29-Apr-26',finish:'20-Jun-26',behind:true},
+  {id:'S75A-C-EX-CIV-LN-160',name:"Spreading of 250 mm Sand Protection layer for Base",phase:'construction',plan:55.0,actual:50.0,var:-5.0,weight:1.11,var_w:-0.06,start:'06-Jun-26',finish:'29-Jun-26',behind:true},
+  {id:'S75A-C-EX-CIV-LN-150',name:"Laying of Geocomposite Drainage Layer (GDL) for Side Slopes",phase:'construction',plan:0.0,actual:0.0,var:0.0,weight:0.55,var_w:0.0,start:'21-Jun-26',finish:'06-Jul-26',behind:false},
+  {id:'S75A-C-EX-CIV-LN-170',name:"Laying of Geotextile Separation Layer for Base and 1M on Side Slopes",phase:'construction',plan:0.0,actual:0.0,var:0.0,weight:0.28,var_w:0.0,start:'21-Jun-26',finish:'06-Jul-26',behind:false},
+  {id:'S75A-C-EX-CIV-LN-180',name:"Spreading of 300mm Drainage Layer (20mm Drainage Aggregate) for Base and Side Slopes",phase:'construction',plan:0.0,actual:0.0,var:0.0,weight:1.11,var_w:0.0,start:'05-Jul-26',finish:'25-Jul-26',behind:false},
+  {id:'S75A-C-EX-CIV-LN-200',name:"Spreading of Filter Geotextile for Base and Side Slopes",phase:'construction',plan:0.0,actual:0.0,var:0.0,weight:0.28,var_w:0.0,start:'26-Jul-26',finish:'08-Aug-26',behind:false},
+  {id:'S75A-C-EX-CIV-LN-210',name:"Spreading of 150mm Sand Protection Layer for Base and 200 mm for Side Slope",phase:'construction',plan:0.0,actual:0.0,var:0.0,weight:0.55,var_w:0.0,start:'26-Jul-26',finish:'',behind:false},
+  {id:'S75A-C-EX-CIV-CN-100',name:"Construction of Foundations for Lighting Poles",phase:'construction',plan:0.0,actual:0.0,var:0.0,weight:1.11,var_w:0.0,start:'04-Jul-26',finish:'02-Aug-26',behind:false},
+  {id:'S75A-C-EX-CIV-CN-120',name:"Construction of Slab for Leachate Riser",phase:'construction',plan:0.0,actual:0.0,var:0.0,weight:0.55,var_w:0.0,start:'09-Aug-26',finish:'22-Aug-26',behind:false},
+  {id:'S75A-C-EX-CIV-CN-110',name:"Construction of Foundations and Shelters for Equipments",phase:'construction',plan:0.0,actual:0.0,var:0.0,weight:0.55,var_w:0.0,start:'03-Aug-26',finish:'16-Aug-26',behind:false},
+  {id:'S75A-C-EX-CIV-ST-100',name:"Installation of Chain Link Fence and Gates",phase:'construction',plan:0.0,actual:95.0,var:95.0,weight:0.78,var_w:0.74,start:'07-Jul-26',finish:'05-Aug-26',behind:false},
+  {id:'S75A-C-EX-CIV-ST-130',name:"Installation of Crash Barriers",phase:'construction',plan:0.0,actual:0.0,var:0.0,weight:0.78,var_w:0.0,start:'22-Jul-26',finish:'20-Aug-26',behind:false},
+  {id:'S75A-C-EX-CIV-ST-110',name:"Installation of Caution Sigh Board",phase:'construction',plan:0.0,actual:0.0,var:0.0,weight:0.33,var_w:0.0,start:'06-Aug-26',finish:'06-Sep-26',behind:false},
+  {id:'S75A-C-EX-CIV-ST-120',name:"Construction of Platforms, Access Ladders",phase:'construction',plan:0.0,actual:0.0,var:0.0,weight:0.33,var_w:0.0,start:'23-Aug-26',finish:'06-Sep-26',behind:false},
+  {id:'S75A-C-EX-CIV-EW-340',name:"Filling for External Ramp",phase:'construction',plan:100.0,actual:0.0,var:-100.0,weight:0.3,var_w:-0.3,start:'18-May-26',finish:'06-Jun-26',behind:true},
+  {id:'S75A-C-EX-CIV-EW-350',name:"Filling For Internal Ramp",phase:'construction',plan:0.0,actual:0.0,var:0.0,weight:0.3,var_w:0.0,start:'09-Aug-26',finish:'17-Aug-26',behind:false},
+  {id:'S75A-C-EX-CIV-TM-120',name:"Construction of Gatch Access Road Around Landfill Area",phase:'construction',plan:100.0,actual:100.0,var:0.0,weight:0.44,var_w:0.0,start:'18-May-26',finish:'15-Jun-26',behind:false},
+  {id:'S75A-C-EX-MCH-CH-340',name:"Installation of Main Lechate Piping and Fittings",phase:'construction',plan:0.0,actual:0.0,var:0.0,weight:0.33,var_w:0.0,start:'05-Jul-26',finish:'25-Jul-26',behind:false},
+  {id:'S75A-C-EX-MCH-CH-350',name:"Installation of Secondary Lechate Piping and Fittings",phase:'construction',plan:0.0,actual:0.0,var:0.0,weight:2.22,var_w:0.0,start:'05-Jul-26',finish:'25-Jul-26',behind:false},
+  {id:'S75A-C-EX-MCH-CH-360',name:"Installation of Leachate Riser Pipe (Perforated part)",phase:'construction',plan:0.0,actual:0.0,var:0.0,weight:0.01,var_w:0.0,start:'02-Aug-26',finish:'08-Aug-26',behind:false},
+  {id:'S75A-C-EX-MCH-CH-370',name:"Installation of Leachate Riser Pipe (Non-Perforated part)",phase:'construction',plan:0.0,actual:0.0,var:0.0,weight:0.12,var_w:0.0,start:'02-Aug-26',finish:'08-Aug-26',behind:false},
+  {id:'S75A-C-EX-MCH-CH-400',name:"Installation of Leachate Pumping System",phase:'construction',plan:0.0,actual:0.0,var:0.0,weight:2.25,var_w:0.0,start:'23-Aug-26',finish:'06-Sep-26',behind:false},
+  {id:'S75A-C-EX-MCH-CH-390',name:"Extra Gravel Above Leachate Riser Pipes for Side Slopes",phase:'construction',plan:0.0,actual:0.0,var:0.0,weight:0.65,var_w:0.0,start:'02-Aug-26',finish:'08-Aug-26',behind:false},
+  {id:'S75A-C-EX-MCH-CH-410',name:"Installation of Leachate Check Pipe",phase:'construction',plan:0.0,actual:0.0,var:0.0,weight:0.13,var_w:0.0,start:'02-Aug-26',finish:'08-Aug-26',behind:false},
+  {id:'S75A-C-EX-MCH-SW-200',name:"Construction of Culvert under Access Ramp",phase:'construction',plan:100.0,actual:0.0,var:-100.0,weight:0.57,var_w:-0.57,start:'04-May-26',finish:'18-May-26',behind:true},
+  {id:'S75A-C-EX-MCH-SW-210',name:"Construction of Drainage Open Channels",phase:'construction',plan:0.0,actual:0.0,var:0.0,weight:0.57,var_w:0.0,start:'30-Jun-26',finish:'14-Jul-26',behind:false},
+  {id:'S75A-C-EX-MCH-SW-220',name:"Installation of Concrete for Open Channels",phase:'construction',plan:0.0,actual:0.0,var:0.0,weight:1.71,var_w:0.0,start:'14-Jul-26',finish:'04-Aug-26',behind:false},
+  {id:'S75A-C-EX-MCH-SW-230',name:"Construction of Soak Away Pits and Fence",phase:'construction',plan:0.0,actual:0.0,var:0.0,weight:1.14,var_w:0.0,start:'14-Jul-26',finish:'01-Aug-26',behind:false},
+  {id:'S75A-C-EX-MCH-SW-240',name:"Installation of Concrete for Soak Away Pits",phase:'construction',plan:0.0,actual:0.0,var:0.0,weight:1.71,var_w:0.0,start:'04-Aug-26',finish:'16-Aug-26',behind:false},
+  {id:'S75A-C-EX-ELC-GN-100',name:"Installation of Electrical Cables",phase:'construction',plan:0.0,actual:0.0,var:0.0,weight:0.32,var_w:0.0,start:'07-Sep-26',finish:'20-Sep-26',behind:false},
+  {id:'S75A-C-EX-ELC-GN-120',name:"Install Grounding System",phase:'construction',plan:0.0,actual:0.0,var:0.0,weight:0.63,var_w:0.0,start:'01-Sep-26',finish:'14-Sep-26',behind:false},
+  {id:'S75A-C-EX-ELC-GN-110',name:"Installation of Power Distribution Panels",phase:'construction',plan:0.0,actual:0.0,var:0.0,weight:0.32,var_w:0.0,start:'07-Sep-26',finish:'20-Sep-26',behind:false},
+  {id:'S75A-C-EX-ELC-GN-130',name:"Install Solar Photo-Voltaic (PV) Landfill Lighting",phase:'construction',plan:0.0,actual:0.0,var:0.0,weight:1.27,var_w:0.0,start:'03-Aug-26',finish:'23-Aug-26',behind:false},
+  {id:'S75A-C-EX-ELC-GN-140',name:"Fixation of Lighting Poles",phase:'construction',plan:0.0,actual:0.0,var:0.0,weight:0.32,var_w:0.0,start:'03-Aug-26',finish:'23-Aug-26',behind:false},
+  {id:'S75A-C-EX-ELC-GN-150',name:"Installation of Diesel Generators",phase:'construction',plan:0.0,actual:0.0,var:0.0,weight:3.17,var_w:0.0,start:'17-Aug-26',finish:'31-Aug-26',behind:false},
+  {id:'S75A-C-EX-ELC-GN-160',name:"Connection and Termination of Cables",phase:'construction',plan:0.0,actual:0.0,var:0.0,weight:0.32,var_w:0.0,start:'14-Sep-26',finish:'20-Sep-26',behind:false},
+  {id:'S75A-C-EX-FST-FE-190',name:"Installation of Manual Fire Extinguishers 9kg",phase:'construction',plan:0.0,actual:0.0,var:0.0,weight:0.32,var_w:0.0,start:'14-Sep-26',finish:'20-Sep-26',behind:false},
+  {id:'S75A-C-EX-FST-FE-200',name:"Installation of Manual Fire Extinguishers - 63kg",phase:'construction',plan:0.0,actual:0.0,var:0.0,weight:0.32,var_w:0.0,start:'14-Sep-26',finish:'20-Sep-26',behind:false},
+  {id:'S75A-T-EX-GNR-GN-340',name:"Testing of The New Landfill Cells",phase:'commissioning',plan:0.0,actual:0.0,var:0.0,weight:2.01,var_w:0.0,start:'21-Sep-26',finish:'27-Sep-26',behind:false}
+];
+
+let progActivePortion = null;
+let progPhaseOpen = {};
+let progChartInst = null;
+
+function renderProgress(){
+  document.getElementById('progress-content').innerHTML = buildProgressHTML();
+  setTimeout(()=>{
+    renderProgActivities();
+    renderSCurve('overall');
+  },50);
+}
+
+function varBadge(v,sm){
+  const bg=v<0?'#FCEBEB':v>0?'#EAF3DE':'var(--color-background-secondary)';
+  const col=v<0?'#A32D2D':v>0?'#3B6D11':'var(--color-text-secondary)';
+  const sz=sm?'10px':'11px';
+  return `<span style="font-size:${sz};font-weight:500;padding:2px 7px;border-radius:var(--border-radius-md);background:${bg};color:${col};white-space:nowrap">${v>0?'+':''}${v}%</span>`;
+}
+
+function dualBar(plan,actual){
+  return `
+  <div style="display:flex;align-items:center;gap:5px;margin-bottom:3px">
+    <span style="font-size:10px;color:var(--color-text-secondary);width:40px;flex-shrink:0">Planned</span>
+    <div style="flex:1;height:5px;background:var(--color-border-tertiary);border-radius:3px;overflow:hidden"><div style="height:100%;width:${Math.min(plan,100)}%;background:#185FA5;border-radius:3px;transition:width .4s"></div></div>
+    <span style="font-size:10px;font-weight:500;color:#185FA5;width:32px;text-align:right">${plan}%</span>
+  </div>
+  <div style="display:flex;align-items:center;gap:5px">
+    <span style="font-size:10px;color:var(--color-text-secondary);width:40px;flex-shrink:0">Actual</span>
+    <div style="flex:1;height:5px;background:var(--color-border-tertiary);border-radius:3px;overflow:hidden"><div style="height:100%;width:${Math.min(actual,100)}%;background:#3B6D11;border-radius:3px;transition:width .4s"></div></div>
+    <span style="font-size:10px;font-weight:500;color:#3B6D11;width:32px;text-align:right">${actual}%</span>
+  </div>`;
+}
+
+function buildProgressHTML(){
+  const d=PMS_DATA, ov=d.overall;
+  const isOverall = progActivePortion===null;
+  const is5a = progActivePortion==='5a';
+  const is5b = progActivePortion==='5b';
+
+  const overallCard=`
+  <div onclick="selectPortion(null)" style="border:2px solid ${isOverall?'#185FA5':'#e2e8f0'};border-radius:12px;padding:1rem 1.1rem;cursor:pointer;background:${isOverall?'#eff6ff':'#fff'};box-shadow:${isOverall?'0 4px 12px rgba(29,78,216,.15)':'0 2px 8px rgba(0,0,0,.08)'};transition:all .2s">
+    <div style="font-size:11px;font-weight:600;color:${isOverall?'#185FA5':'var(--color-text-secondary)'};text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px">Overall Project</div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:4px;text-align:center;margin-bottom:8px">
+      <div><div style="font-size:18px;font-weight:600;color:#185FA5">${ov.plan}%</div><div style="font-size:10px;color:var(--color-text-secondary)">Planned</div></div>
+      <div><div style="font-size:18px;font-weight:600;color:#3B6D11">${ov.actual}%</div><div style="font-size:10px;color:var(--color-text-secondary)">Actual</div></div>
+      <div><div style="font-size:18px;font-weight:600;color:#A32D2D">${ov.var}%</div><div style="font-size:10px;color:var(--color-text-secondary)">Variance</div></div>
+    </div>
+  </div>`;
+
+  const portionCard=(key,p)=>{
+    const active=progActivePortion===key;
+    const notStarted=p.plan===0&&p.actual===0;
+    return `<div onclick="selectPortion('${key}')" style="border:2px solid ${active?'#185FA5':'#e2e8f0'};border-radius:12px;padding:1rem 1.1rem;cursor:pointer;background:${active?'#eff6ff':'#fff'};box-shadow:${active?'0 4px 12px rgba(29,78,216,.15)':'0 2px 8px rgba(0,0,0,.08)'};transition:all .2s">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:2px">
+        <span style="font-size:14px;font-weight:600;color:${active?'#185FA5':'var(--color-text-primary)'}">${p.label}</span>
+        ${varBadge(p.var)}
+      </div>
+      <div style="font-size:11px;color:var(--color-text-secondary);margin-bottom:8px">${p.subtitle}</div>
+      ${notStarted?`<div style="font-size:12px;color:var(--color-text-secondary);font-style:italic;padding:4px 0">Not started — planned from ${p.start}</div>`:dualBar(p.plan,p.actual)}
+      <div style="font-size:11px;margin-top:6px;color:${active?'#185FA5':'var(--color-text-secondary)'}">${active?'▼ Viewing details':'Click for details →'}</div>
+    </div>`;
+  };
+
+  return `
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px">
+    <div style="font-size:12px;color:var(--color-text-secondary)">Week ending: <strong style="color:var(--color-text-primary)">${PMS_WEEK}</strong> &nbsp;·&nbsp; PMS_LANDFILL_19-JUN-2026</div>
+    <div style="display:flex;gap:10px;align-items:center;font-size:12px;color:var(--color-text-secondary)">
+      <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:2px;background:#185FA5;display:inline-block"></span>Planned</span>
+      <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:2px;background:#3B6D11;display:inline-block"></span>Actual</span>
+    </div>
+  </div>
+
+  <!-- Top cards -->
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px">
+    ${overallCard}
+    ${portionCard('5a',d.portion5a)}
+    ${portionCard('5b',d.portion5b)}
+  </div>
+
+  <!-- Portion phase detail (shown when 5A or 5B selected) -->
+  <div id="portion-detail" style="${progActivePortion?'':'display:none'}"></div>
+
+  <!-- S-Curve -->
+  <div style="background:#fff;border:1.5px solid #e2e8f0;border-radius:12px;padding:1rem;margin-bottom:14px;box-shadow:0 2px 10px rgba(0,0,0,.07)">
+    <div style="font-size:12px;font-weight:600;color:var(--color-text-primary);margin-bottom:10px" id="scurve-lbl">S-Curve — Overall Project (Cumulative %)</div>
+    <div style="position:relative;width:100%;height:200px"><canvas id="prog-scurve"></canvas></div>
+  </div>
+
+  <!-- Activities -->
+  <div id="prog-acts-section"></div>`;
+}
+
+function selectPortion(key){
+  progActivePortion=key;
+  progPhaseOpen={};
+  const d=document.getElementById('progress-content');
+  if(d) d.innerHTML=buildProgressHTML();
+  setTimeout(()=>{
+    renderPortionDetail();
+    renderProgActivities();
+    const mode = key===null?'overall':key;
+    renderSCurve(mode);
+  },50);
+}
+
+function renderPortionDetail(){
+  const el=document.getElementById('portion-detail');
+  if(!el||!progActivePortion)return;
+  const p=PMS_DATA[`portion${progActivePortion}`];
+  const acts=PMS_ACTS_5A.filter(a=>a.behind&&a.phase!=='commissioning');
+  const is5b=progActivePortion==='5b';
+
+  if(is5b){
+    el.style.display='block';
+    el.innerHTML=`<div style="background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1rem;margin-bottom:14px;text-align:center">
+      <div style="font-size:13px;color:var(--color-text-secondary);font-style:italic">Portion 5B has not started yet. Planned start: ${p.start}</div>
+    </div>`;
+    return;
+  }
+
+  const phaseRows=Object.entries(p.phases).map(([key,ph])=>{
+    const phActs=acts.filter(a=>a.phase===key);
+    const isOpen=!!progPhaseOpen[key];
+    const behind=phActs.length;
+    return `
+    <div style="border-bottom:0.5px solid var(--color-border-tertiary)">
+      <div onclick="togglePhase('${key}')" style="display:flex;align-items:center;gap:10px;padding:10px 14px;cursor:pointer;background:${isOpen?'#eff6ff':'#fff'};transition:background .15s">
+        <div style="flex:1">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
+            <span style="font-size:13px;font-weight:500;color:var(--color-text-primary)">${ph.label}</span>
+            ${behind>0?`<span style="font-size:11px;padding:2px 6px;border-radius:var(--border-radius-md);background:#FCEBEB;color:#A32D2D;font-weight:500">${behind} behind</span>`:'<span style="font-size:11px;padding:2px 6px;border-radius:var(--border-radius-md);background:#EAF3DE;color:#3B6D11">On track</span>'}
+          </div>
+          <div style="display:flex;align-items:center;gap:12px">
+            <span style="font-size:11px;color:var(--color-text-secondary)">Plan <strong style="color:#185FA5">${ph.plan}%</strong></span>
+            <span style="font-size:11px;color:var(--color-text-secondary)">Actual <strong style="color:#3B6D11">${ph.actual}%</strong></span>
+            ${varBadge(ph.var,true)}
+          </div>
+        </div>
+        <div style="width:90px">
+          <div style="height:4px;background:var(--color-border-tertiary);border-radius:2px;overflow:hidden;margin-bottom:3px"><div style="height:100%;width:${Math.min(ph.plan,100)}%;background:#185FA5;border-radius:2px"></div></div>
+          <div style="height:4px;background:var(--color-border-tertiary);border-radius:2px;overflow:hidden"><div style="height:100%;width:${Math.min(ph.actual,100)}%;background:#3B6D11;border-radius:2px"></div></div>
+        </div>
+        <span style="font-size:13px;color:var(--color-text-secondary);width:16px;text-align:center">${isOpen?'▲':'▼'}</span>
+      </div>
+      ${isOpen?renderPhaseTable(phActs):''}
+    </div>`;
+  }).join('');
+
+  el.style.display='block';
+  el.innerHTML=`<div style="background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);overflow:hidden;margin-bottom:14px">
+    <div style="padding:.8rem 1.1rem;background:#eff6ff;border-bottom:1.5px solid #dbeafe;display:flex;align-items:center;justify-content:space-between">
+      <span style="font-size:13px;font-weight:600;color:var(--color-text-info)">${p.label} — Phase Breakdown</span>
+      <span style="font-size:11px;color:var(--color-text-secondary)">Click phase to expand activities</span>
+    </div>
+    ${phaseRows}
+  </div>`;
+}
+
+function renderPhaseTable(acts){
+  if(!acts.length) return `<div style="padding:.75rem 1rem;font-size:12px;color:var(--color-text-secondary);font-style:italic;background:var(--color-background-secondary)">No activities behind schedule in this phase.</div>`;
+  // Sort by var_w ascending (most negative first)
+  const sorted=[...acts].sort((a,b)=>a.var_w-b.var_w);
+  const rows=sorted.map(a=>`<tr>
+    
+    <td style="font-size:12px;padding:5px 8px;border-bottom:0.5px solid var(--color-border-tertiary);color:var(--color-text-primary)">${a.name}</td>
+    <td style="font-size:12px;padding:5px 8px;border-bottom:0.5px solid var(--color-border-tertiary);text-align:center">${a.plan}%</td>
+    <td style="font-size:12px;padding:5px 8px;border-bottom:0.5px solid var(--color-border-tertiary);text-align:center">${a.actual}%</td>
+    <td style="font-size:12px;padding:5px 8px;border-bottom:0.5px solid var(--color-border-tertiary);text-align:center;font-weight:600;color:#A32D2D">${a.var}%</td>
+    <td style="font-size:12px;padding:5px 8px;border-bottom:0.5px solid var(--color-border-tertiary);text-align:center;color:var(--color-text-secondary)">${a.weight}%</td>
+    <td style="font-size:12px;padding:5px 8px;border-bottom:0.5px solid var(--color-border-tertiary);text-align:center;font-weight:600;color:#A32D2D">${a.var_w}%</td>
+    <td style="font-size:11px;padding:5px 8px;border-bottom:0.5px solid var(--color-border-tertiary);color:var(--color-text-secondary);white-space:nowrap">${a.start}</td>
+    <td style="font-size:11px;padding:5px 8px;border-bottom:0.5px solid var(--color-border-tertiary);color:var(--color-text-secondary);white-space:nowrap">${a.finish}</td>
+  </tr>`).join('');
+  return `<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;min-width:750px">
+    <thead><tr style="background:var(--color-background-secondary)">
+      
+      <th style="font-size:10px;font-weight:600;color:var(--color-text-secondary);padding:5px 8px;text-align:left;border-bottom:0.5px solid var(--color-border-secondary);text-transform:uppercase;letter-spacing:.04em">Description</th>
+      <th style="font-size:10px;font-weight:600;color:var(--color-text-secondary);padding:5px 8px;text-align:center;border-bottom:0.5px solid var(--color-border-secondary);text-transform:uppercase;letter-spacing:.04em">Plan%</th>
+      <th style="font-size:10px;font-weight:600;color:var(--color-text-secondary);padding:5px 8px;text-align:center;border-bottom:0.5px solid var(--color-border-secondary);text-transform:uppercase;letter-spacing:.04em">Act%</th>
+      <th style="font-size:10px;font-weight:600;color:var(--color-text-secondary);padding:5px 8px;text-align:center;border-bottom:0.5px solid var(--color-border-secondary);text-transform:uppercase;letter-spacing:.04em;color:#A32D2D">Var%</th>
+      <th style="font-size:10px;font-weight:600;color:var(--color-text-secondary);padding:5px 8px;text-align:center;border-bottom:0.5px solid var(--color-border-secondary);text-transform:uppercase;letter-spacing:.04em">Weight%</th>
+      <th style="font-size:10px;font-weight:600;color:var(--color-text-secondary);padding:5px 8px;text-align:center;border-bottom:0.5px solid var(--color-border-secondary);text-transform:uppercase;letter-spacing:.04em;color:#A32D2D">Var×W%</th>
+      <th style="font-size:10px;font-weight:600;color:var(--color-text-secondary);padding:5px 8px;text-align:left;border-bottom:0.5px solid var(--color-border-secondary);text-transform:uppercase;letter-spacing:.04em">Start</th>
+      <th style="font-size:10px;font-weight:600;color:var(--color-text-secondary);padding:5px 8px;text-align:left;border-bottom:0.5px solid var(--color-border-secondary);text-transform:uppercase;letter-spacing:.04em">Finish</th>
+    </tr></thead>
+    <tbody>${rows}</tbody>
+  </table></div>`;
+}
+
+function togglePhase(key){
+  progPhaseOpen[key]=!progPhaseOpen[key];
+  renderPortionDetail();
+}
+
+function renderProgActivities(){
+  const el=document.getElementById('prog-acts-section');
+  if(!el)return;
+  if(!progActivePortion){
+    el.innerHTML=`<div style="text-align:center;padding:1rem;font-size:12px;color:var(--color-text-secondary);font-style:italic">Select a portion above to see phase details and activities.</div>`;
+  }
+}
+
+function renderSCurve(mode){
+  const canvas=document.getElementById('prog-scurve');
+  if(!canvas)return;
+  if(progChartInst){progChartInst.destroy();progChartInst=null;}
+
+  const lbl=document.getElementById('scurve-lbl');
+
+  if(mode==='5b'){
+    if(lbl){lbl.textContent='S-Curve — Portion 5B (Not started — no data)';lbl.style.color='var(--color-text-secondary)';}
+    const ctx=canvas.getContext('2d');
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    ctx.font='13px sans-serif';ctx.fillStyle='#aaa';ctx.textAlign='center';
+    ctx.fillText('Portion 5B has not started. No data available.',canvas.width/2,90);
+    return;
+  }
+
+  if(lbl){
+    lbl.textContent = mode==='overall'?'S-Curve — Overall Project (Cumulative %)':'S-Curve — Portion 5A (Cumulative %)';
+    lbl.style.color='var(--color-text-primary)';
+  }
+
+  // overall: scale actuals proportionally, keep planned from 5A shape
+  const scale = (mode==='overall') ? (PMS_DATA.overall.actual / PMS_DATA.portion5a.actual) : 1;
+  const planScale = (mode==='overall') ? (PMS_DATA.overall.plan / PMS_DATA.portion5a.plan) : 1;
+
+  function r1(v){return Math.round(v*10)/10;}
+
+  // Plan: always show for ALL weeks (past + future)
+  const labels    = SCURVE_5A.map(d=>d.date);
+  const planData  = SCURVE_5A.map(d=>r1(d.plan * planScale));        // never null
+  const actData   = SCURVE_5A.map(d=>d.actual!==null?r1(d.actual*scale):null);
+  const wkPlanData= SCURVE_5A.map(d=>d.wp!==null?r1(d.wp*planScale):null);
+  const wkActData = SCURVE_5A.map(d=>d.wa!==null?r1(d.wa*scale):null);
+
+  // Dynamic y-axis range
+  const allVals = [...planData, ...actData.filter(v=>v!==null)];
+  const yMin = Math.floor(Math.min(...allVals)/5)*5 - 2;
+  const yMax = Math.ceil(Math.max(...allVals)/5)*5 + 3;
+
+  const build=()=>{
+    const c=document.getElementById('prog-scurve');if(!c)return;
+    progChartInst=new Chart(c,{
+      type:'bar',
+      data:{
+        labels,
+        datasets:[
+          {type:'line',label:'Cum. Planned',data:planData,borderColor:'#185FA5',backgroundColor:'rgba(24,95,165,.06)',fill:true,tension:0.3,pointRadius:5,pointHoverRadius:7,pointBackgroundColor:'#185FA5',pointBorderColor:'#fff',pointBorderWidth:2,borderWidth:2.5,yAxisID:'y',order:1},
+          {type:'line',label:'Cum. Actual', data:actData, borderColor:'#3B6D11',backgroundColor:'rgba(59,109,17,.08)',fill:false,tension:0.3,pointRadius:5,pointHoverRadius:7,pointBackgroundColor:'#3B6D11',pointBorderColor:'#fff',pointBorderWidth:2,borderWidth:2.5,yAxisID:'y',order:2,spanGaps:false},
+          {type:'bar',  label:'Weekly Plan',  data:wkPlanData,backgroundColor:'rgba(24,95,165,.35)',yAxisID:'y2',order:3,barPercentage:0.7,categoryPercentage:0.6},
+          {type:'bar',  label:'Weekly Actual',data:wkActData, backgroundColor:'rgba(59,109,17,.45)',yAxisID:'y2',order:4,barPercentage:0.7,categoryPercentage:0.6},
+        ]
+      },
+      options:{
+        responsive:true,maintainAspectRatio:false,
+        plugins:{
+          legend:{display:true,position:'top',labels:{font:{size:11},usePointStyle:true,pointStyleWidth:10,boxWidth:10,padding:12}},
+          tooltip:{mode:'index',intersect:false,callbacks:{label:ctx=>ctx.raw!=null?`${ctx.dataset.label}: ${ctx.raw}%`:null,filter:item=>item.raw!==null}}
+        },
+        scales:{
+          y:{position:'left',min:yMin,max:yMax,ticks:{callback:v=>v+'%',font:{size:10},maxTicksLimit:7},grid:{color:'rgba(128,128,128,.1)'},title:{display:true,text:'Cumulative %',font:{size:10},color:'#6c757d'}},
+          y2:{position:'right',min:0,max:10,ticks:{callback:v=>v+'%',font:{size:10},maxTicksLimit:6},grid:{display:false},title:{display:true,text:'Weekly %',font:{size:10},color:'#6c757d'}},
+          x:{ticks:{font:{size:10},maxRotation:30,minRotation:0},grid:{display:false}}
+        }
+      }
+    });
+  };
+  if(typeof Chart==='undefined'){
+    const s=document.createElement('script');
+    s.src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js';
+    s.onload=build;document.head.appendChild(s);
+  } else { build(); }
+}
+
 
 // ════════════════════════════════════════════════════
 // BOOT
