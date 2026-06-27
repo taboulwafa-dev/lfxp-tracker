@@ -235,6 +235,7 @@ textarea.inp{resize:vertical;min-height:50px}
     <div class="tab active" onclick="setTab('progress')" id="tab-progress">Progress Summary</div>
     <div class="tab" onclick="setTab('tasks')" id="tab-tasks">Action Items</div>
     <div class="tab" onclick="setTab('proc')" id="tab-proc">Procurement Status</div>
+    <div class="tab" onclick="setTab('liner')" id="tab-liner">Liner System</div>
     <div class="tab" onclick="setTab('issues')" id="tab-issues">Issues of Concern</div>
   </div>
 
@@ -286,6 +287,7 @@ textarea.inp{resize:vertical;min-height:50px}
 
   <div id="pane-proc" style="display:none"><div class="proc-wrap" id="proc-content"><div class="loading"><div class="spinner"></div></div></div></div>
   <div id="pane-issues" style="display:none"><div class="issues-wrap" id="issues-wrap"><div class="loading"><div class="spinner"></div></div></div></div>
+  <div id="pane-liner" style="display:none"><div id="liner-content" style="padding:1rem 1.5rem"></div></div>
   <div id="pane-progress"><div id="progress-content" style="padding:1rem 1.5rem"></div></div>
 
 </div>
@@ -532,7 +534,7 @@ function setView(v){
 }
 function setTab(t){
   currentTab=t;
-  ['progress','tasks','proc','issues'].forEach(x=>{
+  ['progress','tasks','proc','issues','liner'].forEach(x=>{
     const p=document.getElementById('pane-'+x);
     const tb=document.getElementById('tab-'+x);
     if(p)p.style.display=x===t?'block':'none';
@@ -541,6 +543,7 @@ function setTab(t){
   if(t==='tasks')render();
   else if(t==='proc')renderProc();
   else if(t==='issues')renderIssues();
+  else if(t==='liner'){loadLinerData().then(()=>renderLiner());}
   else if(t==='progress')renderProgress();
 }
 function setFilter(f){
@@ -1416,6 +1419,265 @@ function renderSCurve(mode){
 }
 
 
+
+
+
+// ════════════════════════════════════════════════════
+// LINER SYSTEM
+// ════════════════════════════════════════════════════
+const LINER_ITEMS = [
+  {id:"1",name:"GCL for base and walls",qty:67088.0,unit:"M2",daily:{"11-May-26":1813.2,"12-May-26":1813.2,"13-May-26":1813.2,"14-May-26":1813.2,"16-May-26":1813.2,"17-May-26":1813.2,"18-May-26":1813.2,"19-May-26":1813.2,"20-May-26":1813.2,"21-May-26":1813.2,"23-May-26":1813.2,"24-May-26":1813.2,"25-May-26":1813.2,"28-May-26":1813.2,"30-May-26":1813.2,"31-May-26":1813.2,"01-Jun-26":1813.2,"02-Jun-26":1813.2,"03-Jun-26":1813.2,"04-Jun-26":1813.2,"06-Jun-26":1813.2,"07-Jun-26":1813.2,"08-Jun-26":1813.2,"09-Jun-26":1813.2,"10-Jun-26":1813.2,"11-Jun-26":1813.2,"13-Jun-26":1813.2,"14-Jun-26":1813.2,"15-Jun-26":1813.2,"17-Jun-26":1813.2,"18-Jun-26":1813.2,"20-Jun-26":1813.2,"21-Jun-26":1813.2,"22-Jun-26":1813.2,"23-Jun-26":1813.2,"24-Jun-26":1813.2,"25-Jul-26":1813.2}},
+  {id:"2",name:"HDPE (Smooth)",qty:47600.0,unit:"M2",daily:{"11-May-26":1813.2,"12-May-26":1813.2,"13-May-26":1813.2,"14-May-26":1813.2,"16-May-26":1813.2,"17-May-26":1813.2,"18-May-26":1813.2,"19-May-26":1813.2,"20-May-26":1813.2,"21-May-26":1813.2,"23-May-26":1813.2,"24-May-26":1813.2,"25-May-26":1813.2,"03-Jun-26":1813.2,"04-Jun-26":1813.2,"06-Jun-26":1813.2,"07-Jun-26":1813.2,"08-Jun-26":1813.2,"09-Jun-26":1813.2,"10-Jun-26":1813.2,"11-Jun-26":1813.2,"13-Jun-26":1813.2,"14-Jun-26":1814.2,"15-Jun-26":1815.2,"17-Jun-26":1815.2,"18-Jun-26":1815.2,"25-Jul-26":1815.2}},
+  {id:"4",name:"HDPE (Texture)",qty:19600.0,unit:"M2",daily:{"28-May-26":1813.2,"30-May-26":1813.2,"31-May-26":1813.2,"01-Jun-26":1813.2,"02-Jun-26":1813.2,"20-Jun-26":1813.2,"21-Jun-26":1813.2,"22-Jun-26":1813.2,"23-Jun-26":1813.2,"24-Jun-26":1813.2,"25-Jul-26":1813.2}},
+  {id:"5",name:"Spreading of 250 mm Sand Protection layer for Base",qty:13613.0,unit:"M3",daily:{"10-Jun-26":648.2,"11-Jun-26":648.2,"13-Jun-26":648.2,"14-Jun-26":648.2,"15-Jun-26":648.2,"17-Jun-26":648.2,"18-Jun-26":648.2,"20-Jun-26":648.2,"21-Jun-26":648.2,"22-Jun-26":648.2,"23-Jun-26":648.2,"24-Jun-26":648.2,"25-Jun-26":648.2,"27-Jun-26":648.2,"28-Jun-26":648.2,"29-Jun-26":648.2,"30-Jun-26":648.2,"01-Jul-26":648.2,"02-Jul-26":649.2,"04-Jul-26":648.2,"05-Jul-26":648.2,"26-Jul-26":648.2}},
+  {id:"6",name:"Separator Geotextile for base",qty:47600.0,unit:"M2",daily:{"27-Jun-26":3400.0,"28-Jun-26":3400.0,"29-Jun-26":3400.0,"30-Jun-26":3400.0,"01-Jul-26":3400.0,"02-Jul-26":3400.0,"04-Jul-26":3400.0,"05-Jul-26":3400.0,"06-Jul-26":3400.0,"07-Jul-26":3400.0,"08-Jul-26":3400.0,"09-Jul-26":3400.0,"11-Jul-26":3400.0,"12-Jul-26":3400.0,"27-Jul-26":3400.0}},
+  {id:"7",name:"GDL for Slopes",qty:19600.0,unit:"M2",daily:{"27-Jun-26":1400.0,"28-Jun-26":1400.0,"29-Jun-26":1400.0,"30-Jun-26":1400.0,"01-Jul-26":1400.0,"02-Jul-26":1400.0,"04-Jul-26":1400.0,"05-Jul-26":1400.0,"06-Jul-26":1400.0,"07-Jul-26":1400.0,"08-Jul-26":1400.0,"09-Jul-26":1400.0,"11-Jul-26":1400.0,"12-Jul-26":1400.0,"27-Jul-26":1400.0}},
+  {id:"8",name:"Spreading of 300mm Drainage Layer",qty:14080.0,unit:"M3",daily:{"06-Jul-26":704.0,"07-Jul-26":704.0,"08-Jul-26":704.0,"09-Jul-26":704.0,"11-Jul-26":704.0,"12-Jul-26":704.0,"13-Jul-26":704.0,"14-Jul-26":704.0,"15-Jul-26":704.0,"16-Jul-26":704.0,"18-Jul-26":704.0,"19-Jul-26":704.0,"20-Jul-26":704.0,"21-Jul-26":704.0,"22-Jul-26":704.0,"23-Jul-26":704.0,"25-Jul-26":704.0,"26-Jul-26":704.0,"27-Jul-26":704.0,"28-Jul-26":704.0}},
+  {id:"9",name:"Installation of Main and secondary Lechate Pipes",qty:2254.0,unit:"M",daily:{"06-Jul-26":112.7,"07-Jul-26":112.7,"08-Jul-26":112.7,"09-Jul-26":112.7,"11-Jul-26":112.7,"12-Jul-26":112.7,"13-Jul-26":112.7,"14-Jul-26":112.7,"15-Jul-26":112.7,"16-Jul-26":112.7,"18-Jul-26":112.7,"19-Jul-26":112.7,"20-Jul-26":112.7,"21-Jul-26":112.7,"22-Jul-26":112.7,"23-Jul-26":112.7,"25-Jul-26":112.7,"26-Jul-26":112.7,"27-Jul-26":112.7,"28-Jul-26":112.7}},
+  {id:"10",name:"Electrical Resistivity Testing",qty:52235.0,unit:"M2",daily:{"22-Jul-26":4352.9,"23-Jul-26":4352.9,"25-Jul-26":4352.9,"26-Jul-26":4352.9,"27-Jul-26":4352.9,"28-Jul-26":4352.9,"29-Jul-26":4352.9,"30-Jul-26":4352.9,"01-Aug-26":4352.9,"02-Aug-26":4352.9,"03-Aug-26":4352.9,"04-Aug-26":4352.9}},
+  {id:"11",name:"Filter Geotexile",qty:47600.0,unit:"M2",daily:{"01-Aug-26":4327.3,"02-Aug-26":4327.3,"03-Aug-26":4327.3,"04-Aug-26":4327.3,"05-Aug-26":4327.3,"06-Aug-26":4327.3,"08-Aug-26":4327.3,"09-Aug-26":4327.3,"10-Aug-26":4327.3,"11-Aug-26":4327.3,"12-Aug-26":4327.3}},
+  {id:"12",name:"Spreading of 150mm Sand Protection Layer for Base and 200 mm for Side Slope",qty:9990.0,unit:"M3",daily:{"01-Aug-26":908.2,"02-Aug-26":908.2,"03-Aug-26":908.2,"04-Aug-26":908.2,"05-Aug-26":908.2,"06-Aug-26":908.2,"08-Aug-26":908.2,"09-Aug-26":908.2,"10-Aug-26":908.2,"11-Aug-26":908.2,"12-Aug-26":908.2}}
+];
+const LINER_DATES = ["30-Apr-26", "01-May-26", "02-May-26", "03-May-26", "04-May-26", "05-May-26", "06-May-26", "07-May-26", "08-May-26", "09-May-26", "10-May-26", "11-May-26", "12-May-26", "13-May-26", "14-May-26", "15-May-26", "16-May-26", "17-May-26", "18-May-26", "19-May-26", "20-May-26", "21-May-26", "22-May-26", "23-May-26", "24-May-26", "25-May-26", "26-May-26", "27-May-26", "28-May-26", "29-May-26", "30-May-26", "31-May-26", "01-Jun-26", "02-Jun-26", "03-Jun-26", "04-Jun-26", "05-Jun-26", "06-Jun-26", "07-Jun-26", "08-Jun-26", "09-Jun-26", "10-Jun-26", "11-Jun-26", "12-Jun-26", "13-Jun-26", "14-Jun-26", "15-Jun-26", "16-Jun-26", "17-Jun-26", "18-Jun-26", "19-Jun-26", "20-Jun-26", "21-Jun-26", "22-Jun-26", "23-Jun-26", "24-Jun-26", "25-Jun-26", "26-Jun-26", "27-Jun-26", "28-Jun-26", "29-Jun-26", "30-Jun-26", "01-Jul-26", "02-Jul-26", "03-Jul-26", "04-Jul-26", "05-Jul-26", "06-Jul-26", "07-Jul-26", "08-Jul-26", "09-Jul-26", "10-Jul-26", "11-Jul-26", "12-Jul-26", "13-Jul-26", "14-Jul-26", "15-Jul-26", "16-Jul-26", "17-Jul-26", "18-Jul-26", "19-Jul-26", "20-Jul-26", "21-Jul-26", "22-Jul-26", "23-Jul-26", "24-Jul-26", "25-Jul-26", "26-Jul-26", "27-Jul-26", "28-Jul-26", "29-Jul-26", "30-Jul-26", "31-Jul-26", "01-Aug-26", "02-Aug-26", "03-Aug-26", "04-Aug-26", "05-Aug-26", "06-Aug-26", "07-Aug-26"];
+
+let linerDate = null; // null = today's date (or nearest available)
+let linerActuals = {}; // id -> actual value
+
+function getTodayStr(){
+  const d = new Date();
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  return String(d.getDate()).padStart(2,'0') + '-' + months[d.getMonth()] + '-' + String(d.getFullYear()).slice(2);
+}
+
+function getNearestDate(target){
+  // Find exact match or nearest date in LINER_DATES
+  if(LINER_DATES.includes(target)) return target;
+  // Parse and find closest
+  function parseD(s){
+    const months={Jan:0,Feb:1,Mar:2,Apr:3,May:4,Jun:5,Jul:6,Aug:7,Sep:8,Oct:9,Nov:10,Dec:11};
+    const p=s.split('-');
+    return new Date(2000+parseInt(p[2]), months[p[1]], parseInt(p[0]));
+  }
+  const tDate = parseD(target);
+  let best = LINER_DATES[0], bestDiff = Infinity;
+  for(const d of LINER_DATES){
+    const diff = Math.abs(parseD(d) - tDate);
+    if(diff < bestDiff){ bestDiff = diff; best = d; }
+  }
+  return best;
+}
+
+function getPlanAt(item, date){
+  // Sum all non-zero daily values up to and including selected date
+  function parseD(s){
+    const months={Jan:0,Feb:1,Mar:2,Apr:3,May:4,Jun:5,Jul:6,Aug:7,Sep:8,Oct:9,Nov:10,Dec:11};
+    const p=s.split('-');
+    return new Date(2000+parseInt(p[2]),months[p[1]],parseInt(p[0]));
+  }
+  const tDate = parseD(date);
+  let total = 0;
+  for(const [d,v] of Object.entries(item.daily)){
+    if(parseD(d) <= tDate) total += v;
+  }
+  return Math.round(total * 10) / 10;
+}
+
+function toDateInputVal(s){
+  const months={Jan:'01',Feb:'02',Mar:'03',Apr:'04',May:'05',Jun:'06',Jul:'07',Aug:'08',Sep:'09',Oct:'10',Nov:'11',Dec:'12'};
+  const p=s.split('-');
+  if(p.length!==3)return '';
+  return `20${p[2]}-${months[p[1]]||'01'}-${p[0].padStart(2,'0')}`;
+}
+
+function fromDateInputVal(s){
+  if(!s)return '';
+  const months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const p=s.split('-');
+  if(p.length!==3)return s;
+  return `${p[2]}-${months[parseInt(p[1])-1]}-${p[0].slice(2)}`;
+}
+
+function canEditLiner(){
+  return identity==='PL' || identity==='CS';
+}
+
+function renderLiner(){
+  const el = document.getElementById('liner-content');
+  if(!el) return;
+
+  // Determine selected date
+  if(!linerDate) linerDate = getNearestDate(getTodayStr());
+
+  const editable = canEditLiner();
+  const canSave = isPL() || identity==='CS';
+
+  let html = `
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:10px">
+    <div>
+      <div style="font-size:15px;font-weight:600;color:var(--text)">Liner System — Daily Progress</div>
+      <div style="font-size:12px;color:var(--text2);margin-top:2px">Compass Material Plan · Cumulative quantities</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px">
+      <span style="font-size:12px;color:var(--text2)">Viewing date:</span>
+      <input type="date" id="liner-date-picker" value="${toDateInputVal(linerDate)}"
+        onchange="onLinerDateChange(this.value)"
+        style="font-size:13px;padding:6px 10px;border:1.5px solid var(--border2);border-radius:8px;background:#fff;color:var(--text);cursor:pointer">
+    </div>
+  </div>`;
+
+  // Summary cards
+  const totalItems = LINER_ITEMS.length;
+  const withActual = LINER_ITEMS.filter(item => linerActuals[item.id] !== undefined && linerActuals[item.id] !== null);
+  const onTrack = withActual.filter(item => {
+    const plan = getPlanAt(item, linerDate);
+    const actual = linerActuals[item.id];
+    // On track or ahead: actual >= plan (includes plan=0 cases = doing work ahead of schedule)
+    return actual >= plan;
+  }).length;
+  const behind = withActual.filter(item => {
+    const plan = getPlanAt(item, linerDate);
+    const actual = linerActuals[item.id];
+    return actual < plan;
+  }).length;
+
+  html += `<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px">
+    <div style="background:#fff;border:1.5px solid #e2e8f0;border-radius:12px;padding:.85rem 1rem;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.06)">
+      <div style="font-size:20px;font-weight:700;color:var(--text)">${totalItems}</div>
+      <div style="font-size:11px;color:var(--text2);margin-top:2px;text-transform:uppercase;letter-spacing:.04em">Total items</div>
+    </div>
+    <div style="background:#fff;border:1.5px solid #dcfce7;border-radius:12px;padding:.85rem 1rem;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.06)">
+      <div style="font-size:20px;font-weight:700;color:#15803d">${onTrack}</div>
+      <div style="font-size:11px;color:var(--text2);margin-top:2px;text-transform:uppercase;letter-spacing:.04em">On track</div>
+    </div>
+    <div style="background:#fff;border:1.5px solid #fee2e2;border-radius:12px;padding:.85rem 1rem;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.06)">
+      <div style="font-size:20px;font-weight:700;color:#b91c1c">${behind}</div>
+      <div style="font-size:11px;color:var(--text2);margin-top:2px;text-transform:uppercase;letter-spacing:.04em">Behind plan</div>
+    </div>
+  </div>`;
+
+  if(editable) html += `<div style="font-size:12px;color:#1d4ed8;background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:7px 12px;margin-bottom:12px">
+    <i class="ti ti-pencil" style="font-size:12px;vertical-align:-1px;margin-right:4px"></i>
+    Enter actual quantities for the selected date then click Save.
+  </div>`;
+
+  // Table
+  html += `<div style="border:1.5px solid #e2e8f0;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.06);overflow-x:auto">
+  <table style="width:100%;border-collapse:collapse;min-width:600px">
+    <thead><tr style="background:#f8fafc">
+      <th style="font-size:11px;font-weight:600;color:var(--text2);padding:8px 10px;text-align:left;border-bottom:1.5px solid #e2e8f0;text-transform:uppercase;letter-spacing:.04em;width:35%">Item</th>
+      <th style="font-size:11px;font-weight:600;color:var(--text2);padding:8px 10px;text-align:center;border-bottom:1.5px solid #e2e8f0;text-transform:uppercase;letter-spacing:.04em;width:8%">Unit</th>
+      <th style="font-size:11px;font-weight:600;color:var(--text2);padding:8px 10px;text-align:center;border-bottom:1.5px solid #e2e8f0;text-transform:uppercase;letter-spacing:.04em;width:12%">Total Qty</th>
+      <th style="font-size:11px;font-weight:600;color:#185FA5;padding:8px 10px;text-align:center;border-bottom:1.5px solid #e2e8f0;text-transform:uppercase;letter-spacing:.04em;width:13%">Cum. Plan</th>
+      <th style="font-size:11px;font-weight:600;color:#15803d;padding:8px 10px;text-align:center;border-bottom:1.5px solid #e2e8f0;text-transform:uppercase;letter-spacing:.04em;width:13%">Actual</th>
+      <th style="font-size:11px;font-weight:600;color:#b91c1c;padding:8px 10px;text-align:center;border-bottom:1.5px solid #e2e8f0;text-transform:uppercase;letter-spacing:.04em;width:11%">Variance</th>
+      ${editable?'<th style="width:8%;border-bottom:1.5px solid #e2e8f0"></th>':''}
+    </tr></thead>
+    <tbody>`;
+
+  LINER_ITEMS.forEach(item => {
+    const plan = getPlanAt(item, linerDate);
+    const actual = linerActuals[item.id] !== undefined ? linerActuals[item.id] : null;
+    const variance = actual !== null ? round1(actual - plan) : null;
+    const varColor = variance === null ? 'var(--text2)' : variance >= 0 ? '#15803d' : '#b91c1c';
+    const varText = variance === null ? '—' : (variance >= 0 ? '+' : '') + variance.toLocaleString();
+    const planText = plan > 0 ? plan.toLocaleString() : '—';
+    const progress = plan > 0 && item.qty > 0 ? Math.min(100, round1(plan/item.qty*100)) : 0;
+    const actProgress = actual !== null && item.qty > 0 ? Math.min(100, round1(actual/item.qty*100)) : 0;
+
+    html += `<tr style="border-bottom:0.5px solid #f1f5f9">
+      <td style="padding:9px 10px">
+        <div style="font-size:13px;font-weight:500;color:var(--text);margin-bottom:4px">${item.name}</div>
+        <div style="display:flex;gap:4px;align-items:center;margin-bottom:3px">
+          <span style="font-size:10px;color:#185FA5;width:26px;flex-shrink:0">Plan</span>
+          <div style="flex:1;height:4px;background:#e2e8f0;border-radius:2px;overflow:hidden">
+            <div style="height:100%;width:${progress}%;background:#185FA5;border-radius:2px"></div>
+          </div>
+          <span style="font-size:10px;color:#185FA5;width:28px;text-align:right">${progress}%</span>
+        </div>
+        <div style="display:flex;gap:4px;align-items:center">
+          <span style="font-size:10px;color:#15803d;width:26px;flex-shrink:0">Act</span>
+          <div style="flex:1;height:4px;background:#e2e8f0;border-radius:2px;overflow:hidden">
+            <div style="height:100%;width:${actProgress}%;background:#15803d;border-radius:2px"></div>
+          </div>
+          <span style="font-size:10px;color:#15803d;width:28px;text-align:right">${actProgress}%</span>
+        </div>
+      </td>
+      <td style="padding:9px 10px;text-align:center;font-size:12px;color:var(--text2)">${item.unit}</td>
+      <td style="padding:9px 10px;text-align:center;font-size:12px;color:var(--text)">${item.qty.toLocaleString()}</td>
+      <td style="padding:9px 10px;text-align:center;font-size:13px;font-weight:600;color:#185FA5">${planText}</td>
+      <td style="padding:9px 10px;text-align:center">
+        ${editable
+          ? `<input id="la-${item.id}" type="number" value="${actual !== null ? actual : ''}"
+              placeholder="Enter actual"
+              style="width:90px;font-size:12px;padding:4px 6px;border:1.5px solid #e2e8f0;border-radius:6px;text-align:center;background:#f0fdf4"
+              oninput="linerCalcRow('${item.id}')">` 
+          : `<span style="font-size:13px;font-weight:600;color:#15803d">${actual !== null ? actual.toLocaleString() : '—'}</span>`
+        }
+      </td>
+      <td style="padding:9px 10px;text-align:center;font-size:13px;font-weight:600;color:${varColor}">${varText}</td>
+      ${editable ? `<td style="padding:9px 10px;text-align:center"><button class="sbtn" onclick="saveLinerRow('${item.id}')">Save</button></td>` : ''}
+    </tr>`;
+  });
+
+  html += `</tbody></table></div>`;
+  el.innerHTML = html;
+}
+
+function round1(v){ return Math.round(v*10)/10; }
+
+function linerCalcRow(id){
+  const inp = document.getElementById('la-'+id);
+  if(!inp) return;
+  const actual = parseFloat(inp.value);
+  const item = LINER_ITEMS.find(x=>x.id===id);
+  if(!item) return;
+  const plan = getPlanAt(item, linerDate);
+  const variance = isNaN(actual) ? null : round1(actual - plan);
+  // Live update variance cell
+  const row = inp.closest('tr');
+  if(row){
+    const varCell = row.cells[5];
+    if(varCell){
+      const v = variance;
+      varCell.textContent = v===null?'—':(v>=0?'+':'')+v.toLocaleString();
+      varCell.style.color = v===null?'var(--text2)':v>=0?'#15803d':'#b91c1c';
+    }
+  }
+}
+
+function saveLinerRow(id){
+  const inp = document.getElementById('la-'+id);
+  if(!inp) return;
+  const val = parseFloat(inp.value);
+  if(!isNaN(val)) linerActuals[id] = val;
+  saveLinerData();
+  notify('Liner actual saved.');
+  renderLiner();
+}
+
+function onLinerDateChange(val){
+  linerDate = fromDateInputVal(val);
+  renderLiner();
+}
+
+async function saveLinerData(){
+  if(SCRIPT_URL==='PASTE_YOUR_SCRIPT_URL_HERE') return;
+  try{
+    await serverSet('lfxp_liner', JSON.stringify({actuals:linerActuals, date:linerDate}));
+  }catch(e){console.error('Liner save error',e);}
+}
+
+async function loadLinerData(){
+  if(SCRIPT_URL==='PASTE_YOUR_SCRIPT_URL_HERE') return;
+  try{
+    const v = await serverGet('lfxp_liner');
+    if(v){
+      const d = JSON.parse(v);
+      linerActuals = d.actuals || {};
+      if(d.date) linerDate = d.date;
+    }
+  }catch(e){}
+}
 
 
 // ════════════════════════════════════════════════════
