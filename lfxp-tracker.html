@@ -294,7 +294,7 @@ textarea.inp{resize:vertical;min-height:50px}
 // ════════════════════════════════════════════════════
 // CONFIGURATION — paste your deployed script URL here
 // ════════════════════════════════════════════════════
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzMAukj4OUz__pz-OgHyE-Vpzgr4o2tWB_TccRmCul8Hgi0GTdtWq4hoDxX8U6vCbr4/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzA-0RpHyeXw5JeZrQDhrK4BQ-vy3vUNeFz5aZeGC30G2Xg_4yfLryd1XyG3l8AjHfD7Q/exec';
 
 // ════════════════════════════════════════════════════
 // CONSTANTS
@@ -930,16 +930,16 @@ function renderIssues(){
 // ════════════════════════════════════════════════════
 // PROGRESS SUMMARY
 // ════════════════════════════════════════════════════
-const PMS_WEEK = '19-Jun-26';
+const PMS_WEEK = '26-Jun-26';
 const PMS_DATA = {
-  overall: {plan:54.7, actual:50.0, var:-4.7, start:'25-Jan-26', finish:'20-May-27'},
+  overall: {plan:56.0, actual:51.0, var:-5.0, start:'25-Jan-26', finish:'20-May-27'},
   portion5a: {
     label:'Portion 5A', subtitle:'Design, Supply & Construct',
-    plan:67.3, actual:61.5, var:-5.8, start:'25-Jan-26', finish:'20-May-27',
+    plan:68.8, actual:62.7, var:-6.1, start:'25-Jan-26', finish:'20-May-27',
     phases:{
       engineering:   {label:'Engineering',   plan:88.2, actual:66.4, var:-21.8},
-      procurement:   {label:'Procurement',   plan:88.3, actual:81.6, var:-6.7},
-      construction:  {label:'Construction',  plan:57.7, actual:56.4, var:-1.3},
+      procurement:   {label:'Procurement',   plan:92.9, actual:81.8, var:-11.1},
+      construction:  {label:'Construction',  plan:58.9, actual:58.3, var:-0.6},
       commissioning: {label:'Commissioning', plan:0.0,  actual:0.0,  var:0.0},
     }
   },
@@ -957,13 +957,13 @@ const PMS_DATA = {
 };
 
 const SCURVE_5A = [
-  {date:'29-May-26',plan:59.07,actual:54.66,wp:1.67,wa:1.68},
-  {date:'05-Jun-26',plan:62.88,actual:57.66,wp:3.81,wa:2.93},
-  {date:'12-Jun-26',plan:65.74,actual:60.59,wp:2.87,wa:2.81},
-  {date:'19-Jun-26',plan:67.2,actual:61.47,wp:1.46,wa:0.88},
-  {date:'26-Jun-26',plan:68.73,actual:null,wp:1.53,wa:null},
-  {date:'03-Jul-26',plan:70.07,actual:null,wp:1.34,wa:null},
-  {date:'10-Jul-26',plan:72.29,actual:null,wp:2.22,wa:null}
+  {date:'05-Jun-26',plan:62.9,actual:57.66,wp:3.8,wa:2.93},
+  {date:'12-Jun-26',plan:65.7,actual:60.59,wp:2.9,wa:2.81},
+  {date:'19-Jun-26',plan:67.2,actual:61.47,wp:1.5,wa:0.88},
+  {date:'26-Jun-26',plan:68.7,actual:62.7, wp:1.5,wa:null},
+  {date:'03-Jul-26',plan:70.1,actual:null,  wp:1.3,wa:null},
+  {date:'10-Jul-26',plan:72.3,actual:null,  wp:2.2,wa:null},
+  {date:'17-Jul-26',plan:74.8,actual:null,  wp:2.5,wa:null},
 ];
 
 const PMS_ACTS_5A = [
@@ -1205,7 +1205,7 @@ function buildProgressHTML(){
 
   return `
   <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px">
-    <div style="font-size:12px;color:var(--color-text-secondary)">Week ending: <strong style="color:var(--color-text-primary)">${PMS_WEEK}</strong> &nbsp;·&nbsp; PMS_LANDFILL_19-JUN-2026</div>
+    <div style="font-size:12px;color:var(--color-text-secondary)">Week ending: <strong style="color:var(--color-text-primary)">${PMS_WEEK}</strong> &nbsp;·&nbsp; PMS_LANDFILL_26-JUN-2026</div>
     <div style="display:flex;gap:10px;align-items:center;font-size:12px;color:var(--color-text-secondary)">
       <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:2px;background:#185FA5;display:inline-block"></span>Planned</span>
       <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:2px;background:#3B6D11;display:inline-block"></span>Actual</span>
