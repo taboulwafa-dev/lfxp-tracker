@@ -212,7 +212,11 @@ textarea.inp{resize:vertical;min-height:50px}
     <div>
       <div style="display:flex;align-items:center;gap:10px"><div style="width:36px;height:36px;border-radius:8px;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">🏗</div><div><div class="hdr-title">SK1 Landfill Expansion — Action Tracker</div><div class="hdr-sub">Contract 21056718 · KAK-LAMOR · South Kuwait Zone 1</div></div></div>
     </div>
-    <div class="sync-status">
+    <button onclick="toggleActivityPanel()" id="activity-btn" style="font-size:12px;padding:5px 12px;border-radius:20px;border:1.5px solid rgba(255,255,255,.3);background:rgba(255,255,255,.15);color:#fff;cursor:pointer;display:flex;align-items:center;gap:5px;margin-right:8px">
+        <i class="ti ti-bell" style="font-size:14px"></i>
+        <span id="activity-count" style="font-size:11px">Activity</span>
+      </button>
+      <div class="sync-status">
       <span class="sync-dot" id="sync-dot"></span>
       <span id="sync-label">Connecting…</span></div><div style="display:none">
     </div>
@@ -229,6 +233,13 @@ textarea.inp{resize:vertical;min-height:50px}
   </div>
 
   <div class="save-bar" id="save-bar">Connecting to server…</div>
+  <div id="activity-panel" style="display:none;border-bottom:1px solid var(--border);background:var(--bg2)">
+    <div style="padding:.6rem 1.5rem;display:flex;align-items:center;justify-content:space-between">
+      <span style="font-size:12px;font-weight:600;color:var(--text)">Recent Activity</span>
+      <button onclick="toggleActivityPanel()" style="font-size:11px;padding:3px 8px;border-radius:6px;border:1px solid var(--border2);background:var(--bg);cursor:pointer;color:var(--text2)">Close ✕</button>
+    </div>
+    <div id="activity-feed" style="padding:0 1.5rem .75rem;max-height:280px;overflow-y:auto"></div>
+  </div>
   <div class="notif" id="notif"><i class="ti ti-check"></i><span id="notif-txt"></span></div>
 
   <div class="tab-bar">
@@ -368,6 +379,7 @@ let issueId=1,nextTaskId=200;
 let identity='CM',viewAs='mine',filterMode='all',currentTab='tasks';
 let showIssueAdd=false,plUnlocked=false;
 let pollInterval=null,lastHash='';
+let ACTIVITY_LOG=[];
 
 // ════════════════════════════════════════════════════
 // BACKEND
@@ -436,6 +448,7 @@ async function loadAll(){
   if(currentTab==='proc')renderProc();
   if(currentTab==='issues')renderIssues();
   renderProgress();
+  loadActivity();
   startPolling();
 }
 
@@ -480,6 +493,7 @@ async function poll(){
       if(currentTab==='proc')renderProc();
       if(currentTab==='issues')renderIssues();
       setSaveBar('Updated · '+nowLabel());
+      loadActivity();
       notify('Data refreshed — new updates from your team.');
     }
     setSyncStatus('live','Live');
@@ -658,6 +672,8 @@ function submitUpdate(id){
   const el=document.getElementById('upd-'+id);
   const txt=el.value.trim();if(!txt)return;
   logs[id].unshift({who:roleNames[identity],ts:now(),txt});
+  const t2=TASKS.find(t=>t.id===id);
+  logActivity(`posted update on task: "${t2?t2.title.slice(0,50):''}"`);
   el.value='';notify('Update posted.');saveAll();render();
   setTimeout(()=>{expanded[id]=true;render();},30);
 }
@@ -671,6 +687,8 @@ function submitPMComment(id){
 }
 function closeTask(id){
   closed[id]=true;logs[id].unshift({who:'Tareq (PL)',ts:now(),txt:'✓ Task closed.'});
+  const tc=TASKS.find(t=>t.id===id);
+  logActivity(`closed task: "${tc?tc.title.slice(0,50):''}"`);
   notify('Task closed.');saveAll();render();
 }
 function reopenTask(id){
@@ -788,6 +806,8 @@ function saveProc(id){
   if(di) p.exp_date=fromInputDate(di.value);
   if(si) p.status=si.value;
   if(qi){const v=parseFloat(qi.value);if(!isNaN(v)&&v>=0)p.delivered=Math.min(v,p.boq);}
+  const pp=PROC.find(x=>x.id===id);
+  logActivity(`updated procurement: "${pp?pp.name:'item'}"`);
   notify('Row updated.');saveAll();renderProc();
 }
 
@@ -871,6 +891,7 @@ function addIssue(){
   const txt=document.getElementById('itxt').value.trim();if(!txt)return;
   const corr=document.getElementById('icorr').value.trim();
   ISSUES.unshift({id:issueId++,text:txt,corrective:corr,critical:document.getElementById('icit').value==='1',by:roleNames[identity],ts:now()});
+  logActivity(`raised issue: "${txt.slice(0,60)}"`);
   showIssueAdd=false;notify('Issue added.');saveAll();renderIssues();
 }
 function askDeleteIssue(id){Object.keys(pendingIssueDelete).forEach(k=>pendingIssueDelete[k]=false);pendingIssueDelete[id]=true;renderIssues();}
@@ -1657,6 +1678,8 @@ function saveLinerRow(id){
   const val = parseFloat(inp.value);
   if(!isNaN(val)) linerActuals[id] = val;
   saveLinerData();
+  const li=LINER_ITEMS.find(x=>x.id===id);
+  logActivity(`updated liner actual: "${li?li.name:'item'}"`);
   notify('Liner actual saved.');
   renderLiner();
 }
@@ -1685,6 +1708,54 @@ async function loadLinerData(){
   }catch(e){}
 }
 
+
+
+// ════════════════════════════════════════════════════
+// ACTIVITY FEED
+// ════════════════════════════════════════════════════
+function toggleActivityPanel(){
+  const el=document.getElementById('activity-panel');
+  if(el) el.style.display=el.style.display==='none'?'block':'none';
+}
+function logActivity(msg){
+  const entry = {who:roleNames[identity], ts:now(), msg};
+  ACTIVITY_LOG.unshift(entry);
+  if(ACTIVITY_LOG.length > 20) ACTIVITY_LOG = ACTIVITY_LOG.slice(0,20);
+  saveActivity();
+  renderActivityFeed();
+}
+
+async function saveActivity(){
+  if(SCRIPT_URL==='PASTE_YOUR_SCRIPT_URL_HERE') return;
+  try{ await serverSet('lfxp_activity', JSON.stringify(ACTIVITY_LOG)); }catch(e){}
+}
+
+async function loadActivity(){
+  if(SCRIPT_URL==='PASTE_YOUR_SCRIPT_URL_HERE') return;
+  try{
+    const v = await serverGet('lfxp_activity');
+    if(v) ACTIVITY_LOG = JSON.parse(v);
+  }catch(e){}
+  renderActivityFeed();
+}
+
+function renderActivityFeed(){
+  const el = document.getElementById('activity-feed');
+  if(!el) return;
+  if(!ACTIVITY_LOG.length){
+    el.innerHTML='<div style="font-size:12px;color:var(--text2);font-style:italic;padding:8px 0">No recent activity yet.</div>';
+    return;
+  }
+  el.innerHTML = ACTIVITY_LOG.slice(0,10).map(a=>`
+    <div style="display:flex;align-items:flex-start;gap:8px;padding:7px 0;border-bottom:0.5px solid var(--border)">
+      <div style="width:7px;height:7px;border-radius:50%;background:#185FA5;margin-top:5px;flex-shrink:0"></div>
+      <div style="flex:1">
+        <span style="font-size:12px;font-weight:600;color:var(--text)">${a.who}</span>
+        <span style="font-size:12px;color:var(--text2)"> — ${a.msg}</span>
+        <div style="font-size:11px;color:var(--text3);margin-top:1px">${a.ts}</div>
+      </div>
+    </div>`).join('');
+}
 
 // ════════════════════════════════════════════════════
 // BOOT
