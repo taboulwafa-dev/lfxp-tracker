@@ -212,7 +212,11 @@ textarea.inp{resize:vertical;min-height:50px}
     <div>
       <div style="display:flex;align-items:center;gap:10px"><div style="width:36px;height:36px;border-radius:8px;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">🏗</div><div><div class="hdr-title">SK1 Landfill Expansion — Action Tracker</div><div class="hdr-sub">Contract 21056718 · KAK-LAMOR · South Kuwait Zone 1</div></div></div>
     </div>
-    <button onclick="toggleActivityPanel()" id="activity-btn" style="font-size:12px;padding:5px 12px;border-radius:20px;border:1.5px solid rgba(255,255,255,.3);background:rgba(255,255,255,.15);color:#fff;cursor:pointer;display:flex;align-items:center;gap:5px;margin-right:8px">
+    <button onclick="toggleVisitLog()" id="visit-btn" style="font-size:12px;padding:5px 12px;border-radius:20px;border:1.5px solid rgba(255,255,255,.3);background:rgba(255,255,255,.15);color:#fff;cursor:pointer;display:none;align-items:center;gap:5px;margin-right:6px">
+        <i class="ti ti-eye" style="font-size:14px"></i>
+        <span style="font-size:11px">Visits</span>
+      </button>
+      <button onclick="toggleActivityPanel()" id="activity-btn" style="font-size:12px;padding:5px 12px;border-radius:20px;border:1.5px solid rgba(255,255,255,.3);background:rgba(255,255,255,.15);color:#fff;cursor:pointer;display:flex;align-items:center;gap:5px;margin-right:8px">
         <i class="ti ti-bell" style="font-size:14px"></i>
         <span id="activity-count" style="font-size:11px">Activity</span>
       </button>
@@ -239,6 +243,13 @@ textarea.inp{resize:vertical;min-height:50px}
       <button onclick="toggleActivityPanel()" style="font-size:11px;padding:3px 8px;border-radius:6px;border:1px solid var(--border2);background:var(--bg);cursor:pointer;color:var(--text2)">Close ✕</button>
     </div>
     <div id="activity-feed" style="padding:0 1.5rem .75rem;max-height:280px;overflow-y:auto"></div>
+  </div>
+  <div id="visit-log-panel" style="display:none;border-bottom:1px solid var(--border);background:#fffbeb">
+    <div style="padding:.6rem 1.5rem;display:flex;align-items:center;justify-content:space-between">
+      <span style="font-size:12px;font-weight:600;color:#92400e">👁 Who opened the app (Tareq only)</span>
+      <button onclick="toggleVisitLog()" style="font-size:11px;padding:3px 8px;border-radius:6px;border:1px solid var(--border2);background:var(--bg);cursor:pointer;color:var(--text2)">Close ✕</button>
+    </div>
+    <div id="visit-log-list" style="padding:0 1.5rem .75rem;max-height:250px;overflow-y:auto"></div>
   </div>
   <div class="notif" id="notif"><i class="ti ti-check"></i><span id="notif-txt"></span></div>
 
@@ -449,6 +460,7 @@ async function loadAll(){
   if(currentTab==='issues')renderIssues();
   renderProgress();
   loadActivity();
+  loadVisitLog();
   startPolling();
 }
 
@@ -521,9 +533,10 @@ function remaining(p){return Math.max(0,p.boq-p.delivered);}
 
 function updateUIForRole(){
   const addBtn=document.getElementById('add-task-btn');
-  if(addBtn) addBtn.style.display=(isPL()||(!isPM()&&identity!=='CE'))?'inline-block':'none';
-  // CE and CM and QC and CS can add tasks too — only PM cannot
   if(addBtn) addBtn.style.display=isPM()?'none':'inline-block';
+  // Show visit log button only for PL
+  const vBtn=document.getElementById('visit-btn');
+  if(vBtn) vBtn.style.display=isPL()?'flex':'none';
 }
 
 // ════════════════════════════════════════════════════
@@ -539,6 +552,8 @@ function setIdentity(r){
   document.getElementById('id-'+r).classList.add('active');
   if(r==='PM'||r==='PL')setView('all');else setView('mine');
   updateUIForRole();
+  // Log visit (not for PL - no point logging yourself)
+  if(r!=='PL') logVisit(r);
 }
 function setView(v){
   viewAs=v;
@@ -1760,6 +1775,55 @@ function renderActivityFeed(){
         <div style="font-size:11px;color:var(--text3);margin-top:1px">${a.ts}</div>
       </div>
     </div>`).join('');
+}
+
+
+// ════════════════════════════════════════════════════
+// VISIT LOG (PL eyes only)
+// ════════════════════════════════════════════════════
+let VISIT_LOG = [];
+
+async function logVisit(role){
+  const entry = {who: roleNames[role], ts: now(), role};
+  VISIT_LOG.unshift(entry);
+  if(VISIT_LOG.length > 50) VISIT_LOG = VISIT_LOG.slice(0,50);
+  if(SCRIPT_URL==='PASTE_YOUR_SCRIPT_URL_HERE') return;
+  try{ await serverSet('lfxp_visits', JSON.stringify(VISIT_LOG)); }catch(e){}
+  if(isPL()) renderVisitLog();
+}
+
+async function loadVisitLog(){
+  if(SCRIPT_URL==='PASTE_YOUR_SCRIPT_URL_HERE') return;
+  try{
+    const v = await serverGet('lfxp_visits');
+    if(v) VISIT_LOG = JSON.parse(v);
+  }catch(e){}
+}
+
+function renderVisitLog(){
+  const el = document.getElementById('visit-log-list');
+  if(!el) return;
+  if(!VISIT_LOG.length){
+    el.innerHTML='<div style="font-size:12px;color:var(--text2);font-style:italic">No visits recorded yet.</div>';
+    return;
+  }
+  el.innerHTML = VISIT_LOG.slice(0,20).map(v=>`
+    <div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:0.5px solid var(--border)">
+      <div style="width:7px;height:7px;border-radius:50%;background:#f59f00;flex-shrink:0"></div>
+      <div style="flex:1">
+        <span style="font-size:12px;font-weight:600;color:var(--text)">${v.who}</span>
+        <span style="font-size:12px;color:var(--text2)"> opened the app</span>
+        <div style="font-size:11px;color:var(--text3);margin-top:1px">${v.ts}</div>
+      </div>
+    </div>`).join('');
+}
+
+function toggleVisitLog(){
+  const el = document.getElementById('visit-log-panel');
+  if(!el) return;
+  const isHidden = el.style.display==='none';
+  el.style.display = isHidden ? 'block' : 'none';
+  if(isHidden) renderVisitLog();
 }
 
 // ════════════════════════════════════════════════════
