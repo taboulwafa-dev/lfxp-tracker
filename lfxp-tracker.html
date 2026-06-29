@@ -633,6 +633,7 @@ function addTask(){
   TASKS.push(t);logs[t.id]=[];closed[t.id]=false;expanded[t.id]=false;editing[t.id]=false;pendingDelete[t.id]=false;
   document.getElementById('new-title').value='';document.getElementById('new-due').value='';
   document.getElementById('add-panel').classList.remove('show');
+  logActivity(`added new task: "${title.slice(0,60)}" → ${olabel(ov)}`);
   notify('Task added — assigned to '+olabel(ov));saveAll();render();
 }
 function askDelete(id){Object.keys(pendingDelete).forEach(k=>pendingDelete[k]=false);pendingDelete[id]=true;render();}
@@ -682,6 +683,8 @@ function submitPMComment(id){
   const el = document.getElementById('upd-'+id);
   const txt = el.value.trim(); if(!txt) return;
   logs[id].unshift({who:'Ayman (PM) 💬', ts:now(), txt, isPM:true});
+  const tpm=TASKS.find(t=>t.id===id);
+  logActivity(`added PM comment on: "${tpm?tpm.title.slice(0,50):''}"`);
   el.value=''; notify('PM comment added.'); saveAll(); render();
   setTimeout(()=>{expanded[id]=true;render();},30);
 }
@@ -693,6 +696,8 @@ function closeTask(id){
 }
 function reopenTask(id){
   closed[id]=false;logs[id].unshift({who:'Tareq (PL)',ts:now(),txt:'↩ Task reopened.'});
+  const tr=TASKS.find(t=>t.id===id);
+  logActivity(`reopened task: "${tr?tr.title.slice(0,50):''}"`);
   notify('Task reopened.');saveAll();render();
 }
 function toggleTask(id){expanded[id]=!expanded[id];render();}
