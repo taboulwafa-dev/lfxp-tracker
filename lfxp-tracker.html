@@ -572,7 +572,7 @@ function setTab(t){
   if(t==='tasks')render();
   else if(t==='proc')renderProc();
   else if(t==='issues')renderIssues();
-  else if(t==='liner'){loadLinerData().then(()=>renderLiner());}
+  else if(t==='liner'){linerDate=getNearestDate(getTodayStr());loadLinerData().then(()=>renderLiner());}
   else if(t==='progress')renderProgress();
 }
 function setFilter(f){
@@ -1723,7 +1723,7 @@ async function loadLinerData(){
     if(v){
       const d = JSON.parse(v);
       linerActuals = d.actuals || {};
-      if(d.date) linerDate = d.date;
+      // Always default to today - never restore saved date
     }
   }catch(e){}
 }
