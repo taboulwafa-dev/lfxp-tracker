@@ -314,7 +314,27 @@ textarea.inp{resize:vertical;min-height:50px}
 
 </div>
 
+<!-- WHO ARE YOU OVERLAY -->
+<div id="who-overlay" style="position:fixed;inset:0;background:linear-gradient(135deg,#1e3a8a 0%,#1d4ed8 60%,#2563eb 100%);display:flex;align-items:center;justify-content:center;z-index:9999">
+  <div style="background:#fff;border-radius:20px;padding:2rem 2.5rem;width:340px;box-shadow:0 20px 60px rgba(0,0,0,.3);text-align:center">
+    <div style="font-size:28px;margin-bottom:8px">🏗</div>
+    <div style="font-size:17px;font-weight:700;color:#0f172a;margin-bottom:4px">SK1 Landfill Expansion</div>
+    <div style="font-size:13px;color:#64748b;margin-bottom:1.5rem">Action Tracker · KAK-LAMOR</div>
+    <div style="font-size:13px;font-weight:600;color:#0f172a;margin-bottom:12px">Please select your name to continue 👇</div>
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <button onclick="welcomeSelect('PL')" style="padding:11px;border-radius:10px;border:1.5px solid #e2e8f0;background:#f8fafc;font-size:14px;font-weight:500;cursor:pointer;transition:all .15s;color:#0f172a" onmouseover="this.style.background='#eff6ff';this.style.borderColor='#1d4ed8'" onmouseout="this.style.background='#f8fafc';this.style.borderColor='#e2e8f0'">Tareq (PL)</button>
+      <button onclick="welcomeSelect('PM')" style="padding:11px;border-radius:10px;border:1.5px solid #e2e8f0;background:#f8fafc;font-size:14px;font-weight:500;cursor:pointer;transition:all .15s;color:#0f172a" onmouseover="this.style.background='#eff6ff';this.style.borderColor='#1d4ed8'" onmouseout="this.style.background='#f8fafc';this.style.borderColor='#e2e8f0'">Ayman (PM)</button>
+      <button onclick="welcomeSelect('CM')" style="padding:11px;border-radius:10px;border:1.5px solid #e2e8f0;background:#f8fafc;font-size:14px;font-weight:500;cursor:pointer;transition:all .15s;color:#0f172a" onmouseover="this.style.background='#eff6ff';this.style.borderColor='#1d4ed8'" onmouseout="this.style.background='#f8fafc';this.style.borderColor='#e2e8f0'">Amin (CM)</button>
+      <button onclick="welcomeSelect('QC')" style="padding:11px;border-radius:10px;border:1.5px solid #e2e8f0;background:#f8fafc;font-size:14px;font-weight:500;cursor:pointer;transition:all .15s;color:#0f172a" onmouseover="this.style.background='#eff6ff';this.style.borderColor='#1d4ed8'" onmouseout="this.style.background='#f8fafc';this.style.borderColor='#e2e8f0'">Jobin (QC)</button>
+      <button onclick="welcomeSelect('CS')" style="padding:11px;border-radius:10px;border:1.5px solid #e2e8f0;background:#f8fafc;font-size:14px;font-weight:500;cursor:pointer;transition:all .15s;color:#0f172a" onmouseover="this.style.background='#eff6ff';this.style.borderColor='#1d4ed8'" onmouseout="this.style.background='#f8fafc';this.style.borderColor='#e2e8f0'">Elsayed (CS)</button>
+      <button onclick="welcomeSelect('CE')" style="padding:11px;border-radius:10px;border:1.5px solid #e2e8f0;background:#f8fafc;font-size:14px;font-weight:500;cursor:pointer;transition:all .15s;color:#0f172a" onmouseover="this.style.background='#eff6ff';this.style.borderColor='#1d4ed8'" onmouseout="this.style.background='#f8fafc';this.style.borderColor='#e2e8f0'">Aisha (CE)</button>
+    </div>
+    <div style="font-size:11px;color:#94a3b8;margin-top:14px">Select your name to continue</div>
+  </div>
+</div>
+
 <script>
+
 // ════════════════════════════════════════════════════
 // CONFIGURATION — paste your deployed script URL here
 // ════════════════════════════════════════════════════
@@ -1825,6 +1845,47 @@ function toggleVisitLog(){
   el.style.display = isHidden ? 'block' : 'none';
   if(isHidden) renderVisitLog();
 }
+
+
+function welcomeSelect(r){
+  if(r==='PL'){
+    // Show password prompt inside overlay
+    document.getElementById('who-overlay').innerHTML = `
+      <div style="background:#fff;border-radius:20px;padding:2rem 2.5rem;width:340px;box-shadow:0 20px 60px rgba(0,0,0,.3);text-align:center">
+        <div style="font-size:28px;margin-bottom:8px">🔐</div>
+        <div style="font-size:16px;font-weight:700;color:#0f172a;margin-bottom:4px">Tareq (PL)</div>
+        <div style="font-size:13px;color:#64748b;margin-bottom:1.5rem">Enter your password to continue</div>
+        <input id="welcome-pw" type="password" placeholder="Password"
+          style="width:100%;padding:10px 12px;border:1.5px solid #e2e8f0;border-radius:10px;font-size:14px;margin-bottom:8px;text-align:center"
+          onkeydown="if(event.key==='Enter')welcomeCheckPw()">
+        <div id="welcome-pw-err" style="color:#b91c1c;font-size:12px;margin-bottom:8px;display:none">Incorrect password</div>
+        <div style="display:flex;gap:8px">
+          <button onclick="welcomeCheckPw()" style="flex:1;padding:10px;border-radius:10px;background:#1d4ed8;color:#fff;border:none;font-size:14px;font-weight:600;cursor:pointer">Enter</button>
+          <button onclick="location.reload()" style="padding:10px 14px;border-radius:10px;background:#f1f5f9;color:#64748b;border:none;font-size:13px;cursor:pointer">Back</button>
+        </div>
+      </div>`;
+    setTimeout(()=>document.getElementById('welcome-pw').focus(),50);
+    return;
+  }
+  // Dismiss overlay and set identity
+  document.getElementById('who-overlay').style.display='none';
+  plUnlocked = false;
+  setIdentity(r);
+}
+
+function welcomeCheckPw(){
+  const pw = document.getElementById('welcome-pw').value;
+  if(pw==='tareq123'){
+    plUnlocked=true;
+    document.getElementById('who-overlay').style.display='none';
+    setIdentity('PL');
+  } else {
+    document.getElementById('welcome-pw-err').style.display='block';
+    document.getElementById('welcome-pw').value='';
+    document.getElementById('welcome-pw').focus();
+  }
+}
+
 
 // ════════════════════════════════════════════════════
 // BOOT
