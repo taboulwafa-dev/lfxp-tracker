@@ -956,7 +956,10 @@ function renderIssues(){
     ${!pm?`<button class="btn" onclick="toggleIssueAdd()"><i class="ti ti-plus" style="font-size:13px;vertical-align:-1px;margin-right:3px"></i>Add issue</button>`:''}
   </div>
   ${!pm?`<div class="panel ${showIssueAdd?'show':''}" style="margin:0 0 10px">
-    <div class="fg"><label>Describe the issue</label><textarea class="inp" id="itxt" placeholder="What's the concern?" style="min-height:60px"></textarea></div>
+    <div class="frow" style="gap:12px;align-items:flex-start">
+      <div class="fg"><label>Issue description</label><textarea class="inp" id="itxt" placeholder="Describe the concern…" style="min-height:80px"></textarea></div>
+      <div class="fg"><label>Corrective action</label><textarea class="inp" id="icorr" placeholder="What action is being taken?…" style="min-height:80px;border-color:#86efac;background:#f0fdf4"></textarea></div>
+    </div>
     <div class="frow"><div class="fg"><label>Priority</label><select class="inp" id="icit"><option value="0">Normal</option><option value="1">Critical 🔴</option></select></div></div>
     <div class="action-row" style="margin-top:0"><button class="btn pri" onclick="addIssue()">Submit</button><button class="btn" onclick="toggleIssueAdd()">Cancel</button></div>
   </div>`:''}`;
