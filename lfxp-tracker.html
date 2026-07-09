@@ -1591,17 +1591,20 @@ function renderLiner(){
 
   // Summary cards
   const totalItems = LINER_ITEMS.length;
-  const withActual = LINER_ITEMS.filter(item => linerActuals[item.id] !== undefined && linerActuals[item.id] !== null);
-  const onTrack = withActual.filter(item => {
+  const onTrack = LINER_ITEMS.filter(item => {
     const plan = getPlanAt(item, linerDate);
-    const actual = linerActuals[item.id];
-    // On track or ahead: actual >= plan (includes plan=0 cases = doing work ahead of schedule)
-    return actual >= plan;
+    const actual = linerActuals[item.id] !== undefined ? linerActuals[item.id] : null;
+    if(plan === 0 && actual === null) return false; // not started, nothing planned
+    if(actual === null) return false; // has plan but no actual = behind, not on track
+    return actual >= plan; // actual entered and >= plan
   }).length;
-  const behind = withActual.filter(item => {
+  const behind = LINER_ITEMS.filter(item => {
     const plan = getPlanAt(item, linerDate);
-    const actual = linerActuals[item.id];
-    return actual < plan;
+    const actual = linerActuals[item.id] !== undefined ? linerActuals[item.id] : null;
+    if(plan === 0 && actual === null) return false; // nothing planned, nothing entered
+    if(actual === null && plan > 0) return true; // plan exists but no actual = behind
+    if(actual !== null && actual < plan) return true; // actual entered but less than plan
+    return false;
   }).length;
 
   html += `<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px">
