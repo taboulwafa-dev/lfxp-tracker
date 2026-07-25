@@ -1211,6 +1211,7 @@ const PMS_ACTS_5A = [
 ];
 
 let progActivePortion = null;
+let progStatusFilter = 'all';
 let progPhaseOpen = {};
 let progChartInst = null;
 
@@ -1331,7 +1332,10 @@ function renderPortionDetail(){
   }
 
   const phaseRows=Object.entries(p.phases).map(([key,ph])=>{
-    const phActs=acts.filter(a=>a.phase===key);
+    const phActsAll=acts.filter(a=>a.phase===key);
+      const phActs = progStatusFilter==='notstarted' ? phActsAll.filter(a=>a.plan>0&&a.actual===0)
+                   : progStatusFilter==='started'    ? phActsAll.filter(a=>a.actual>0&&a.actual<a.plan)
+                   : phActsAll;
     const isOpen=!!progPhaseOpen[key];
     const behind=phActs.length;
     return `
@@ -1359,7 +1363,22 @@ function renderPortionDetail(){
   }).join('');
 
   el.style.display='block';
-  el.innerHTML=`<div style="background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);overflow:hidden;margin-bottom:14px">
+  el.innerHTML=`
+  <div style="background:#fff;border:1.5px solid #e2e8f0;border-radius:12px;padding:.75rem 1rem;margin-bottom:10px;box-shadow:0 1px 4px rgba(0,0,0,.05)">
+    <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:8px">
+      <span style="font-size:11px;font-weight:600;color:#64748b">Filter status:</span>
+      <button id="prf-all" onclick="progFilterStatus('all')" style="font-size:12px;padding:3px 10px;border-radius:20px;cursor:pointer;border:1.5px solid #185FA5;background:#eff6ff;color:#185FA5;font-weight:600">All</button>
+      <button id="prf-notstarted" onclick="progFilterStatus('notstarted')" style="font-size:12px;padding:3px 10px;border-radius:20px;cursor:pointer;border:1px solid #fca5a5;background:#fff0f0;color:#b91c1c">🔴 Not Started</button>
+      <button id="prf-started" onclick="progFilterStatus('started')" style="font-size:12px;padding:3px 10px;border-radius:20px;cursor:pointer;border:1px solid #fde68a;background:#fffbeb;color:#92400e">🟡 In Progress</button>
+    </div>
+    <div style="display:flex;gap:14px;font-size:11px;color:#64748b;flex-wrap:wrap;align-items:center">
+      <span style="font-weight:600">Legend:</span>
+      <span style="display:flex;align-items:center;gap:4px"><span style="width:13px;height:13px;background:#fff0f0;border:1px solid #fca5a5;border-radius:3px;display:inline-block"></span>Plan &gt; 0 — Not Started</span>
+      <span style="display:flex;align-items:center;gap:4px"><span style="width:13px;height:13px;background:#fffbeb;border:1px solid #fde68a;border-radius:3px;display:inline-block"></span>In Progress — behind plan</span>
+      <span style="display:flex;align-items:center;gap:4px"><span style="width:13px;height:13px;background:#fff;border:1px solid #e2e8f0;border-radius:3px;display:inline-block"></span>On track</span>
+    </div>
+  </div>
+  ` + `<div style="background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);overflow:hidden;margin-bottom:14px">
     <div style="padding:.8rem 1.1rem;background:#eff6ff;border-bottom:1.5px solid #dbeafe;display:flex;align-items:center;justify-content:space-between">
       <span style="font-size:13px;font-weight:600;color:var(--color-text-info)">${p.label} — Phase Breakdown</span>
       <span style="font-size:11px;color:var(--color-text-secondary)">Click phase to expand activities</span>
@@ -1400,6 +1419,19 @@ function renderPhaseTable(acts){
     </tr></thead>
     <tbody>${rows}</tbody>
   </table></div>`;
+}
+
+function progFilterStatus(key){
+  progStatusFilter = key;
+  ['all','notstarted','started'].forEach(k=>{
+    const btn=document.getElementById('prf-'+k);
+    if(!btn)return;
+    const active = k===key;
+    btn.style.fontWeight = active?'600':'400';
+    btn.style.borderWidth = active?'1.5px':'1px';
+  });
+  // Re-render all open phases
+  renderPortionDetail();
 }
 
 function togglePhase(key){
