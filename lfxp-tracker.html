@@ -379,7 +379,7 @@ const DEFAULT_PROC=[
   {cat:"Liner",id:"p6",name:"Separator Geotextile",unit:"M²",boq:47600,delivered:43200,req_date:"27-Jun-26",exp_date:"",status:"Delivery InProgress"},
   {cat:"Liner",id:"p7",name:"Sand",unit:"M³",boq:23575,delivered:10000,req_date:"10-Jun-26",exp_date:"",status:"Delivery InProgress"},
   {cat:"Liner",id:"p8",name:"Gravel",unit:"M³",boq:17397,delivered:8950,req_date:"06-Jul-26",exp_date:"",status:"Delivery InProgress"},
-  {cat:"Leachate System",id:"p9",name:"Pipes and fittings",unit:"m",boq:1434,delivered:0,req_date:"06-Jul-26",exp_date:"",status:"Pending Payment"},
+  {cat:"Leachate System",id:"p9",name:"Pipes and fittings",unit:"m",boq:1870,delivered:0,req_date:"06-Jul-26",exp_date:"",status:"Pending Payment"},
   {cat:"Leachate System",id:"p10",name:"Valves and fittings",unit:"LS",boq:1,delivered:0,req_date:"23-Aug-26",exp_date:"",status:"RAM Approval"},
   {cat:"Leachate System",id:"p11",name:"Pump",unit:"No.",boq:2,delivered:0,req_date:"23-Aug-26",exp_date:"",status:"FAT Done"},
   {cat:"Electrical",id:"p12",name:"Cables",unit:"LS",boq:1,delivered:1,req_date:"07-Sep-26",exp_date:"",status:"Delivered"},
@@ -1000,16 +1000,16 @@ function renderIssues(){
 // ════════════════════════════════════════════════════
 // PROGRESS SUMMARY
 // ════════════════════════════════════════════════════
-const PMS_WEEK = '24-Jul-26';
+const PMS_WEEK = '31-Jul-26';
 const PMS_DATA = {
-  overall: {plan:63.2, actual:55.6, var:-7.6, start:'25-Jan-26', finish:'20-May-27'},
+  overall: {plan:65.1, actual:56.2, var:-8.9, start:'25-Jan-26', finish:'20-May-27'},
   portion5a: {
     label:'Portion 5A', subtitle:'Design, Supply & Construct',
-    plan:77.7, actual:68.3, var:-9.4, start:'25-Jan-26', finish:'20-May-27',
+    plan:80.1, actual:69.1, var:-11.0, start:'25-Jan-26', finish:'20-May-27',
     phases:{
       engineering:   {label:'Engineering',   plan:88.2, actual:78.4, var:-9.8},
-      procurement:   {label:'Procurement',   plan:99.8, actual:88.0, var:-11.8},
-      construction:  {label:'Construction',  plan:71.1, actual:62.2, var:-8.9},
+      procurement:   {label:'Procurement',   plan:100.0, actual:88.3, var:-11.7},
+      construction:  {label:'Construction',  plan:74.8, actual:63.3, var:-11.5},
       commissioning: {label:'Commissioning', plan:0.0, actual:0.0, var:0.0},
     }
   },
@@ -1027,13 +1027,13 @@ const PMS_DATA = {
 };
 
 const SCURVE_5A = [
-  {date:'03-Jul-26',plan:70.2, actual:63.4, wp:1.4, wa:0.6},
   {date:'11-Jul-26',plan:72.4, actual:64.4, wp:2.2, wa:1.0},
-  {date:'17-Jul-26',plan:74.9,actual:66.5, wp:2.5, wa:2.1},
-  {date:'24-Jul-26',plan:77.7,actual:68.3, wp:2.8,wa:1.8},
-  {date:'31-Jul-26',plan:79.3, actual:null,  wp:1.6, wa:null},
-  {date:'07-Aug-26',plan:81.5, actual:null,  wp:2.2, wa:null},
-  {date:'14-Aug-26',plan:83.7, actual:null,  wp:2.2, wa:null},
+  {date:'17-Jul-26',plan:74.9, actual:66.5, wp:2.5, wa:2.1},
+  {date:'24-Jul-26',plan:77.7,actual:68.3, wp:2.8, wa:1.8},
+  {date:'31-Jul-26',plan:80.1,actual:69.1, wp:2.4,wa:0.8},
+  {date:'07-Aug-26',plan:82.3, actual:null,  wp:2.2, wa:null},
+  {date:'14-Aug-26',plan:84.5, actual:null,  wp:2.2, wa:null},
+  {date:'21-Aug-26',plan:86.7, actual:null,  wp:2.2, wa:null},
 ];
 
 const PMS_ACTS_5A = [
@@ -1113,13 +1113,13 @@ const PMS_ACTS_5A = [
   {id:'S75A-P-EX-CIV-FT-180',name:"Conformance Testing for Filter Geotextile",phase:'procurement',plan:100.0,actual:100.0,var:0.0,weight:0.51,var_w:0.0,start:'11-May-26',finish:'31-May-26',behind:false},
   {id:'S75A-P-EX-CIV-GA-100',name:"Supply of Gatch for Bund Wall + SubGrade Layer",phase:'procurement',plan:100.0,actual:100.0,var:0.0,weight:1.77,var_w:0.0,start:'31-Jan-26',finish:'12-May-26',behind:false},
   {id:'S75A-P-EX-CIV-SA-100',name:"Supply of Sand",phase:'procurement',plan:100.0,actual:100.0,var:0.0,weight:0.25,var_w:0.0,start:'12-May-26',finish:'26-May-26',behind:false},
-  {id:'S75A-P-EX-CIV-LD-100',name:"Supply of Drainage Aggregate",phase:'procurement',plan:100.0,actual:85.1,var:-14.9,weight:0.51,var_w:-0.08,start:'26-May-26',finish:'03-Jun-26',behind:true},
+  {id:'S75A-P-EX-CIV-LD-100',name:"Supply of Drainage Aggregate",phase:'procurement',plan:100.0,actual:100.0,var:0.0,weight:0.51,var_w:0.0,start:'26-May-26',finish:'03-Jun-26',behind:false},
   {id:'S75A-P-EX-STR-FG-130',name:"Submission of RAM for Galvanized Chain Link Fence Fabric, Posts, Fittings and Barbed Wires",phase:'procurement',plan:100.0,actual:100.0,var:0.0,weight:0.2,var_w:0.0,start:'18-May-26',finish:'30-May-26',behind:false},
   {id:'S75A-P-EX-STR-FG-140',name:"Approval of RAM for Galvanized Chain Link Fence Fabric, Posts, Fittings and Barbed Wires",phase:'procurement',plan:100.0,actual:100.0,var:0.0,weight:0.2,var_w:0.0,start:'31-May-26',finish:'04-Jun-26',behind:false},
   {id:'S75A-P-EX-STR-FG-190',name:"Delivery at Site of Galvanized Chain Link Fence Fabric, Posts and Barbed Wires",phase:'procurement',plan:100.0,actual:95.0,var:-5.0,weight:0.41,var_w:-0.02,start:'06-Jun-26',finish:'06-Jul-26',behind:true},
   {id:'S75A-P-EX-STR-CB-130',name:"Submission of RAM for Pipe Crash Barriers",phase:'procurement',plan:100.0,actual:100.0,var:0.0,weight:0.08,var_w:0.0,start:'06-Jun-26',finish:'11-Jun-26',behind:false},
   {id:'S75A-P-EX-STR-CB-140',name:"Approval of RAM for Pipe Crash Barriers",phase:'procurement',plan:100.0,actual:100.0,var:0.0,weight:0.08,var_w:0.0,start:'14-Jun-26',finish:'21-Jun-26',behind:false},
-  {id:'S75A-P-EX-STR-CB-190',name:"Delivery at Site of Pipe Crash Barriers",phase:'procurement',plan:100.0,actual:43.4,var:-56.6,weight:0.16,var_w:-0.09,start:'22-Jun-26',finish:'21-Jul-26',behind:true},
+  {id:'S75A-P-EX-STR-CB-190',name:"Delivery at Site of Pipe Crash Barriers",phase:'procurement',plan:100.0,actual:53.4,var:-46.6,weight:0.16,var_w:-0.07,start:'22-Jun-26',finish:'21-Jul-26',behind:true},
   {id:'S75A-P-EX-STR-SH-130',name:"Submission of RAM for Structural Steel Shelters for Equipment",phase:'procurement',plan:100.0,actual:100.0,var:0.0,weight:0.04,var_w:0.0,start:'18-May-26',finish:'30-May-26',behind:false},
   {id:'S75A-P-EX-STR-SH-140',name:"Approval of RAM for Structural Steel Shelters for Equipment",phase:'procurement',plan:100.0,actual:100.0,var:0.0,weight:0.04,var_w:0.0,start:'31-May-26',finish:'04-Jun-26',behind:false},
   {id:'S75A-P-EX-STR-SH-190',name:"Delivery at Site of Structural Steel Shelters for Equipment",phase:'procurement',plan:100.0,actual:0.0,var:-100.0,weight:0.08,var_w:-0.08,start:'06-Jun-26',finish:'06-Jul-26',behind:true},
@@ -1146,12 +1146,12 @@ const PMS_ACTS_5A = [
   {id:'S75A-P-EX-ELC-DG-130',name:"Submission of RAM for Diesel Generator Sets",phase:'procurement',plan:100.0,actual:100.0,var:0.0,weight:0.2,var_w:0.0,start:'06-Jun-26',finish:'13-Jun-26',behind:false},
   {id:'S75A-P-EX-ELC-DG-140',name:"Approval of RAM for Diesel Generator Sets",phase:'procurement',plan:100.0,actual:100.0,var:0.0,weight:0.2,var_w:0.0,start:'14-Jun-26',finish:'21-Jun-26',behind:false},
   {id:'S75A-P-EX-ELC-DG-160',name:"Third Party Inspection for Diesel Generator Sets",phase:'procurement',plan:100.0,actual:0.0,var:-100.0,weight:0.2,var_w:-0.2,start:'22-Jun-26',finish:'28-Jun-26',behind:true},
-  {id:'S75A-P-EX-ELC-DG-190',name:"Delivery at Site of Diesel Generator Sets",phase:'procurement',plan:84.6,actual:100.0,var:15.4,weight:0.2,var_w:0.03,start:'29-Jun-26',finish:'28-Jul-26',behind:false},
+  {id:'S75A-P-EX-ELC-DG-190',name:"Delivery at Site of Diesel Generator Sets",phase:'procurement',plan:100.0,actual:100.0,var:0.0,weight:0.2,var_w:0.0,start:'29-Jun-26',finish:'28-Jul-26',behind:false},
   {id:'S75A-P-EX-ELC-CA-130',name:"Submission of RAM for Cables",phase:'procurement',plan:100.0,actual:100.0,var:0.0,weight:0.02,var_w:0.0,start:'18-May-26',finish:'30-May-26',behind:false},
   {id:'S75A-P-EX-ELC-CA-140',name:"Approval of RAM for Cables",phase:'procurement',plan:100.0,actual:100.0,var:0.0,weight:0.02,var_w:0.0,start:'31-May-26',finish:'04-Jun-26',behind:false},
   {id:'S75A-P-EX-ELC-CA-190',name:"Delivery at Site of Cables",phase:'procurement',plan:100.0,actual:100.0,var:0.0,weight:0.05,var_w:0.0,start:'06-Jun-26',finish:'06-Jul-26',behind:false},
-  {id:'S75A-P-EX-FST-FE-130',name:"Submission of RAM for Fire Extinguishers",phase:'procurement',plan:100.0,actual:100.0,var:0.0,weight:0.05,var_w:0.0,start:'18-May-26',finish:'30-May-26',behind:false},
-  {id:'S75A-P-EX-FST-FE-140',name:"Approval of RAM for Fire Extinguishers",phase:'procurement',plan:100.0,actual:100.0,var:0.0,weight:0.05,var_w:0.0,start:'31-May-26',finish:'04-Jun-26',behind:false},
+  {id:'S75A-P-EX-FST-FE-130',name:"Submission of RAM for Fire Extinguishers",phase:'procurement',plan:100.0,actual:50.0,var:-50.0,weight:0.05,var_w:-0.03,start:'18-May-26',finish:'30-May-26',behind:true},
+  {id:'S75A-P-EX-FST-FE-140',name:"Approval of RAM for Fire Extinguishers",phase:'procurement',plan:100.0,actual:50.0,var:-50.0,weight:0.05,var_w:-0.03,start:'31-May-26',finish:'04-Jun-26',behind:true},
   {id:'S75A-P-EX-FST-FE-190',name:"Delivery at Site of Fire Extinguishers",phase:'procurement',plan:100.0,actual:0.0,var:-100.0,weight:0.09,var_w:-0.09,start:'06-Jun-26',finish:'06-Jul-26',behind:true},
   {id:'S75A-C-EX-DRW-EL-100',name:"Submit & Approve of Earthing System Layout",phase:'construction',plan:100.0,actual:0.0,var:-100.0,weight:0.16,var_w:-0.16,start:'12-Jun-26',finish:'02-Jul-26',behind:true},
   {id:'S75A-C-EX-DRW-EL-110',name:"Submit & Approve of Solar Panels Details Drawings",phase:'construction',plan:100.0,actual:0.0,var:-100.0,weight:0.16,var_w:-0.16,start:'12-Jun-26',finish:'02-Jul-26',behind:true},
@@ -1165,29 +1165,29 @@ const PMS_ACTS_5A = [
   {id:'S75A-C-EX-CIV-EW-330',name:"Grading and Leveling for Landfill Base and Forming of Slopes",phase:'construction',plan:100.0,actual:100.0,var:0.0,weight:2.31,var_w:0.0,start:'28-Mar-26',finish:'18-May-26',behind:false},
   {id:'S75A-C-EX-CIV-EW-370',name:"Excavation of Anchor Trench for Base and Walls Liner System",phase:'construction',plan:100.0,actual:100.0,var:0.0,weight:0.45,var_w:0.0,start:'17-Mar-26',finish:'18-May-26',behind:false},
   {id:'S75A-C-EX-CIV-EW-360',name:"Formation of Leachate Collection Sumps",phase:'construction',plan:100.0,actual:100.0,var:0.0,weight:0.41,var_w:0.0,start:'02-Apr-26',finish:'18-May-26',behind:false},
-  {id:'S75A-C-EX-CIV-EW-380',name:"Filling of Anchor Trench for Base and Walls Liner System",phase:'construction',plan:0.0,actual:74.5,var:74.5,weight:0.45,var_w:0.34,start:'26-Jul-26',finish:'08-Aug-26',behind:false},
+  {id:'S75A-C-EX-CIV-EW-380',name:"Filling of Anchor Trench for Base and Walls Liner System",phase:'construction',plan:41.7,actual:74.5,var:32.8,weight:0.45,var_w:0.15,start:'26-Jul-26',finish:'08-Aug-26',behind:false},
   {id:'S75A-C-EX-CIV-LN-100',name:"Laying of Subgrade Layer 500mm Compacted Gatch for Base and Side Slopes",phase:'construction',plan:100.0,actual:100.0,var:0.0,weight:4.99,var_w:0.0,start:'18-Mar-26',finish:'18-May-26',behind:false},
-  {id:'S75A-C-EX-CIV-LN-110',name:"Laying of Geosynthetic Clay Liner (G.C.L) Base and Side Slopes",phase:'construction',plan:100.0,actual:86.0,var:-14.0,weight:1.33,var_w:-0.19,start:'29-Apr-26',finish:'20-Jun-26',behind:true},
+  {id:'S75A-C-EX-CIV-LN-110',name:"Laying of Geosynthetic Clay Liner (G.C.L) Base and Side Slopes",phase:'construction',plan:100.0,actual:90.4,var:-9.6,weight:1.33,var_w:-0.13,start:'29-Apr-26',finish:'20-Jun-26',behind:true},
   {id:'S75A-C-EX-CIV-LN-130',name:"Laying of Smooth HDPE Geomembrane Layer Thickness 2mm  for Base",phase:'construction',plan:100.0,actual:69.3,var:-30.7,weight:0.55,var_w:-0.17,start:'29-Apr-26',finish:'20-Jun-26',behind:true},
   {id:'S75A-C-EX-CIV-LN-120',name:"Laying of Textured HDPE Geomembrane Layer Thickness 2mm for Side Slopes",phase:'construction',plan:100.0,actual:94.4,var:-5.6,weight:0.33,var_w:-0.02,start:'29-Apr-26',finish:'20-Jun-26',behind:true},
   {id:'S75A-C-EX-CIV-LN-160',name:"Spreading of 250 mm Sand Protection layer for Base",phase:'construction',plan:100.0,actual:90.3,var:-9.7,weight:1.11,var_w:-0.11,start:'06-Jun-26',finish:'29-Jun-26',behind:true},
   {id:'S75A-C-EX-CIV-LN-150',name:"Laying of Geocomposite Drainage Layer (GDL) for Side Slopes",phase:'construction',plan:100.0,actual:74.5,var:-25.5,weight:0.55,var_w:-0.14,start:'21-Jun-26',finish:'06-Jul-26',behind:true},
   {id:'S75A-C-EX-CIV-LN-170',name:"Laying of Geotextile Separation Layer for Base and 1M on Side Slopes",phase:'construction',plan:100.0,actual:60.9,var:-39.1,weight:0.28,var_w:-0.11,start:'21-Jun-26',finish:'06-Jul-26',behind:true},
-  {id:'S75A-C-EX-CIV-LN-180',name:"Spreading of 300mm Drainage Layer (20mm Drainage Aggregate) for Base and Side Slopes",phase:'construction',plan:94.4,actual:59.7,var:-34.7,weight:1.11,var_w:-0.39,start:'05-Jul-26',finish:'25-Jul-26',behind:true},
-  {id:'S75A-C-EX-CIV-LN-200',name:"Spreading of Filter Geotextile for Base and Side Slopes",phase:'construction',plan:0.0,actual:6.5,var:6.5,weight:0.28,var_w:0.02,start:'26-Jul-26',finish:'08-Aug-26',behind:false},
-  {id:'S75A-C-EX-CIV-LN-210',name:"Spreading of 150mm Sand Protection Layer for Base and 200 mm for Side Slope",phase:'construction',plan:0.0,actual:30.8,var:30.8,weight:0.55,var_w:0.17,start:'26-Jul-26',finish:'08-Aug-26*',behind:false},
-  {id:'S75A-C-EX-CIV-CN-100',name:"Construction of Foundations for Lighting Poles",phase:'construction',plan:69.2,actual:0.0,var:-69.2,weight:1.11,var_w:-0.77,start:'04-Jul-26',finish:'02-Aug-26',behind:true},
+  {id:'S75A-C-EX-CIV-LN-180',name:"Spreading of 300mm Drainage Layer (20mm Drainage Aggregate) for Base and Side Slopes",phase:'construction',plan:100.0,actual:62.7,var:-37.3,weight:1.11,var_w:-0.41,start:'05-Jul-26',finish:'25-Jul-26',behind:true},
+  {id:'S75A-C-EX-CIV-LN-200',name:"Spreading of Filter Geotextile for Base and Side Slopes",phase:'construction',plan:41.7,actual:6.5,var:-35.2,weight:0.28,var_w:-0.1,start:'26-Jul-26',finish:'08-Aug-26',behind:true},
+  {id:'S75A-C-EX-CIV-LN-210',name:"Spreading of 150mm Sand Protection Layer for Base and 200 mm for Side Slope",phase:'construction',plan:41.7,actual:31.1,var:-10.6,weight:0.55,var_w:-0.06,start:'26-Jul-26',finish:'08-Aug-26*',behind:true},
+  {id:'S75A-C-EX-CIV-CN-100',name:"Construction of Foundations for Lighting Poles",phase:'construction',plan:92.3,actual:0.0,var:-92.3,weight:1.11,var_w:-1.02,start:'04-Jul-26',finish:'02-Aug-26',behind:true},
   {id:'S75A-C-EX-CIV-CN-120',name:"Construction of Slab for Leachate Riser",phase:'construction',plan:0.0,actual:0.0,var:0.0,weight:0.55,var_w:0.0,start:'09-Aug-26',finish:'22-Aug-26',behind:false},
   {id:'S75A-C-EX-CIV-CN-110',name:"Construction of Foundations and Shelters for Equipments",phase:'construction',plan:0.0,actual:0.0,var:0.0,weight:0.55,var_w:0.0,start:'03-Aug-26',finish:'16-Aug-26',behind:false},
-  {id:'S75A-C-EX-CIV-ST-100',name:"Installation of Chain Link Fence and Gates",phase:'construction',plan:57.7,actual:95.0,var:37.3,weight:0.78,var_w:0.29,start:'07-Jul-26',finish:'05-Aug-26',behind:false},
-  {id:'S75A-C-EX-CIV-ST-130',name:"Installation of Crash Barriers",phase:'construction',plan:7.7,actual:0.0,var:-7.7,weight:0.78,var_w:-0.06,start:'22-Jul-26',finish:'20-Aug-26',behind:true},
+  {id:'S75A-C-EX-CIV-ST-100',name:"Installation of Chain Link Fence and Gates",phase:'construction',plan:80.8,actual:95.0,var:14.2,weight:0.78,var_w:0.11,start:'07-Jul-26',finish:'05-Aug-26',behind:false},
+  {id:'S75A-C-EX-CIV-ST-130',name:"Installation of Crash Barriers",phase:'construction',plan:30.8,actual:0.0,var:-30.8,weight:0.78,var_w:-0.24,start:'22-Jul-26',finish:'20-Aug-26',behind:true},
   {id:'S75A-C-EX-CIV-ST-110',name:"Installation of Caution Sigh Board",phase:'construction',plan:0.0,actual:5.0,var:5.0,weight:0.33,var_w:0.02,start:'06-Aug-26',finish:'06-Sep-26',behind:false},
   {id:'S75A-C-EX-CIV-ST-120',name:"Construction of Platforms, Access Ladders",phase:'construction',plan:0.0,actual:0.0,var:0.0,weight:0.33,var_w:0.0,start:'23-Aug-26',finish:'06-Sep-26',behind:false},
   {id:'S75A-C-EX-CIV-EW-340',name:"Filling for External Ramp",phase:'construction',plan:100.0,actual:100.0,var:0.0,weight:0.3,var_w:0.0,start:'18-May-26',finish:'06-Jun-26',behind:false},
   {id:'S75A-C-EX-CIV-EW-350',name:"Filling For Internal Ramp",phase:'construction',plan:0.0,actual:0.0,var:0.0,weight:0.3,var_w:0.0,start:'09-Aug-26',finish:'17-Aug-26',behind:false},
   {id:'S75A-C-EX-CIV-TM-120',name:"Construction of Gatch Access Road Around Landfill Area",phase:'construction',plan:100.0,actual:100.0,var:0.0,weight:0.44,var_w:0.0,start:'18-May-26',finish:'15-Jun-26',behind:false},
-  {id:'S75A-C-EX-MCH-CH-340',name:"Installation of Main Lechate Piping and Fittings",phase:'construction',plan:94.4,actual:0.0,var:-94.4,weight:0.33,var_w:-0.31,start:'05-Jul-26',finish:'25-Jul-26',behind:true},
-  {id:'S75A-C-EX-MCH-CH-350',name:"Installation of Secondary Lechate Piping and Fittings",phase:'construction',plan:94.4,actual:5.7,var:-88.7,weight:2.22,var_w:-1.97,start:'05-Jul-26',finish:'25-Jul-26',behind:true},
+  {id:'S75A-C-EX-MCH-CH-340',name:"Installation of Main Lechate Piping and Fittings",phase:'construction',plan:100.0,actual:0.0,var:-100.0,weight:0.33,var_w:-0.33,start:'05-Jul-26',finish:'25-Jul-26',behind:true},
+  {id:'S75A-C-EX-MCH-CH-350',name:"Installation of Secondary Lechate Piping and Fittings",phase:'construction',plan:100.0,actual:26.8,var:-73.2,weight:2.22,var_w:-1.63,start:'05-Jul-26',finish:'25-Jul-26',behind:true},
   {id:'S75A-C-EX-MCH-CH-360',name:"Installation of Leachate Riser Pipe (Perforated part)",phase:'construction',plan:0.0,actual:0.0,var:0.0,weight:0.01,var_w:0.0,start:'02-Aug-26',finish:'08-Aug-26',behind:false},
   {id:'S75A-C-EX-MCH-CH-370',name:"Installation of Leachate Riser Pipe (Non-Perforated part)",phase:'construction',plan:0.0,actual:0.0,var:0.0,weight:0.12,var_w:0.0,start:'02-Aug-26',finish:'08-Aug-26',behind:false},
   {id:'S75A-C-EX-MCH-CH-400',name:"Installation of Leachate Pumping System",phase:'construction',plan:0.0,actual:0.0,var:0.0,weight:2.25,var_w:0.0,start:'23-Aug-26',finish:'06-Sep-26',behind:false},
@@ -1195,8 +1195,8 @@ const PMS_ACTS_5A = [
   {id:'S75A-C-EX-MCH-CH-410',name:"Installation of Leachate Check Pipe",phase:'construction',plan:0.0,actual:0.0,var:0.0,weight:0.13,var_w:0.0,start:'02-Aug-26',finish:'08-Aug-26',behind:false},
   {id:'S75A-C-EX-MCH-SW-200',name:"Construction of Culvert under Access Ramp",phase:'construction',plan:100.0,actual:0.0,var:-100.0,weight:0.57,var_w:-0.57,start:'04-May-26',finish:'18-May-26',behind:true},
   {id:'S75A-C-EX-MCH-SW-210',name:"Construction of Drainage Open Channels (Excavation)",phase:'construction',plan:100.0,actual:100.0,var:0.0,weight:0.57,var_w:0.0,start:'30-Jun-26',finish:'14-Jul-26',behind:false},
-  {id:'S75A-C-EX-MCH-SW-220',name:"Installation of Concrete for Open Channels",phase:'construction',plan:46.5,actual:15.7,var:-30.8,weight:1.71,var_w:-0.53,start:'14-Jul-26',finish:'04-Aug-26',behind:true},
-  {id:'S75A-C-EX-MCH-SW-230',name:"Construction of Soak Away Pits and Fence",phase:'construction',plan:58.3,actual:0.0,var:-58.3,weight:1.14,var_w:-0.66,start:'14-Jul-26',finish:'01-Aug-26',behind:true},
+  {id:'S75A-C-EX-MCH-SW-220',name:"Installation of Concrete for Open Channels",phase:'construction',plan:79.9,actual:24.8,var:-55.1,weight:1.71,var_w:-0.94,start:'14-Jul-26',finish:'04-Aug-26',behind:true},
+  {id:'S75A-C-EX-MCH-SW-230',name:"Construction of Soak Away Pits and Fence",phase:'construction',plan:97.2,actual:0.0,var:-97.2,weight:1.14,var_w:-1.11,start:'14-Jul-26',finish:'01-Aug-26',behind:true},
   {id:'S75A-C-EX-MCH-SW-240',name:"Installation of Concrete for Soak Away Pits",phase:'construction',plan:0.0,actual:0.0,var:0.0,weight:1.71,var_w:0.0,start:'04-Aug-26',finish:'16-Aug-26',behind:false},
   {id:'S75A-C-EX-ELC-GN-100',name:"Installation of Electrical Cables",phase:'construction',plan:0.0,actual:0.0,var:0.0,weight:0.32,var_w:0.0,start:'07-Sep-26',finish:'20-Sep-26',behind:false},
   {id:'S75A-C-EX-ELC-GN-120',name:"Install Grounding System",phase:'construction',plan:0.0,actual:0.0,var:0.0,weight:0.63,var_w:0.0,start:'01-Sep-26',finish:'14-Sep-26',behind:false},
@@ -1276,7 +1276,7 @@ function buildProgressHTML(){
 
   return `
   <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px">
-    <div style="font-size:12px;color:var(--color-text-secondary)">Week ending: <strong style="color:var(--color-text-primary)">${PMS_WEEK}</strong> &nbsp;·&nbsp; PMS_LANDFILL_24-JUL-2026</div>
+    <div style="font-size:12px;color:var(--color-text-secondary)">Week ending: <strong style="color:var(--color-text-primary)">${PMS_WEEK}</strong> &nbsp;·&nbsp; PMS_LANDFILL_31-JUL-2026</div>
     <div style="display:flex;gap:10px;align-items:center;font-size:12px;color:var(--color-text-secondary)">
       <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:2px;background:#185FA5;display:inline-block"></span>Planned</span>
       <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:2px;background:#3B6D11;display:inline-block"></span>Actual</span>
@@ -1535,7 +1535,7 @@ const LINER_ITEMS = [
   {id:"6",name:"Separator Geotextile for base",qty:47600.0,unit:"M2",start:"27-Jun-26",finish:"27-Jul-26",daily_prod:3400.0,daily:{"27-Jun-26":3400.0,"28-Jun-26":3400.0,"29-Jun-26":3400.0,"30-Jun-26":3400.0,"01-Jul-26":3400.0,"02-Jul-26":3400.0,"04-Jul-26":3400.0,"05-Jul-26":3400.0,"06-Jul-26":3400.0,"07-Jul-26":3400.0,"08-Jul-26":3400.0,"09-Jul-26":3400.0,"11-Jul-26":3400.0,"12-Jul-26":3400.0,"27-Jul-26":3400.0}},
   {id:"7",name:"GDL for Slopes",qty:19600.0,unit:"M2",start:"27-Jun-26",finish:"27-Jul-26",daily_prod:1400.0,daily:{"27-Jun-26":1400.0,"28-Jun-26":1400.0,"29-Jun-26":1400.0,"30-Jun-26":1400.0,"01-Jul-26":1400.0,"02-Jul-26":1400.0,"04-Jul-26":1400.0,"05-Jul-26":1400.0,"06-Jul-26":1400.0,"07-Jul-26":1400.0,"08-Jul-26":1400.0,"09-Jul-26":1400.0,"11-Jul-26":1400.0,"12-Jul-26":1400.0,"27-Jul-26":1400.0}},
   {id:"8",name:"Spreading of 300mm Drainage Layer",qty:14080.0,unit:"M3",start:"06-Jul-26",finish:"28-Jul-26",daily_prod:704.0,daily:{"06-Jul-26":704.0,"07-Jul-26":704.0,"08-Jul-26":704.0,"09-Jul-26":704.0,"11-Jul-26":704.0,"12-Jul-26":704.0,"13-Jul-26":704.0,"14-Jul-26":704.0,"15-Jul-26":704.0,"16-Jul-26":704.0,"18-Jul-26":704.0,"19-Jul-26":704.0,"20-Jul-26":704.0,"21-Jul-26":704.0,"22-Jul-26":704.0,"23-Jul-26":704.0,"25-Jul-26":704.0,"26-Jul-26":704.0,"27-Jul-26":704.0,"28-Jul-26":704.0}},
-  {id:"9",name:"Installation of Main and secondary Lechate Pipes",qty:2254.0,unit:"M",start:"06-Jul-26",finish:"28-Jul-26",daily_prod:112.7,daily:{"06-Jul-26":112.7,"07-Jul-26":112.7,"08-Jul-26":112.7,"09-Jul-26":112.7,"11-Jul-26":112.7,"12-Jul-26":112.7,"13-Jul-26":112.7,"14-Jul-26":112.7,"15-Jul-26":112.7,"16-Jul-26":112.7,"18-Jul-26":112.7,"19-Jul-26":112.7,"20-Jul-26":112.7,"21-Jul-26":112.7,"22-Jul-26":112.7,"23-Jul-26":112.7,"25-Jul-26":112.7,"26-Jul-26":112.7,"27-Jul-26":112.7,"28-Jul-26":112.7}},
+  {id:"9",name:"Installation of Main and secondary Lechate Pipes",qty:1870.0,unit:"M",start:"06-Jul-26",finish:"28-Jul-26",daily_prod:112.7,daily:{"06-Jul-26":112.7,"07-Jul-26":112.7,"08-Jul-26":112.7,"09-Jul-26":112.7,"11-Jul-26":112.7,"12-Jul-26":112.7,"13-Jul-26":112.7,"14-Jul-26":112.7,"15-Jul-26":112.7,"16-Jul-26":112.7,"18-Jul-26":112.7,"19-Jul-26":112.7,"20-Jul-26":112.7,"21-Jul-26":112.7,"22-Jul-26":112.7,"23-Jul-26":112.7,"25-Jul-26":112.7,"26-Jul-26":112.7,"27-Jul-26":112.7,"28-Jul-26":112.7}},
   {id:"10",name:"Electrical Resistivity Testing",qty:52235.0,unit:"M2",start:"22-Jul-26",finish:"04-Aug-26",daily_prod:4352.9,daily:{"22-Jul-26":4352.9,"23-Jul-26":4352.9,"25-Jul-26":4352.9,"26-Jul-26":4352.9,"27-Jul-26":4352.9,"28-Jul-26":4352.9,"29-Jul-26":4352.9,"30-Jul-26":4352.9,"01-Aug-26":4352.9,"02-Aug-26":4352.9,"03-Aug-26":4352.9,"04-Aug-26":4352.9}},
   {id:"11",name:"Filter Geotexile",qty:47600.0,unit:"M2",start:"01-Aug-26",finish:"12-Aug-26",daily_prod:4327.3,daily:{"01-Aug-26":4327.3,"02-Aug-26":4327.3,"03-Aug-26":4327.3,"04-Aug-26":4327.3,"05-Aug-26":4327.3,"06-Aug-26":4327.3,"08-Aug-26":4327.3,"09-Aug-26":4327.3,"10-Aug-26":4327.3,"11-Aug-26":4327.3,"12-Aug-26":4327.3}},
   {id:"12",name:"Spreading of 150mm Sand Protection Layer for Base and 200 mm for Side Slope",qty:9990.0,unit:"M3",start:"01-Aug-26",finish:"12-Aug-26",daily_prod:908.2,daily:{"01-Aug-26":908.2,"02-Aug-26":908.2,"03-Aug-26":908.2,"04-Aug-26":908.2,"05-Aug-26":908.2,"06-Aug-26":908.2,"08-Aug-26":908.2,"09-Aug-26":908.2,"10-Aug-26":908.2,"11-Aug-26":908.2,"12-Aug-26":908.2}}
@@ -1581,7 +1581,8 @@ function getPlanAt(item, date){
   for(const [d,v] of Object.entries(item.daily)){
     if(parseD(d) <= tDate) total += v;
   }
-  return Math.round(total * 10) / 10;
+  // Cap at total quantity
+  return Math.min(Math.round(total * 10) / 10, item.qty);
 }
 
 function toDateInputVal(s){
